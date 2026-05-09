@@ -1124,8 +1124,11 @@ footer::before {
         <label class="form-lbl">Mensagem</label>
         <textarea class="form-textarea" placeholder="Olá! Tenho interesse no Honda Civic LXR 2014..." id="f-msg"></textarea>
       </div>
+      <div class="form-group full" style="display:none;">
+        <input type="hidden" id="click_id_field" name="click_id" value="">
+      </div>
       <div class="form-group full">
-        <button class="btn-submit" onclick="sendForm()">
+        <button class="btn-submit" id="btn-enviar" onclick="sendForm()">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.549 4.18 1.595 5.996L0 24l6.196-1.573A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.027-1.38l-.36-.214-3.676.934.975-3.565-.234-.368A9.818 9.818 0 1112 21.818z"/></svg>
           Enviar Mensagem
         </button>
@@ -1244,37 +1247,38 @@ function generateClickID() {
   return 'LEAD-' + timestamp + '-' + random;
 }
 
-// Salva o Click ID na sessão para rastreamento
-function getOrCreateClickID() {
-  let clickID = sessionStorage.getItem('click_id');
-  if (!clickID) {
-    clickID = generateClickID();
-    sessionStorage.setItem('click_id', clickID);
-  }
-  return clickID;
-}
-
 // Form
 function sendForm() {
   const nome = document.getElementById('f-nome').value;
   const tel = document.getElementById('f-tel').value;
   const msg = document.getElementById('f-msg').value;
-  const clickID = generateClickID(); // ID único por envio
+  const clickID = generateClickID();
+
+  // Preenche o campo oculto e o botão com o click_id para o GTM capturar
+  const campo = document.getElementById('click_id_field');
+  const botao = document.getElementById('btn-enviar');
+  if (campo) campo.value = clickID;
+  if (botao) {
+    botao.setAttribute('data-click-id', clickID);
+    botao.setAttribute('data-event', 'lead_form_submit');
+  }
+
+  // Dispara evento no dataLayer para o GTM
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'lead_form_submit',
+    click_id: clickID,
+    lead_name: nome || '',
+    lead_phone: tel || ''
+  });
+
   const text = encodeURIComponent(
     "Olá! Me chamo " + (nome||"cliente") + " e tenho interesse no Honda Civic LXR 2014. " +
     (tel ? "Meu WhatsApp: "+tel+". " : "") +
     (msg ? msg + " " : "") +
     "\n🔖 ID: " + clickID
   );
-  // Dispara evento no GTM/dataLayer se disponível
-  if (window.dataLayer) {
-    window.dataLayer.push({
-      event: 'lead_form_submit',
-      click_id: clickID,
-      lead_name: nome || '',
-      lead_phone: tel || ''
-    });
-  }
+
   window.open("https://wa.me/5541997730107?text=" + text, "_blank");
 }
 </script>
