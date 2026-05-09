@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<!-- Google Tag Manager -->
-<script>
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-N89HHJWD');
-</script>
-<!-- End Google Tag Manager -->
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Honda Civic LXR 2.0 2014 | Pedroso Multimarcas</title>
@@ -863,11 +853,6 @@ footer::before {
 </style>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N89HHJWD"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
 
 <!-- WA FLOAT -->
 <a href="https://wa.me/5541997730107?text=Olá! Vi o Honda Civic LXR 2014 e tenho interesse!" class="wa-float" target="_blank" aria-label="WhatsApp">
@@ -1252,12 +1237,44 @@ const obs = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 reveals.forEach(r => obs.observe(r));
 
+// Gera Click ID único
+function generateClickID() {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+  return 'LEAD-' + timestamp + '-' + random;
+}
+
+// Salva o Click ID na sessão para rastreamento
+function getOrCreateClickID() {
+  let clickID = sessionStorage.getItem('click_id');
+  if (!clickID) {
+    clickID = generateClickID();
+    sessionStorage.setItem('click_id', clickID);
+  }
+  return clickID;
+}
+
 // Form
 function sendForm() {
   const nome = document.getElementById('f-nome').value;
   const tel = document.getElementById('f-tel').value;
   const msg = document.getElementById('f-msg').value;
-  const text = encodeURIComponent("Olá! Me chamo " + (nome||"cliente") + " e tenho interesse no Honda Civic LXR 2014. " + (tel ? "Meu WhatsApp: "+tel+". " : "") + (msg || ""));
+  const clickID = generateClickID(); // ID único por envio
+  const text = encodeURIComponent(
+    "Olá! Me chamo " + (nome||"cliente") + " e tenho interesse no Honda Civic LXR 2014. " +
+    (tel ? "Meu WhatsApp: "+tel+". " : "") +
+    (msg ? msg + " " : "") +
+    "\n🔖 ID: " + clickID
+  );
+  // Dispara evento no GTM/dataLayer se disponível
+  if (window.dataLayer) {
+    window.dataLayer.push({
+      event: 'lead_form_submit',
+      click_id: clickID,
+      lead_name: nome || '',
+      lead_phone: tel || ''
+    });
+  }
   window.open("https://wa.me/5541997730107?text=" + text, "_blank");
 }
 </script>
