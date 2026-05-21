@@ -4,6 +4,7 @@
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-N89HHJWD");</script>
 <!-- End Google Tag Manager -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="facebook-domain-verification" content="39snbh4qjxr5dmcomxfoatmzxsgoik">
@@ -302,6 +303,56 @@ footer{background:#0a0a0a;text-align:center;padding:30px 24px;border-top:1px sol
 @media(max-width:460px){
   .specs-grid{grid-template-columns:repeat(2,1fr);}
 }
+
+/* ── MODAL WHATSAPP ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,.55);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:#fff;border-radius:18px;padding:32px 28px;
+  max-width:400px;width:100%;
+  box-shadow:0 24px 60px rgba(0,0,0,.2);
+  animation:modal-in .25s ease;
+}
+@keyframes modal-in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-close{
+  position:absolute;top:14px;right:18px;
+  background:none;border:none;font-size:22px;
+  color:#999;cursor:pointer;line-height:1;
+}
+.modal-box{position:relative;}
+.modal-ico{font-size:36px;text-align:center;margin-bottom:10px;}
+.modal-titulo{
+  font-family:"Montserrat",sans-serif;font-weight:800;
+  font-size:18px;color:#111;text-align:center;margin-bottom:6px;
+}
+.modal-sub{font-size:13px;color:#888;text-align:center;margin-bottom:22px;line-height:1.5;}
+.modal-fields{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
+.modal-input{
+  background:#f9f9f9;border:1.5px solid #e8e8e8;border-radius:10px;
+  padding:12px 14px;font-family:"Inter",sans-serif;font-size:14px;color:#111;
+  outline:none;width:100%;transition:.2s;
+}
+.modal-input:focus{border-color:#FF6B00;background:#fff;box-shadow:0 0 0 3px rgba(255,107,0,.1);}
+.modal-input::placeholder{color:#bbb;}
+.modal-btn{
+  width:100%;background:#25D366;color:#fff;
+  font-family:"Montserrat",sans-serif;font-weight:800;
+  font-size:15px;letter-spacing:.5px;text-transform:uppercase;
+  padding:15px;border:none;border-radius:10px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  transition:.2s;
+}
+.modal-btn:hover{background:#1dab52;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,211,102,.3);}
+.modal-skip{
+  display:block;text-align:center;margin-top:12px;
+  font-size:12px;color:#aaa;cursor:pointer;
+  text-decoration:underline;background:none;border:none;width:100%;
+}
+.modal-skip:hover{color:#666;}
 </style>
 </head>
 <body>
@@ -309,13 +360,13 @@ footer{background:#0a0a0a;text-align:center;padding:30px 24px;border-top:1px sol
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N89HHJWD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- WA FLOAT -->
-<a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Vi%20o%20Honda%20Civic%20LXR%202014%20e%20tenho%20interesse!" class="wa-fl" target="_blank" aria-label="WhatsApp">
+<a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Vi%20o%20Honda%20Civic%20LXR%202014%20e%20tenho%20interesse!" class="wa-fl" aria-label="WhatsApp" onclick="abrirModal(this.href);return false;" target="_blank">
   <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.549 4.18 1.595 5.996L0 24l6.196-1.573A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.027-1.38l-.36-.214-3.676.934.975-3.565-.234-.368A9.818 9.818 0 1112 21.818z"/></svg>
 </a>
 
 <!-- MOBILE BAR -->
 <div class="mob-bar">
-  <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Civic%20LXR%202014!" class="mob-wa" target="_blank">
+  <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Civic%20LXR%202014!" class="mob-wa" onclick="abrirModal(this.href);return false;" target="_blank">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.549 4.18 1.595 5.996L0 24l6.196-1.573A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.027-1.38l-.36-.214-3.676.934.975-3.565-.234-.368A9.818 9.818 0 1112 21.818z"/></svg>
     WhatsApp
   </a>
@@ -329,7 +380,7 @@ footer{background:#0a0a0a;text-align:center;padding:30px 24px;border-top:1px sol
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF6B00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
     São José dos Pinhais · PR
   </div>
-  <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Civic%20LXR%202014!" class="hdr-btn" target="_blank">
+  <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Civic%20LXR%202014!" class="hdr-btn" onclick="abrirModal(this.href);return false;" target="_blank">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.549 4.18 1.595 5.996L0 24l6.196-1.573A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.027-1.38l-.36-.214-3.676.934.975-3.565-.234-.368A9.818 9.818 0 1112 21.818z"/></svg>
     Falar agora
   </a>
@@ -367,7 +418,7 @@ footer{background:#0a0a0a;text-align:center;padding:30px 24px;border-top:1px sol
       <p class="hero-fin">Financiamento bancário em até <strong>48x</strong> · Transferência imediata</p>
 
       <div class="hero-btns">
-        <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Honda%20Civic%20LXR%202014%20por%20R%2476.900!" class="btn-wa" target="_blank">
+        <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Honda%20Civic%20LXR%202014%20por%20R%2476.900!" class="btn-wa" onclick="abrirModal(this.href);return false;" target="_blank">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.549 4.18 1.595 5.996L0 24l6.196-1.573A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.027-1.38l-.36-.214-3.676.934.975-3.565-.234-.368A9.818 9.818 0 1112 21.818z"/></svg>
           Quero esse Carro!
         </a>
@@ -459,7 +510,7 @@ footer{background:#0a0a0a;text-align:center;padding:30px 24px;border-top:1px sol
       <div class="eitem"><div class="echk">&#10003;</div>Pronto pra transferir</div>
     </div>
     <div style="text-align:center;margin-top:32px;">
-      <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Quero%20o%20Civic%20LXR%202014!" class="btn-wa" target="_blank" style="display:inline-flex;max-width:300px;">
+      <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Quero%20o%20Civic%20LXR%202014!" class="btn-wa" style="display:inline-flex;max-width:300px;" onclick="abrirModal(this.href);return false;" target="_blank">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.549 4.18 1.595 5.996L0 24l6.196-1.573A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.027-1.38l-.36-.214-3.676.934.975-3.565-.234-.368A9.818 9.818 0 1112 21.818z"/></svg>
         Quero esse Carro!
       </a>
@@ -505,7 +556,7 @@ footer{background:#0a0a0a;text-align:center;padding:30px 24px;border-top:1px sol
         </div>
         <div class="lbtns">
           <a href="https://www.google.com/maps/search/Pedroso+Multimarcas+Av+Rui+Barbosa+8863+Sao+Jose+dos+Pinhais" class="btn-map" target="_blank">&#128506; Google Maps</a>
-          <a href="https://wa.me/5541997730107" class="btn-zap" target="_blank">&#128172; Falar Agora</a>
+          <a href="https://wa.me/5541997730107" class="btn-zap" onclick="abrirModal(this.href);return false;" target="_blank">&#128172; Falar Agora</a>
         </div>
       </div>
       <div class="mapa">
@@ -523,7 +574,7 @@ footer{background:#0a0a0a;text-align:center;padding:30px 24px;border-top:1px sol
   <div class="cta-preco"><sup>R$</sup>76.900</div>
   <p class="cta-fin">Financiamento bancário em até <strong>48x</strong></p>
   <div class="cta-btns">
-    <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Honda%20Civic%20LXR%202014!" class="btn-wa" target="_blank">
+    <a href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Honda%20Civic%20LXR%202014!" class="btn-wa" onclick="abrirModal(this.href);return false;" target="_blank">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.549 4.18 1.595 5.996L0 24l6.196-1.573A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.027-1.38l-.36-.214-3.676.934.975-3.565-.234-.368A9.818 9.818 0 1112 21.818z"/></svg>
       Quero esse Carro!
     </a>
@@ -711,6 +762,7 @@ function enviar() {
   if (cf) cf.value = cid;
   if (btn) { btn.setAttribute("data-click-id", cid); btn.setAttribute("data-event", "lead_form_submit"); }
 
+  // GTM dataLayer
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event: "lead_form_submit", click_id: cid, lead_name: nome, lead_phone: tel });
 
@@ -744,6 +796,116 @@ function enviar() {
     btn.disabled = false;
   });
 }
+
+// ── MODAL WHATSAPP ──
+var waUrlPendente = "";
+
+function abrirModal(url) {
+  waUrlPendente = url;
+  // Limpa campos
+  document.getElementById("mNome").value = "";
+  document.getElementById("mCel").value = "";
+  document.getElementById("mEmail").value = "";
+  document.getElementById("waModal").classList.add("open");
+  // Foca no primeiro campo
+  setTimeout(function(){ document.getElementById("mNome").focus(); }, 100);
+}
+
+function fecharModal() {
+  document.getElementById("waModal").classList.remove("open");
+  waUrlPendente = "";
+}
+
+function pularModal() {
+  document.getElementById("waModal").classList.remove("open");
+  if (waUrlPendente) window.open(waUrlPendente, "_blank");
+  waUrlPendente = "";
+}
+
+function confirmarModal() {
+  var nome = document.getElementById("mNome").value.trim();
+  var cel = document.getElementById("mCel").value.trim();
+  var email = document.getElementById("mEmail").value.trim();
+
+  if (!nome) { document.getElementById("mNome").focus(); return; }
+  if (!cel) { document.getElementById("mCel").focus(); return; }
+
+  var cid = mkID();
+
+  // GTM dataLayer
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: "whatsapp_lead_capture", click_id: cid, lead_name: nome, lead_phone: cel });
+
+  // Salva no Formspree
+  fetch("https://formspree.io/f/xvzljzdy", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({
+      nome: nome,
+      celular: cel,
+      email: email || "Nao informado",
+      veiculo: "Honda Civic LXR 2.0 2014",
+      click_id: cid,
+      origem: "Modal WhatsApp - Civic LXR 2014"
+    })
+  });
+
+  // Fecha modal e abre WhatsApp
+  document.getElementById("waModal").classList.remove("open");
+  var url = waUrlPendente || "https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Civic%20LXR%202014!";
+  window.open(url, "_blank");
+  waUrlPendente = "";
+}
+
+// Fechar modal clicando fora e ESC — aguarda DOM estar pronto
+document.addEventListener("DOMContentLoaded", function() {
+  var modal = document.getElementById("waModal");
+  if (modal) {
+    modal.addEventListener("click", function(e) {
+      if (e.target === this) fecharModal();
+    });
+  }
+});
+
+// Fechar modal com ESC
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") fecharModal();
+});
+
+// Interceptar TODOS os cliques WhatsApp via event delegation (funciona com elementos dinâmicos)
+document.addEventListener("click", function(e) {
+  var el = e.target;
+  // Sobe na arvore DOM para encontrar o link
+  while (el && el.tagName !== "A") {
+    el = el.parentElement;
+  }
+  if (el && el.href && el.href.indexOf("wa.me") !== -1) {
+    e.preventDefault();
+    e.stopPropagation();
+    abrirModal(el.href);
+  }
+}, true);
+
 </script>
+
+<!-- MODAL WHATSAPP -->
+<div class="modal-overlay" id="waModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="fecharModal()">&#10005;</button>
+    <div class="modal-ico">&#128172;</div>
+    <div class="modal-titulo">Antes de ir ao WhatsApp</div>
+    <div class="modal-sub">Deixa seus dados e nossa equipe<br>entra em contato mesmo que você saia.</div>
+    <div class="modal-fields">
+      <input class="modal-input" type="text" id="mNome" placeholder="Seu nome completo">
+      <input class="modal-input" type="tel" id="mCel" placeholder="Celular / WhatsApp (41) 9 9999-9999">
+      <input class="modal-input" type="email" id="mEmail" placeholder="Seu e-mail (opcional)">
+    </div>
+    <button class="modal-btn" onclick="confirmarModal()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.549 4.18 1.595 5.996L0 24l6.196-1.573A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.027-1.38l-.36-.214-3.676.934.975-3.565-.234-.368A9.818 9.818 0 1112 21.818z"/></svg>
+      Continuar para o WhatsApp
+    </button>
+    <button class="modal-skip" onclick="pularModal()">Ir direto para o WhatsApp</button>
+  </div>
+</div>
 </body>
 </html>
