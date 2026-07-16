@@ -268,25 +268,19 @@ footer strong{color:#999;display:block;margin-bottom:2px;font-size:.82rem;}
     return 'LEAD-' + Date.now() + '-' + Math.random().toString(36).slice(2,8).toUpperCase();
   }
 
-  document.getElementById('leadForm').addEventListener('submit', function(e) {
+  // ── NOVO FLUXO DE CONVERSÃO ──
+  document.getElementById('leadForm').addEventListener('submit', async function(e) {
     e.preventDefault();
+
     var cel = document.getElementById('celular').value.trim();
     var eml = document.getElementById('email').value.trim();
-    if(!cel||!eml){ alert('Preencha celular e e-mail.'); return; }
+
+    // 1. Validação
+    if (!cel || !eml) { alert('Preencha celular e e-mail.'); return; }
 
     var cid = mkID();
 
-    // GTM dataLayer
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'lead_form_submit',
-      click_id: cid,
-      lead_phone: cel,
-      lead_email: eml,
-      veiculo: 'Peugeot 307 Presence Pack 1.6 2010'
-    });
-
-    // Salva no Formspree
+    // 2. Salva no Formspree (não aguarda — fire and forget)
     fetch('https://formspree.io/f/xvzljzdy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -297,11 +291,30 @@ footer strong{color:#999;display:block;margin-bottom:2px;font-size:.82rem;}
         click_id: cid,
         origem: 'Landing Page Peugeot 307 2010'
       })
+    }).catch(function(){});
+
+    // 3. Dispara evento lead_submit no GTM ANTES do redirecionamento
+    window.dataLayer = window.dataLayer || [];
+
+    await new Promise(function(resolve) {
+      window.dataLayer.push({
+        event: 'lead_submit',
+        email: eml,
+        phone: cel,
+        click_id: cid,
+        veiculo: 'Peugeot 307 Presence Pack 1.6 2010'
+      });
+      // Aguarda 300ms para garantir envio ao GTM
+      setTimeout(resolve, 300);
     });
 
-    // Abre WhatsApp
-    var msg = 'Olá! Tenho interesse no Peugeot 307 Presence Pack 1.6 2010. Celular: ' + cel + ' | E-mail: ' + eml + ' | ID: ' + cid;
-    window.open('https://wa.me/5541997730107?text=' + encodeURIComponent(msg), '_blank');
+    // 4. Salva dados na sessionStorage para usar na página /obrigado
+    sessionStorage.setItem('lead_cel', cel);
+    sessionStorage.setItem('lead_eml', eml);
+    sessionStorage.setItem('lead_cid', cid);
+
+    // 5. Redireciona para /obrigado
+    window.location.href = '/obrigado';
   });
 })();
 </script>
