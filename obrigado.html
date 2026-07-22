@@ -194,9 +194,8 @@
 
     // 2. Monta mensagem e abre WhatsApp
     var msg = 'Olá! Tenho interesse no Peugeot 307 Presence Pack 1.6 2010.';
-    if (cel) msg += ' Celular: ' + cel;
-    if (eml) msg += ' | E-mail: ' + eml;
-    if (cid) msg += ' | ID: ' + cid;
+    if (cel) msg += '\nCelular: ' + cel;
+    if (eml) msg += '\nE-mail: ' + eml;
 
     window.open('https://wa.me/5541997730107?text=' + encodeURIComponent(msg), '_blank');
 
