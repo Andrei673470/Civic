@@ -347,6 +347,37 @@ j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefo
 
   .hidden{display:none;}
 
+  /* ===== TELA DE REDIRECIONAMENTO (OBRIGADO) ===== */
+  .redirect-screen{
+    text-align:center;
+    padding:20px 0 8px;
+  }
+  .redirect-icon{
+    width:64px; height:64px; border-radius:50%;
+    background:var(--success-bg);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 20px;
+    font-size:28px;
+  }
+  .spinner{
+    width:34px; height:34px;
+    border:3px solid var(--line-strong);
+    border-top-color:var(--accent);
+    border-radius:50%;
+    margin:0 auto 18px;
+    animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin{
+    to{transform:rotate(360deg);}
+  }
+  .redirect-title{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700; font-size:22px; margin-bottom:8px;
+  }
+  .redirect-text{
+    font-size:13.5px; color:var(--text-secondary);
+  }
+
   /* ===== RESPONSIVO ===== */
   @media (max-width:380px){
     .car-name{font-size:22px;}
@@ -573,8 +604,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>307 Presence Pack 1.6 2010</span>
         <strong>R$ 26.900</strong>
       </div>
-      <a class="whatsapp-btn" id="whatsapp-link" href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Tenho%20interesse%20no%20307%20Presence%20Pack%201.6%202010." target="_blank" onclick="trackWhatsappClick(event)">Falar com vendedor agora</a>
+      <a class="whatsapp-btn" id="whatsapp-link" href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20307%20Presence%20Pack%201.6%202010." target="_blank" onclick="trackWhatsappClick(event)">Falar com vendedor agora</a>
       <button class="secondary-btn" id="btn-fechar-qualificado" onclick="closeQuiz()">Fechar</button>
+    </div>
+
+    <!-- Tela de redirecionamento (obrigado) -->
+    <div class="q-step hidden" data-step="obrigado" id="step-obrigado">
+      <div class="redirect-screen">
+        <div class="redirect-icon">✓</div>
+        <div class="spinner"></div>
+        <div class="redirect-title">Show, recebemos seu contato!</div>
+        <div class="redirect-text">Te levando para o WhatsApp do vendedor...</div>
+      </div>
     </div>
 
     <!-- Resultado: Não qualificado -->
@@ -651,7 +692,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       goStep('qualified');
       const msg = `Olá! Me chamo ${saved.nome} e tenho interesse no 307 Presence Pack 1.6 2010.`;
       document.getElementById('whatsapp-link').href =
-        'https://wa.me/5500000000000?text=' + encodeURIComponent(msg);
+        'https://wa.me/5541997730107?text=' + encodeURIComponent(msg);
       return;
     }
 
@@ -770,7 +811,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     const msg = `Olá! Me chamo ${nome} e tenho interesse no 307 Presence Pack 1.6 2010.`;
     document.getElementById('whatsapp-link').href =
-      'https://wa.me/5500000000000?text=' + encodeURIComponent(msg);
+      'https://wa.me/5541997730107?text=' + encodeURIComponent(msg);
 
     dataLayer.push({
       event: 'lead_qualificado',
@@ -786,8 +827,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   function trackWhatsappClick(event){
-    /* Segura a navegação por um instante pra dar tempo do GTM disparar
-       as tags (pixels, conversões) antes do cliente sair da página */
+    /* Mostra a tela "obrigado" com o spinner por 2s, disparando o evento
+       do GTM nesse meio tempo, e só depois abre o WhatsApp */
     event.preventDefault();
     const url = document.getElementById('whatsapp-link').href;
 
@@ -796,9 +837,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       veiculo: '307 Presence Pack 1.6 2010'
     });
 
+    goStep('obrigado');
+
     setTimeout(function(){
       window.open(url, '_blank');
-    }, 300);
+    }, 2000);
   }
 </script>
 
