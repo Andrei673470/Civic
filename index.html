@@ -604,18 +604,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>307 Presence Pack 1.6 2010</span>
         <strong>R$ 26.900</strong>
       </div>
-      <a class="whatsapp-btn" id="whatsapp-link" href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20307%20Presence%20Pack%201.6%202010." target="_blank" onclick="trackWhatsappClick(event)">Falar com vendedor agora</a>
+      <a class="whatsapp-btn" id="whatsapp-link" href="obrigado.html" onclick="trackWhatsappClick(event)">Falar com vendedor agora</a>
       <button class="secondary-btn" id="btn-fechar-qualificado" onclick="closeQuiz()">Fechar</button>
-    </div>
-
-    <!-- Tela de redirecionamento (obrigado) -->
-    <div class="q-step hidden" data-step="obrigado" id="step-obrigado">
-      <div class="redirect-screen">
-        <div class="redirect-icon">✓</div>
-        <div class="spinner"></div>
-        <div class="redirect-title">Show, recebemos seu contato!</div>
-        <div class="redirect-text">Te levando para o WhatsApp do vendedor...</div>
-      </div>
     </div>
 
     <!-- Resultado: Não qualificado -->
@@ -690,9 +680,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     if(saved && saved.status === 'qualificado'){
       goStep('qualified');
-      const msg = `Olá! Me chamo ${saved.nome} e tenho interesse no 307 Presence Pack 1.6 2010.`;
-      document.getElementById('whatsapp-link').href =
-        'https://wa.me/5541997730107?text=' + encodeURIComponent(msg);
       return;
     }
 
@@ -809,10 +796,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       ts: Date.now()
     });
 
-    const msg = `Olá! Me chamo ${nome} e tenho interesse no 307 Presence Pack 1.6 2010.`;
-    document.getElementById('whatsapp-link').href =
-      'https://wa.me/5541997730107?text=' + encodeURIComponent(msg);
-
     dataLayer.push({
       event: 'lead_qualificado',
       nome: nome,
@@ -827,21 +810,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   function trackWhatsappClick(event){
-    /* Mostra a tela "obrigado" com o spinner por 2s, disparando o evento
-       do GTM nesse meio tempo, e só depois abre o WhatsApp */
-    event.preventDefault();
-    const url = document.getElementById('whatsapp-link').href;
-
+    /* Dispara o evento do GTM antes do clique navegar para obrigado.html.
+       A própria obrigado.html cuida do delay e do redirecionamento pro WhatsApp. */
     dataLayer.push({
       event: 'whatsapp_click',
       veiculo: '307 Presence Pack 1.6 2010'
     });
-
-    goStep('obrigado');
-
-    setTimeout(function(){
-      window.open(url, '_blank');
-    }, 2000);
   }
 </script>
 
