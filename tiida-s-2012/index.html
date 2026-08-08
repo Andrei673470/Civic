@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz - Encontre a Oferta Ideal para Você</title>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://sgtm.pedrosomultimarcassjp.site/feikryzqk.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','4y4jfe=AhVHPiYmRCtTSDIxODwtQx1MSFdDTQ0LVgEfHQAEGgoGBBYNGwYIFwgQCQoYG0cWAgUf');</script>
+<!-- End Google Tag Manager -->
+<style>
+  :root{
+    --bg1:#050505;
+    --bg2:#150d08;
+    --bg3:#000000;
+    --accent:#ff7a29;
+    --accent2:#ffb020;
+    --danger:#ff5c5c;
+    --card:#ffffff;
+    --text-dark:#1b1b2f;
+    --text-light:#f4f4f8;
+    --radius:20px;
+    --shadow: 0 20px 50px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  body{
+    min-height:100vh;
+    font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, var(--bg1), var(--bg2) 50%, var(--bg3));
+    background-size: 200% 200%;
+    animation: gradientMove 12s ease infinite;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    color:var(--text-light);
+  }
+
+  @keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+  }
+
+  #quiz-app{
+    width:100%;
+    max-width:520px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(18px);
+    border:1px solid rgba(255,255,255,0.22);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:32px 28px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+
+  #quiz-header{
+    text-align:center;
+    margin-bottom:22px;
+  }
+
+  #quiz-header h1{
+    font-size:1.5rem;
+    font-weight:800;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-bottom:6px;
+  }
+
+  #quiz-header p{
+    font-size:.92rem;
+    color:rgba(244,244,248,.75);
+  }
+
+  /* progress bar */
+  #progress-wrap{
+    width:100%;
+    height:8px;
+    background:rgba(255,255,255,.12);
+    border-radius:20px;
+    margin:20px 0 28px;
+    overflow:hidden;
+  }
+  #progress-bar{
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius:20px;
+    transition: width .5s ease;
+  }
+
+  .question-step{
+    display:none;
+    animation: fadeSlide .45s ease;
+  }
+  .question-step.active{
+    display:block;
+  }
+
+  @keyframes fadeSlide{
+    from{opacity:0; transform:translateX(18px);}
+    to{opacity:1; transform:translateX(0);}
+  }
+
+  .q-badge{
+    display:inline-block;
+    font-size:.75rem;
+    font-weight:700;
+    letter-spacing:.5px;
+    color:var(--bg1);
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:14px;
+  }
+
+  .q-title{
+    font-size:1.15rem;
+    font-weight:700;
+    margin-bottom:20px;
+    line-height:1.4;
+  }
+
+  .option-btn{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    text-align:left;
+    background:rgba(255,255,255,0.07);
+    border:1.5px solid rgba(255,255,255,0.28);
+    color:var(--text-light);
+    padding:16px 18px;
+    border-radius:14px;
+    font-size:.98rem;
+    font-weight:600;
+    margin-bottom:12px;
+    cursor:pointer;
+    transition: all .25s ease;
+  }
+
+  .option-btn .icon-circle{
+    min-width:34px;
+    height:34px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1rem;
+  }
+
+  .option-btn:hover{
+    background: linear-gradient(90deg, rgba(255,122,41,.2), rgba(255,176,32,.2));
+    border-color:var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .option-btn.selected{
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    color:var(--text-dark);
+    border-color:transparent;
+    box-shadow:0 8px 20px rgba(255,122,41,.4);
+  }
+
+  /* result screen */
+  #result-screen{
+    display:none;
+    text-align:center;
+    animation: fadeSlide .5s ease;
+  }
+  #result-screen.active{display:block;}
+
+  .result-icon{
+    font-size:3.2rem;
+    margin-bottom:10px;
+  }
+
+  #result-title{
+    font-size:1.35rem;
+    font-weight:800;
+    margin-bottom:10px;
+  }
+
+  #result-text{
+    font-size:.98rem;
+    color:rgba(244,244,248,.85);
+    margin-bottom:26px;
+    line-height:1.5;
+  }
+
+  .cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+    width:100%;
+    padding:16px 20px;
+    border:none;
+    border-radius:14px;
+    font-size:1.02rem;
+    font-weight:800;
+    cursor:pointer;
+    text-decoration:none;
+    transition: all .25s ease;
+  }
+
+  #whatsapp-btn{
+    background: linear-gradient(90deg, #25D366, #1ebc59);
+    color:#06210f;
+    box-shadow:0 10px 30px rgba(37,211,102,.4);
+  }
+  #whatsapp-btn:hover{
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:0 14px 34px rgba(37,211,102,.55);
+  }
+
+  #lead-form{
+    text-align:left;
+    margin-bottom:6px;
+  }
+
+  .lead-input{
+    width:100%;
+    background:rgba(255,255,255,0.07);
+    border:1.5px solid rgba(255,255,255,0.28);
+    color:var(--text-light);
+    padding:14px 16px;
+    border-radius:12px;
+    font-size:.95rem;
+    margin-bottom:12px;
+    outline:none;
+    transition: border-color .2s ease;
+  }
+  .lead-input::placeholder{
+    color:rgba(244,244,248,.55);
+  }
+  .lead-input:focus{
+    border-color:var(--accent);
+  }
+
+  .lead-error{
+    color:#ffb3b3;
+    font-size:.85rem;
+    min-height:18px;
+    margin-bottom:10px;
+  }
+
+  #lead-submit-btn{
+    background: linear-gradient(90deg, #25D366, #1ebc59);
+    color:#06210f;
+    box-shadow:0 10px 30px rgba(37,211,102,.4);
+  }
+  #lead-submit-btn:hover{
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:0 14px 34px rgba(37,211,102,.55);
+  }
+
+  #no-offer-box{
+    background:rgba(255,92,92,.12);
+    border:1px solid rgba(255,92,92,.35);
+    padding:18px;
+    border-radius:14px;
+    font-size:.92rem;
+    color:#ffdada;
+  }
+
+  #restart-btn{
+    margin-top:16px;
+    background:transparent;
+    border:1.5px solid rgba(255,255,255,.25);
+    color:var(--text-light);
+    padding:12px 18px;
+    border-radius:12px;
+    font-size:.9rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+  }
+  #restart-btn:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+
+  @media (max-width:480px){
+    #quiz-app{padding:26px 18px;}
+    .q-title{font-size:1.05rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://sgtm.pedrosomultimarcassjp.site/ns.html?id=GTM-N89HHJWD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="quiz-app">
+
+  <div id="quiz-header">
+    <h1>Você está pronto para o seu Tiida novo?</h1>
+    <p>Responda 2 perguntas rápidas e descubra sua condição especial 🚗</p>
+  </div>
+
+  <div id="progress-wrap">
+    <div id="progress-bar"></div>
+  </div>
+
+  <!-- Pergunta 1 -->
+  <div class="question-step active" id="question-1" data-question="1">
+    <span class="q-badge">Pergunta 1 de 2</span>
+    <div class="q-title">O Tiida S 1.8 2012 Manual está anunciado por apenas R$ 36.900. Esse valor está dentro do seu orçamento?</div>
+
+    <button class="option-btn" id="q1-op1" data-score="10">
+      <span class="icon-circle">✅</span> Sim, está dentro do meu orçamento
+    </button>
+    <button class="option-btn" id="q1-op2" data-score="6">
+      <span class="icon-circle">🤝</span> Está próximo, mas preciso negociar
+    </button>
+    <button class="option-btn" id="q1-op3" data-score="2">
+      <span class="icon-circle">💰</span> Não, procuro algo abaixo desse valor
+    </button>
+  </div>
+
+  <!-- Pergunta 2 -->
+  <div class="question-step" id="question-2" data-question="2">
+    <span class="q-badge">Pergunta 2 de 2</span>
+    <div class="q-title">Quando você pretende fechar a compra do seu veículo?</div>
+
+    <button class="option-btn" id="q2-op1" data-score="10">
+      <span class="icon-circle">🔥</span> Quero comprar esta semana
+    </button>
+    <button class="option-btn" id="q2-op2" data-score="6">
+      <span class="icon-circle">📅</span> Pretendo comprar ainda este mês
+    </button>
+    <button class="option-btn" id="q2-op3" data-score="2">
+      <span class="icon-circle">🔎</span> Ainda estou só pesquisando
+    </button>
+  </div>
+
+  <!-- Resultado -->
+  <div id="result-screen">
+    <!-- Preenchido via JS -->
+  </div>
+
+</div>
+
+<script>
+  // ======= CONFIGURAÇÕES (edite aqui) =======
+  const WHATSAPP_NUMERO = "5541997730107"; // coloque o número com DDI+DDD, só números
+  const WHATSAPP_MENSAGEM = "Olá! Vim pelo anúncio e tenho interesse no Tiida S 1.8 2012 Manual, pode me ajudar na compra do veículo?";
+  const PONTUACAO_MINIMA = 12;
+  const WEBHOOK_URL = ""; // cole aqui a URL do seu webhook (Google Apps Script, Make, Zapier, etc.)
+  // ============================================
+
+  window.dataLayer = window.dataLayer || [];
+
+  const totalQuestions = 2;
+  let currentQuestion = 1;
+  let score = 0;
+  const answers = {};
+
+  // ======= CAPTURA DE PARÂMETROS DE RASTREAMENTO (ctwaclid, fbclid, fbp, fbc, UTMs) =======
+  function getTrackingParams(){
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // fbp e fbc são cookies que o Pixel do Meta cria automaticamente
+    function getCookie(name){
+      const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+      return match ? match.pop() : '';
+    }
+
+    return {
+      ctwaclid: urlParams.get('ctwaclid') || '',
+      fbclid: urlParams.get('fbclid') || '',
+      fbp: getCookie('_fbp') || '',
+      fbc: getCookie('_fbc') || '',
+      utm_source: urlParams.get('utm_source') || '',
+      utm_medium: urlParams.get('utm_medium') || '',
+      utm_campaign: urlParams.get('utm_campaign') || '',
+      utm_content: urlParams.get('utm_content') || '',
+      utm_term: urlParams.get('utm_term') || ''
+    };
+  }
+
+  const trackingParams = getTrackingParams();
+
+  // ======= IDENTIFICADOR ÚNICO POR EVENTO (para deduplicação na Meta) =======
+  function fbEventId() {
+    try {
+      var gtm = window.google_tag_manager['GTM-N89HHJWD'].dataLayer.get('gtm');
+      return gtm.start + '.' + gtm.uniqueEventId;
+    } catch (e) {
+      return 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+  }
+
+  // ======= IDENTIFICADOR PARA O EVENTO DE PAGE VIEW =======
+  function fbPageViewEventId() {
+    try {
+      var gtm = window.google_tag_manager['GTM-N89HHJWD'].dataLayer.get('gtm');
+      return gtm.start + '.' + gtm.uniqueEventId;
+    } catch (e) { return ''; }
+  }
+
+  // envia os parâmetros capturados para o dataLayer assim que a página carrega
+  dataLayer.push({
+    event: 'tracking_params_captured',
+    ...trackingParams
+  });
+
+  dataLayer.push({
+    event: 'page_view',
+    event_id: fbPageViewEventId(),
+    action_source: 'website',
+    ...trackingParams
+  });
+
+  dataLayer.push({ event: 'quiz_start' });
+
+  const progressBar = document.getElementById('progress-bar');
+  const resultScreen = document.getElementById('result-screen');
+
+  function updateProgress(){
+    const pct = ((currentQuestion - 1) / totalQuestions) * 100;
+    progressBar.style.width = pct + "%";
+  }
+  updateProgress();
+
+  document.querySelectorAll('.question-step').forEach(step => {
+    const qNum = step.dataset.question;
+    step.querySelectorAll('.option-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // marca visualmente a opção escolhida dentro da pergunta
+        step.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+
+        // se já tinha respondido essa pergunta antes, remove pontuação antiga
+        if(answers[qNum] !== undefined){
+          score -= answers[qNum];
+        }
+        const pts = parseInt(btn.dataset.score, 10);
+        answers[qNum] = pts;
+        score += pts;
+
+        dataLayer.push({
+          event: 'quiz_question_answered',
+          question_number: qNum,
+          question_text: step.querySelector('.q-title').textContent.trim(),
+          answer_text: btn.textContent.trim(),
+          answer_score: pts
+        });
+
+        setTimeout(() => goNext(), 350);
+      });
+    });
+  });
+
+  function goNext(){
+    const current = document.getElementById('question-' + currentQuestion);
+    current.classList.remove('active');
+
+    if(currentQuestion < totalQuestions){
+      currentQuestion++;
+      document.getElementById('question-' + currentQuestion).classList.add('active');
+      updateProgress();
+
+      if(currentQuestion === 2){
+        dataLayer.push({ event: 'ViewContent' });
+      }
+    } else {
+      progressBar.style.width = "100%";
+      showResult();
+    }
+  }
+
+  function enviarParaWebhook(email, phone){
+    if(!WEBHOOK_URL){
+      return; // nenhuma URL configurada ainda
+    }
+
+    const params = new URLSearchParams({
+      email: email,
+      celular: phone,
+      pontuacao: score,
+      data: new Date().toISOString(),
+      ...trackingParams
+    });
+
+    fetch(WEBHOOK_URL + "?" + params.toString(), {
+      method: 'GET',
+      mode: 'no-cors' // evita erro de CORS; não precisamos ler a resposta
+    }).catch(function(err){
+      console.warn('Falha ao enviar dados para o webhook:', err);
+    });
+  }
+
+  function handleLeadSubmit(e){return false;}
+
+  function showResult(){
+    document.querySelectorAll('.question-step').forEach(s => s.style.display = 'none');
+
+    const qualified = (answers['1']>=6) && (answers['2']>=6);
+
+    let html = "";
+
+    if(qualified){
+      html = `
+        <div class="result-icon">🎉</div>
+        <div id="result-title">Você garantiu uma condição especial!</div>
+        <div id="result-text">Preencha seus dados abaixo para falar agora com nosso vendedor.</div>
+        <form id="lead-form">
+          <input type="email" id="lead-email" class="lead-input" placeholder="Seu melhor e-mail" autocomplete="email">
+          <input type="tel" id="lead-phone" class="lead-input" placeholder="Seu celular (com DDD)" autocomplete="tel">
+          <div class="lead-error" id="lead-error"></div>
+          <button type="button" id="lead-submit-btn" class="cta-btn">Continuar</button>
+        </form>
+      `;
+
+      resultScreen.innerHTML = html;
+      resultScreen.classList.add('active');
+
+      const emailInput = document.getElementById('lead-email');
+      const phoneInput = document.getElementById('lead-phone');
+      const errorBox = document.getElementById('lead-error');
+      const submitBtn = document.getElementById('lead-submit-btn');
+
+      submitBtn.addEventListener('click', () => {
+        const email = emailInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const phoneOk = phone.replace(/\D/g, '').length >= 10;
+
+        if(!emailOk || !phoneOk){
+          errorBox.textContent = 'Preencha um e-mail e celular válidos para continuar.';
+          return;
+        }
+        errorBox.textContent = '';
+
+        showWhatsappStep(email, phone, qualified);
+      });
+
+    } else {
+      dataLayer.push({
+        event: 'quiz_completed',
+        event_id: fbEventId(),
+        action_source: 'website',
+        quiz_score: score,
+        quiz_qualified: qualified,
+        event_user_data: {
+          email: '',
+          phone: ''
+        },
+        ...trackingParams
+      });
+
+      html = `
+        <div class="result-icon">🙌</div>
+        <div id="result-title">Obrigado por responder!</div>
+        <div id="result-text">
+          <div id="no-offer-box">
+            No momento não há ofertas disponíveis para o seu perfil.
+            Continue nos acompanhando, em breve teremos novas condições especiais!
+          </div>
+        </div>
+      `;
+
+      resultScreen.innerHTML = html;
+      resultScreen.classList.add('active');
+    }
+  }
+
+  function showWhatsappStep(email, phone, qualified){
+    // normaliza celular para +55DDDNÚMERO (E.164)
+    const digits = phone.replace(/\D/g, '');
+    let normPhone = phone;
+    if (digits.length === 11) normPhone = '+55' + digits;
+    else if (digits.length === 10) normPhone = '+55' + digits;
+    else if (digits.length === 13 && digits.indexOf('55') === 0) normPhone = '+' + digits;
+    const phoneFinal = normPhone;
+
+    window.__leadEmail = email;
+    window.__leadPhone = phoneFinal;
+
+    dataLayer.push({
+      event: 'quiz_completed',
+      event_id: fbEventId(),
+      action_source: 'website',
+      quiz_score: score,
+      quiz_qualified: qualified,
+      event_user_data: {
+        email: window.__leadEmail || '',
+        phone: window.__leadPhone || ''
+      },
+      ...trackingParams
+    });
+
+    enviarParaWebhook(email, phoneFinal);
+
+    let mensagemFinal = WHATSAPP_MENSAGEM;
+    if(trackingParams.ctwaclid){
+      mensagemFinal += " (ref: " + trackingParams.ctwaclid + ")";
+    }
+
+    resultScreen.innerHTML = `
+      <div class="result-icon">✅</div>
+      <div id="result-title">Tudo certo!</div>
+      <div id="result-text">Agora é só falar com nosso vendedor e garantir sua condição especial.</div>
+<a id="whatsapp-btn" class="cta-btn" target="_blank" href="https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensagemFinal)}">💬 Falar agora com o vendedor</a>
+    `;
+  }
+</script>
+
+</body>
+</html>
