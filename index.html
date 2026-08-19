@@ -6,11 +6,7 @@
 <title>Quero Comprar Meu Carro - Simule Agora</title>
 
 <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://tracking.huracanmotors.site/ns.html?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-N588MVW');</script>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://sgtm.pedrosomultimarcassjp.site/1fdibxgliq.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','7=GA1RICwvRCpJUCQvMjUtQgdUXklJRA0KTBkJAwoNGgscHAATEQ8IFhIIHxQSEkcXGB0J');</script>
 <!-- End Google Tag Manager -->
 
 <style>
@@ -105,14 +101,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <body>
 
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://tracking.huracanmotors.site/ns.html?id=GTM-N588MVW"
+<noscript><iframe src="https://sgtm.pedrosomultimarcassjp.site/ns.html?id=GTM-N89HHJWD"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <div class="wrap">
-  <!-- Troque o src abaixo pelo arquivo real da logo da Huracan Motors -->
+  <!-- Troque o src abaixo pelo arquivo real da logo da Pedroso Multimarcas -->
   <div class="logo-wrap">
-    <img src="https://huracanmotors.site/logo.png" alt="Huracan Motors" onerror="this.style.display='none'">
+    <img src="https://pedrosomultimarcassjp.site/logo.png" alt="Pedroso Multimarcas" onerror="this.style.display='none'">
   </div>
   <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
   <div class="card" id="quiz-root"></div>
@@ -121,9 +117,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 /* ====================== CONFIG ====================== */
 // Cole aqui a URL do seu Web App do Google Apps Script (veja o arquivo google-apps-script.gs)
-const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxAYrUmiE2aYbFNN03JdDGfKeeUsQVPbuqaUdOLotcS_XfFGF85tAtSLHRYJdCkJ8A3/exec";
+const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxAwwLUxMIDtivLrrHIH_npqbBge75d9gPKfcasoRn6Y9wqbEY61a7Q-ad9b2U1_1go/exec";
 // Número de WhatsApp da concessionária (com DDI e DDD, só números)
-const WHATSAPP_NUMBER = "5541984802065";
+const WHATSAPP_NUMBER = "5541997730107";
 // Corte mínimo de qualificação (% do potencial daquele caminho do quiz).
 // Abaixo disso, não abrimos o formulário de contato — mostramos recusa educada.
 const THRESHOLD_PCT_MINIMO = 50;
@@ -143,7 +139,7 @@ const UTMS = {
 /* ====================== IDENTIFICADOR DE EVENTO (dedup Meta Pixel x CAPI) ====================== */
 function fbEventId(){
   try {
-    var gtm = window.google_tag_manager['GTM-N588MVW'].dataLayer.get('gtm');
+    var gtm = window.google_tag_manager['GTM-N89HHJWD'].dataLayer.get('gtm');
     return gtm.start + '.' + gtm.uniqueEventId;
   } catch (e) {
     return 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -367,7 +363,7 @@ function sendToSheets(){
   }
 
   if(!SHEETS_ENDPOINT || SHEETS_ENDPOINT.indexOf('COLE_AQUI') === 0){
-    console.warn('[Huracan Quiz] SHEETS_ENDPOINT não configurado — nenhum dado foi enviado ao Sheets. Cole a URL do Apps Script no topo do arquivo.');
+    console.warn('[Pedroso Quiz] SHEETS_ENDPOINT não configurado — nenhum dado foi enviado ao Sheets. Cole a URL do Apps Script no topo do arquivo.');
     return Promise.resolve();
   }
 
@@ -376,14 +372,14 @@ function sendToSheets(){
     .join('&');
   const url = SHEETS_ENDPOINT + '?' + qs;
 
-  console.log('[Huracan Quiz] Enviando lead para o Sheets:', payload);
+  console.log('[Pedroso Quiz] Enviando lead para o Sheets:', payload);
 
   return fetch(url, { method: 'GET', mode: 'no-cors' })
     .then(function(){
-      console.log('[Huracan Quiz] Requisição enviada (modo no-cors não confirma sucesso no destino — confira a planilha).');
+      console.log('[Pedroso Quiz] Requisição enviada (modo no-cors não confirma sucesso no destino — confira a planilha).');
     })
     .catch(function(err){
-      console.error('[Huracan Quiz] Erro ao enviar lead pro Sheets:', err);
+      console.error('[Pedroso Quiz] Erro ao enviar lead pro Sheets:', err);
     });
 }
 
