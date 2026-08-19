@@ -6,7 +6,11 @@
 <title>Quero Comprar Meu Carro - Simule Agora</title>
 
 <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://sgtm.pedrosomultimarcassjp.site/1fdibxgliq.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','7=GA1RICwvRCpJUCQvMjUtQgdUXklJRA0KTBkJAwoNGgscHAATEQ8IFhIIHxQSEkcXGB0J');</script>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://tracking.huracanmotors.site/ns.html?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N588MVW');</script>
 <!-- End Google Tag Manager -->
 
 <style>
@@ -101,14 +105,14 @@
 <body>
 
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://sgtm.pedrosomultimarcassjp.site/ns.html?id=GTM-N89HHJWD"
+<noscript><iframe src="https://tracking.huracanmotors.site/ns.html?id=GTM-N588MVW"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <div class="wrap">
-  <!-- Troque o src abaixo pelo arquivo real da logo da Pedroso Multimarcas -->
+  <!-- Troque o src abaixo pelo arquivo real da logo da Huracan Motors -->
   <div class="logo-wrap">
-    <img src="https://pedrosomultimarcassjp.site/logo.png" alt="Pedroso Multimarcas" onerror="this.style.display='none'">
+    <img src="https://huracanmotors.site/logo.png" alt="Huracan Motors" onerror="this.style.display='none'">
   </div>
   <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
   <div class="card" id="quiz-root"></div>
@@ -117,9 +121,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 /* ====================== CONFIG ====================== */
 // Cole aqui a URL do seu Web App do Google Apps Script (veja o arquivo google-apps-script.gs)
-const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxAwwLUxMIDtivLrrHIH_npqbBge75d9gPKfcasoRn6Y9wqbEY61a7Q-ad9b2U1_1go/exec";
+const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbxAYrUmiE2aYbFNN03JdDGfKeeUsQVPbuqaUdOLotcS_XfFGF85tAtSLHRYJdCkJ8A3/exec";
 // Número de WhatsApp da concessionária (com DDI e DDD, só números)
-const WHATSAPP_NUMBER = "5541997730107";
+const WHATSAPP_NUMBER = "5541984802065";
 // Corte mínimo de qualificação (% do potencial daquele caminho do quiz).
 // Abaixo disso, não abrimos o formulário de contato — mostramos recusa educada.
 const THRESHOLD_PCT_MINIMO = 50;
@@ -139,7 +143,7 @@ const UTMS = {
 /* ====================== IDENTIFICADOR DE EVENTO (dedup Meta Pixel x CAPI) ====================== */
 function fbEventId(){
   try {
-    var gtm = window.google_tag_manager['GTM-N89HHJWD'].dataLayer.get('gtm');
+    var gtm = window.google_tag_manager['GTM-N588MVW'].dataLayer.get('gtm');
     return gtm.start + '.' + gtm.uniqueEventId;
   } catch (e) {
     return 'evt_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -154,29 +158,22 @@ window.dataLayer.push({
 });
 
 /* ====================== PONTUAÇÃO DO LEAD ====================== */
-const SCORE_TIPO = { troca:10, financiar:8, avista:10, pesquisando:3 };
+// Quiz enxuto: 4 perguntas, todo mundo responde as mesmas, máximo sempre 40.
+const SCORE_VEICULO = { correto:10, parcial:4, outro:-8 };
+const SCORE_ORCAMENTO = { dentro:10, pouco_acima:5, fora:-8 };
 const SCORE_URGENCIA = { semana:10, mes:7, '3meses':-5, pesquisando:-10 };
-const SCORE_VALOR = { acima50:10, '30a50':10, '20a30':8, ate20:6, naosei:-2 };
-const SCORE_PAGAMENTO = { financiamento:10, avista:10, consorcio:6, cartao:6, naosei:-5 };
-const SCORE_ENTRADA = { sim:10, parcial:6, so_carro:8, nao:-2 };
-const SCORE_NOME_LIMPO = { sim:10, nao:-10, naosei:4 };
-const SCORE_VALOR_AVISTA = { completo:10, parcial:6, juntando:-3 };
+const SCORE_PAGAMENTO = { troca:8, financiamento:8, avista:10 };
 
 function calculateScore(){
   const a = state.a;
-  let score = 0, max = 0;
+  let score = 0;
+  const max = 40;
+  score += SCORE_VEICULO[a.veiculo] || 0;
+  score += SCORE_ORCAMENTO[a.orcamento] || 0;
+  score += SCORE_URGENCIA[a.urgencia] || 0;
+  score += SCORE_PAGAMENTO[a.pagamento] || 0;
 
-  score += SCORE_TIPO[a.tipo] || 0; max += 10;
-  score += SCORE_URGENCIA[a.urgencia] || 0; max += 10;
-
-  if(a.valor){ score += SCORE_VALOR[a.valor] || 0; max += 10; }
-  if(a.tipo === 'troca' && a.pagamento){ score += SCORE_PAGAMENTO[a.pagamento] || 0; max += 10; }
-  if(a.entrada){ score += SCORE_ENTRADA[a.entrada] || 0; max += 10; }
-  if(a.nomeLimpo){ score += SCORE_NOME_LIMPO[a.nomeLimpo] || 0; max += 10; }
-  if(a.valorAvista){ score += SCORE_VALOR_AVISTA[a.valorAvista] || 0; max += 10; }
-
-  // classificação interna (não aparece pro cliente) — baseada em % sobre o máximo do caminho
-  const pct = max > 0 ? Math.round((score / max) * 100) : 0;
+  const pct = Math.round((score / max) * 100);
   let status = 'lead';
   if(pct >= 80) status = 'quente';
   else if(pct >= 50) status = 'qualificado';
@@ -196,45 +193,30 @@ function pushDataLayer(step){
   window.dataLayer.push({ event: 'quiz_step', quiz_step: step, quiz_answers: JSON.stringify(state.a) });
 }
 
+const ORDER = ['intro','veiculo','orcamento','urgencia','pagamento','contato','resumo'];
+
 function nextAfter(step){
-  const n = nextAfterRaw(step);
-  if(n === 'contato'){
+  if(step === 'intro') return 'veiculo';
+  if(step === 'veiculo') return 'orcamento';
+  if(step === 'orcamento') return 'urgencia';
+  if(step === 'urgencia') return 'pagamento';
+  if(step === 'pagamento'){
     const c = calculateScore();
     if(c.pct < THRESHOLD_PCT_MINIMO){
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'lead_baixo_score', quiz_answers: JSON.stringify(state.a), pontuacao: c.pontuacao, pct: c.pct });
       return 'semofertas';
     }
-  }
-  return n;
-}
-
-function nextAfterRaw(step){
-  const tipo = state.a.tipo;
-  if(step === 'etapa1') return 'urgencia';
-  if(step === 'urgencia'){
-    if(tipo === 'troca') return 'etapa2';
-    if(tipo === 'financiar') return 'financ1';
-    if(tipo === 'avista') return 'avista1';
     return 'contato';
   }
-  if(step === 'etapa2') return 'etapa3';
-  if(step === 'etapa3') return 'etapa4';
-  if(step === 'etapa4'){
-    if(state.a.pagamento === 'financiamento') return 'financ1';
-    if(state.a.pagamento === 'avista') return 'avista1';
-    return 'contato';
-  }
-  if(step === 'financ1') return 'financ2';
-  if(step === 'financ2') return 'contato';
-  if(step === 'avista1') return 'contato';
   if(step === 'contato') return 'resumo';
   return 'contato';
 }
 
 function progressPct(){
-  const order = ['intro','etapa1','urgencia','etapa2','etapa3','etapa4','financ1','financ2','avista1','contato','resumo'];
-  return Math.min(100, Math.round(((order.indexOf(state.step)+1)/9)*100));
+  if(state.step === 'semofertas') return 100;
+  const idx = ORDER.indexOf(state.step);
+  return Math.min(100, Math.round(((idx+1)/ORDER.length)*100));
 }
 
 function opt(label, onclick){
@@ -247,94 +229,49 @@ function backBtn(){
 /* ====================== RENDER ====================== */
 function render(){
   const root = document.getElementById('quiz-root');
-  document.getElementById('progress-bar').style.width = (state.step === 'semofertas' ? 100 : progressPct())+'%';
-  const tipo = state.a.tipo;
+  document.getElementById('progress-bar').style.width = progressPct()+'%';
   let html = '';
 
   if(state.step === 'intro'){
     html = '<div class="center">'
       + '<h1>Ótimo ter você por aqui!</h1>'
-      + '<p class="lead">Ótima escolha, você está a um passo de adquirir seu novo veículo. Responda algumas perguntas rápidas e a gente te ajuda a encontrar a melhor condição pra você.</p>'
+      + '<p class="lead">Ótima escolha, você está a um passo de adquirir seu novo veículo. Responda 4 perguntas rápidas e a gente já te chama no WhatsApp com a melhor condição.</p>'
       + '<div class="bullets">'
-      + '<p>⏱️ Leva menos de 1 minuto</p>'
+      + '<p>⏱️ Leva menos de 30 segundos</p>'
       + '<p>🔒 Seus dados são só para contato, com segurança</p>'
       + '<p>💬 Fala direto com um vendedor no WhatsApp</p>'
       + '</div>'
-      + '<button type="button" class="btn-primary" onclick="go(\'etapa1\')">Quero simular minha compra</button>'
+      + '<button type="button" class="btn-primary" onclick="go(nextAfter(\'intro\'))">Quero simular minha compra</button>'
       + '</div>';
   }
 
-  else if(state.step === 'etapa1'){
-    html = backBtn() + '<p class="step-title">O que você está buscando?</p>'
-      + opt('Quero trocar de veículo', "set('tipo','troca');go(nextAfter('etapa1'))")
-      + opt('Preciso financiar', "set('tipo','financiar');set('pagamento','financiamento');go(nextAfter('etapa1'))")
-      + opt('Procuro comprar à vista', "set('tipo','avista');set('pagamento','avista');go(nextAfter('etapa1'))")
-      + opt('Ainda estou só pesquisando', "set('tipo','pesquisando');go(nextAfter('etapa1'))");
+  else if(state.step === 'veiculo'){
+    html = backBtn() + '<p class="step-title">Esse é o carro que você está procurando?</p>'
+      + opt('Sim, é esse mesmo', "set('veiculo','correto');go(nextAfter('veiculo'))")
+      + opt('Mais ou menos, mas gostei', "set('veiculo','parcial');go(nextAfter('veiculo'))")
+      + opt('Não, quero outro modelo', "set('veiculo','outro');go(nextAfter('veiculo'))");
+  }
+
+  else if(state.step === 'orcamento'){
+    html = backBtn() + '<p class="step-title">Esse valor está dentro do seu orçamento?</p>'
+      + opt('Sim, cabe certinho', "set('orcamento','dentro');go(nextAfter('orcamento'))")
+      + opt('Um pouco acima, mas consigo', "set('orcamento','pouco_acima');go(nextAfter('orcamento'))")
+      + opt('Está fora do meu orçamento', "set('orcamento','fora');go(nextAfter('orcamento'))");
   }
 
   else if(state.step === 'urgencia'){
-    const label = tipo === 'pesquisando' ? 'Pra quando você imagina decidir?' : 'Pra quando você pretende fechar?';
-    html = backBtn() + '<p class="step-title">'+label+'</p>'
+    html = backBtn() + '<p class="step-title">Pra quando você pretende fechar?</p>'
       + opt('Essa semana', "set('urgencia','semana');go(nextAfter('urgencia'))")
       + opt('Esse mês', "set('urgencia','mes');go(nextAfter('urgencia'))")
       + opt('Nos próximos 3 meses', "set('urgencia','3meses');go(nextAfter('urgencia'))")
       + opt('Só pesquisando por enquanto', "set('urgencia','pesquisando');go(nextAfter('urgencia'))");
   }
 
-  else if(state.step === 'etapa2'){
-    html = backBtn() + '<p class="step-title">Qual carro você pretende dar na troca?</p>'
-      + '<p class="step-sub">Só o básico, pra já adiantarmos sua avaliação.</p>'
-      + '<input id="marca" placeholder="Marca">'
-      + '<input id="modelo" placeholder="Modelo">'
-      + '<input id="ano" placeholder="Ano">'
-      + '<p class="error" id="err2">Preencha marca, modelo e ano</p>'
-      + '<button type="button" class="btn-primary" onclick="submitEtapa2()">Continuar</button>';
-  }
-
-  else if(state.step === 'etapa3'){
-    html = backBtn() + '<p class="step-title">Você tem uma ideia de quanto vale seu carro?</p>'
-      + '<p class="step-sub">Isso é só uma estimativa pra qualificação.</p>'
-      + opt('Até R$ 20 mil', "set('valor','ate20');go(nextAfter('etapa3'))")
-      + opt('R$ 20 mil a R$ 30 mil', "set('valor','20a30');go(nextAfter('etapa3'))")
-      + opt('R$ 30 mil a R$ 50 mil', "set('valor','30a50');go(nextAfter('etapa3'))")
-      + opt('Acima de R$ 50 mil', "set('valor','acima50');go(nextAfter('etapa3'))")
-      + opt('Não sei quanto vale', "set('valor','naosei');go(nextAfter('etapa3'))");
-  }
-
-  else if(state.step === 'etapa4'){
-    html = backBtn() + '<p class="step-title">Como pretende pagar a diferença?</p>'
-      + opt('Quero financiar', "set('pagamento','financiamento');go(nextAfter('etapa4'))")
-      + opt('Tenho dinheiro pra completar', "set('pagamento','avista');go(nextAfter('etapa4'))")
-      + opt('Quero usar consórcio', "set('pagamento','consorcio');go(nextAfter('etapa4'))")
-      + opt('Quero usar cartão de crédito', "set('pagamento','cartao');go(nextAfter('etapa4'))")
-      + opt('Ainda não sei', "set('pagamento','naosei');go(nextAfter('etapa4'))");
-  }
-
-  else if(state.step === 'financ1'){
-    const tituloEntrada = tipo === 'troca'
-      ? 'Além do seu carro na troca, tem algum valor extra pra dar de entrada?'
-      : 'Você já tem uma entrada disponível?';
-    const opcao3 = tipo === 'troca'
-      ? opt('Só o carro mesmo', "set('entrada','so_carro');go(nextAfter('financ1'))")
-      : opt('Não tenho entrada', "set('entrada','nao');go(nextAfter('financ1'))");
-    html = backBtn() + '<p class="step-title">'+tituloEntrada+'</p>'
-      + opt('Sim, tenho valor extra', "set('entrada','sim');go(nextAfter('financ1'))")
-      + opt('Uma parte pequena', "set('entrada','parcial');go(nextAfter('financ1'))")
-      + opcao3;
-  }
-
-  else if(state.step === 'financ2'){
-    html = backBtn() + '<p class="step-title">Seu nome está limpo pra crédito?</p>'
-      + opt('Sim', "set('nomeLimpo','sim');go(nextAfter('financ2'))")
-      + opt('Não', "set('nomeLimpo','nao');go(nextAfter('financ2'))")
-      + opt('Não sei', "set('nomeLimpo','naosei');go(nextAfter('financ2'))");
-  }
-
-  else if(state.step === 'avista1'){
-    html = backBtn() + '<p class="step-title">Como está o valor disponível?</p>'
-      + opt('Já tenho o valor todo separado', "set('valorAvista','completo');go(nextAfter('avista1'))")
-      + opt('Falta uma parte pequena', "set('valorAvista','parcial');go(nextAfter('avista1'))")
-      + opt('Ainda estou juntando', "set('valorAvista','juntando');go(nextAfter('avista1'))");
+  else if(state.step === 'pagamento'){
+    html = backBtn() + '<p class="step-title">Como pretende pagar?</p>'
+      + opt('Troca', "set('pagamento','troca');go(nextAfter('pagamento'))")
+      + opt('Financiamento', "set('pagamento','financiamento');go(nextAfter('pagamento'))")
+      + opt('À vista', "set('pagamento','avista');go(nextAfter('pagamento'))");
   }
 
   else if(state.step === 'semofertas'){
@@ -358,15 +295,6 @@ function render(){
   else if(state.step === 'resumo'){ html = renderResumo(); }
 
   root.innerHTML = html;
-}
-
-function submitEtapa2(){
-  const marca = document.getElementById('marca').value.trim();
-  const modelo = document.getElementById('modelo').value.trim();
-  const ano = document.getElementById('ano').value.trim();
-  if(!marca || !modelo || !ano){ document.getElementById('err2').style.display = 'block'; return; }
-  set('marca', marca); set('modelo', modelo); set('ano', ano);
-  go(nextAfter('etapa2'));
 }
 
 function submitContato(){
@@ -395,6 +323,8 @@ function showLoading(message){
 
 /* ====================== GOOGLE SHEETS ====================== */
 function sendToSheets(){
+  const veiculoLabel = { correto:'Sim, é esse mesmo', parcial:'Mais ou menos, mas gostei', outro:'Não, quer outro modelo' }[state.a.veiculo] || '';
+
   const payload = {
     timestamp: new Date().toISOString(),
     nome: state.a.nome,
@@ -402,7 +332,7 @@ function sendToSheets(){
     celular: state.a.celular,
     pontuacao: state.a.pontuacao,
     urgencia: state.a.urgencia,
-    veiculo: state.a.marca ? (state.a.marca + ' ' + state.a.modelo + ' ' + state.a.ano) : '',
+    veiculo: veiculoLabel,
     utm_source: UTMS.utm_source,
     utm_medium: UTMS.utm_medium,
     utm_campaign: UTMS.utm_campaign,
@@ -448,9 +378,6 @@ function sendToSheets(){
 
   console.log('[Huracan Quiz] Enviando lead para o Sheets:', payload);
 
-  // GET + no-cors: o Apps Script (doGet) recebe os parâmetros pela querystring.
-  // Não dá pra ler a resposta (status sempre "opaque"), então confiamos que a
-  // requisição foi disparada — confira a planilha pra confirmar o recebimento.
   return fetch(url, { method: 'GET', mode: 'no-cors' })
     .then(function(){
       console.log('[Huracan Quiz] Requisição enviada (modo no-cors não confirma sucesso no destino — confira a planilha).');
@@ -465,20 +392,14 @@ function renderResumo(){
   const a = state.a;
   const primeiroNome = (a.nome || '').split(' ')[0] || 'você';
   const urgenciaLabel = {semana:'Essa semana', mes:'Esse mês', '3meses':'3 meses', pesquisando:'Pesquisando'}[a.urgencia] || '-';
-  const pagamentoLabel = {financiamento:'Financiamento', avista:'À vista', consorcio:'Consórcio', cartao:'Cartão de crédito', naosei:'A definir'}[a.pagamento] || '-';
-  const tipoLabel = {troca:'Troca de veículo', financiar:'Financiamento', avista:'Compra à vista', pesquisando:'Pesquisa'}[a.tipo] || '-';
-
-  let carroLinha = '';
-  if(a.marca) carroLinha = '<tr><td style="color:var(--text-secondary)">Carro na troca</td><td style="text-align:right;font-weight:600">'+a.marca+' '+a.modelo+' '+a.ano+'</td></tr>';
-  let pagamentoLinha = a.pagamento ? '<tr><td style="color:var(--text-secondary)">Pagamento</td><td style="text-align:right;font-weight:600">'+pagamentoLabel+'</td></tr>' : '';
-  const objetivoLinha = '<tr><td style="color:var(--text-secondary)">Objetivo</td><td style="text-align:right;font-weight:600">'+tipoLabel+'</td></tr>';
+  const pagamentoLabel = {troca:'Troca', financiamento:'Financiamento', avista:'À vista'}[a.pagamento] || '-';
+  const veiculoLabel = { correto:'É esse mesmo carro', parcial:'Parecido com o que procura', outro:'Procura outro modelo' }[a.veiculo] || '-';
+  const orcamentoLabel = { dentro:'Dentro do orçamento', pouco_acima:'Um pouco acima, mas consegue', fora:'Fora do orçamento' }[a.orcamento] || '-';
 
   let mensagem = 'Vamos preparar as melhores condições pra você.';
-  if(a.tipo === 'pesquisando') mensagem = 'Sem pressa: deixamos as opções prontas pra quando você decidir.';
   if(a.pagamento === 'financiamento') mensagem = 'Já vamos separar as condições de financiamento que combinam com seu perfil.';
   if(a.pagamento === 'avista') mensagem = 'Já vamos preparar as opções pra fechar à vista.';
-  if(a.pagamento === 'consorcio') mensagem = 'Um vendedor vai te explicar as opções de consórcio disponíveis.';
-  if(a.pagamento === 'cartao') mensagem = 'Um vendedor vai te explicar as opções de pagamento no cartão.';
+  if(a.pagamento === 'troca') mensagem = 'Já vamos preparar as condições pra avaliar seu carro na troca.';
   if(a.urgencia === 'semana') mensagem += ' Como é pra essa semana, priorizamos seu atendimento.';
 
   const origemLinhas =
@@ -488,9 +409,9 @@ function renderResumo(){
   const waText = encodeURIComponent(
     'Olá! Simulei minha compra no site.\n'
     + 'Nome: ' + a.nome + '\n'
-    + 'Objetivo: ' + tipoLabel + '\n'
-    + (a.marca ? ('Carro na troca: ' + a.marca + ' ' + a.modelo + ' ' + a.ano + '\n') : '')
-    + (a.pagamento ? ('Pagamento: ' + pagamentoLabel + '\n') : '')
+    + 'Veículo anunciado: ' + veiculoLabel + '\n'
+    + 'Orçamento: ' + orcamentoLabel + '\n'
+    + 'Pagamento: ' + pagamentoLabel + '\n'
     + 'Urgência: ' + urgenciaLabel + '\n'
     + origemLinhas
   );
@@ -502,7 +423,9 @@ function renderResumo(){
     + '<p style="font-size:13px;color:var(--text-secondary);margin:0;">Seu resumo já foi montado</p>'
     + '</div>'
     + '<div style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;margin-bottom:14px;">'
-    + '<table>' + objetivoLinha + carroLinha + pagamentoLinha
+    + '<table>'
+    + '<tr><td style="color:var(--text-secondary)">Veículo</td><td style="text-align:right;font-weight:600">'+veiculoLabel+'</td></tr>'
+    + '<tr><td style="color:var(--text-secondary)">Pagamento</td><td style="text-align:right;font-weight:600">'+pagamentoLabel+'</td></tr>'
     + '<tr><td style="color:var(--text-secondary)">Urgência</td><td style="text-align:right"><span class="badge">'+urgenciaLabel+'</span></td></tr>'
     + '</table></div>'
     + '<div class="note-box"><p>'+mensagem+'</p></div>'
@@ -518,14 +441,13 @@ function dataLayerWhatsappClick(){
     event_id: state.a.event_id
   });
 
-  // ======= EVENTO EXCLUSIVO — clicou pra falar no WhatsApp (nome exato usado no GTM) =======
   window.dataLayer.push({
     event: 'Lead_Qualificado',
     event_id: state.a.event_id,
     pontuacao: state.a.pontuacao,
     lead_status: state.a.lead_status,
-    tipo_interesse: state.a.tipo,
-    valor_estimado: state.a.valor || '',
+    veiculo: state.a.veiculo,
+    orcamento: state.a.orcamento,
     pagamento: state.a.pagamento || ''
   });
 }
