@@ -9,24 +9,33 @@
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://sgtm.pedrosomultimarcassjp.site/1fdibxgliq.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','7=GA1RICwvRCpJUCQvMjUtQgdUXklJRA0KTBkJAwoNGgscHAATEQ8IFhIIHxQSEkcXGB0J');</script>
 <!-- End Google Tag Manager -->
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
   :root{
-    --bg:#f7f7f5;
+    --bg:#F2F4F8;
     --card:#ffffff;
-    --border:#e5e3dd;
-    --text:#1c1c1a;
-    --text-secondary:#6b6a63;
-    --accent:#1a56db;
+    --border:#E3E7EF;
+    --text:#101828;
+    --text-secondary:#66708A;
+    --accent:#FF5A36;
+    --accent-dark:#E0431F;
+    --accent-soft:#FFE9E2;
     --accent-text:#ffffff;
     --danger-bg:#fdecec;
     --danger-text:#a32d2d;
     --whatsapp:#25D366;
-    --radius:10px;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(16,24,43,.04), 0 10px 28px rgba(16,24,43,.07);
+    --font-display:'Space Grotesk', -apple-system, sans-serif;
+    --font-body:'Inter', -apple-system, sans-serif;
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-family:var(--font-body);
     background:var(--bg);
     color:var(--text);
     display:flex;
@@ -34,55 +43,86 @@
     padding:32px 16px;
   }
   .wrap{width:100%;max-width:420px;}
-  .progress-track{height:4px;background:var(--border);border-radius:2px;margin-bottom:20px;overflow:hidden;}
-  .progress-bar{height:100%;width:8%;background:var(--accent);transition:width .3s;}
+
+  /* Velocímetro de progresso */
+  .gauge-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:14px;}
+  .gauge-wrap svg{display:block;}
+  .gauge-track{fill:none;stroke:var(--border);stroke-width:8;stroke-linecap:round;}
+  .gauge-fill{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .4s ease;}
+  .gauge-label{font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--text-secondary);margin-top:-18px;letter-spacing:.02em;}
+
   .card{
     background:var(--card);
     border:1px solid var(--border);
-    border-radius:14px;
-    padding:24px 20px;
+    border-radius:18px;
+    padding:26px 22px;
     min-height:280px;
+    box-shadow:var(--shadow);
   }
-  h1{font-size:19px;font-weight:600;margin:0 0 8px;text-align:center;}
+  .step-enter{animation:stepIn .28s ease both;}
+  @keyframes stepIn{
+    from{opacity:0;transform:translateY(6px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .step-enter{animation:none;}
+  }
+
+  h1{font-family:var(--font-display);font-size:21px;font-weight:700;margin:0 0 8px;text-align:center;letter-spacing:-.01em;}
   .lead{font-size:14px;color:var(--text-secondary);line-height:1.6;margin:0 0 18px;text-align:center;}
   .bullets{text-align:left;font-size:13px;color:var(--text-secondary);margin-bottom:22px;}
   .bullets p{margin:8px 0;display:flex;align-items:center;gap:8px;}
-  .step-title{font-weight:600;font-size:15px;margin:0 0 14px;}
+  .step-title{font-family:var(--font-display);font-weight:700;font-size:17px;margin:0 0 16px;letter-spacing:-.01em;}
   .step-sub{font-size:13px;color:var(--text-secondary);margin:0 0 14px;}
+
   .opt{
-    display:block;width:100%;text-align:left;
-    padding:13px 14px;margin-bottom:8px;
-    background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
-    font-size:14px;cursor:pointer;color:var(--text);
-    transition:border-color .15s;
+    display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    padding:14px 16px;margin-bottom:9px;
+    background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);
+    font-family:var(--font-body);font-size:14.5px;font-weight:500;cursor:pointer;color:var(--text);
+    transition:border-color .15s, background .15s, transform .08s;
   }
-  .opt:hover{border-color:var(--accent);}
+  .opt .opt-icon{font-size:19px;line-height:1;flex-shrink:0;}
+  .opt:hover{border-color:var(--accent);background:var(--accent-soft);}
+  .opt:active{transform:scale(.98);}
+
   input{
-    width:100%;padding:12px 14px;margin-bottom:10px;
-    border:1px solid var(--border);border-radius:var(--radius);
-    font-size:14px;background:#fff;color:var(--text);
+    width:100%;padding:13px 14px;margin-bottom:10px;
+    border:1.5px solid var(--border);border-radius:var(--radius);
+    font-family:var(--font-body);font-size:14.5px;background:#fff;color:var(--text);
   }
   input:focus{outline:none;border-color:var(--accent);}
   .btn-primary{
     width:100%;background:var(--accent);color:var(--accent-text);
-    border:none;padding:13px;border-radius:var(--radius);
-    font-weight:600;font-size:14px;cursor:pointer;margin-top:4px;
+    border:none;padding:14px;border-radius:var(--radius);
+    font-family:var(--font-display);font-weight:700;font-size:14.5px;cursor:pointer;margin-top:6px;
+    transition:background .15s, transform .08s;
   }
+  .btn-primary:hover{background:var(--accent-dark);}
+  .btn-primary:active{transform:scale(.98);}
   .btn-whatsapp{
     width:100%;background:var(--whatsapp);color:#0b3d1f;border:none;
-    padding:13px;border-radius:var(--radius);font-weight:600;font-size:14px;
+    padding:14px;border-radius:var(--radius);font-family:var(--font-display);font-weight:700;font-size:14.5px;
     display:flex;align-items:center;justify-content:center;gap:8px;
     cursor:pointer;text-decoration:none;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.35);}
+    50%{box-shadow:0 0 0 8px rgba(37,211,102,0);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .btn-whatsapp{animation:none;}
   }
   .back-btn{background:none;border:none;color:var(--text-secondary);font-size:13px;cursor:pointer;padding:0;margin-bottom:14px;}
   .error{color:var(--danger-text);font-size:13px;margin:0 0 10px;display:none;}
   table{width:100%;font-size:13px;border-collapse:collapse;}
   td{padding:6px 0;}
-  .badge{background:var(--danger-bg);color:var(--danger-text);font-size:12px;padding:3px 10px;border-radius:8px;}
-  .note-box{background:var(--bg);border-radius:10px;padding:12px 14px;margin-bottom:16px;}
+  .badge{background:var(--accent-soft);color:var(--accent-dark);font-size:12px;font-weight:600;padding:3px 10px;border-radius:8px;}
+  .note-box{background:var(--bg);border-radius:12px;padding:12px 14px;margin-bottom:16px;}
   .note-box p{font-size:13px;color:var(--text-secondary);margin:0;line-height:1.5;}
   .center{text-align:center;}
-  .logo-wrap{display:flex;justify-content:center;margin-bottom:20px;}
+  .logo-wrap{display:flex;justify-content:center;margin-bottom:16px;}
   .logo-wrap img{height:36px;width:auto;}
   .loading-overlay{
     display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -110,9 +150,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="logo-wrap">
     <img src="https://pedrosomultimarcassjp.site/logo.png" alt="Pedroso Multimarcas" onerror="this.style.display='none'">
   </div>
-  <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+  <div class="gauge-wrap">
+    <svg width="140" height="76" viewBox="0 0 140 76">
+      <path class="gauge-track" d="M10,70 A60,60 0 0,1 130,70" />
+      <path class="gauge-fill" id="gauge-fill" d="M10,70 A60,60 0 0,1 130,70" />
+    </svg>
+    <span class="gauge-label" id="gauge-label">Início</span>
+  </div>
   <div class="card" id="quiz-root"></div>
 </div>
+
 
 <script>
 /* ====================== CONFIG ====================== */
@@ -209,14 +256,32 @@ function nextAfter(step){
   return 'contato';
 }
 
+const STEP_LABELS = {
+  intro:'Início', veiculo:'Pergunta 1 de 4', orcamento:'Pergunta 2 de 4',
+  urgencia:'Pergunta 3 de 4', pagamento:'Pergunta 4 de 4',
+  contato:'Quase lá', resumo:'Concluído', semofertas:'Concluído'
+};
+
 function progressPct(){
-  if(state.step === 'semofertas') return 100;
+  if(state.step === 'semofertas' || state.step === 'resumo') return 100;
   const idx = ORDER.indexOf(state.step);
   return Math.min(100, Math.round(((idx+1)/ORDER.length)*100));
 }
 
-function opt(label, onclick){
-  return '<button type="button" class="opt" onclick="'+onclick+'">'+label+'</button>';
+function updateGauge(){
+  const fill = document.getElementById('gauge-fill');
+  const label = document.getElementById('gauge-label');
+  const len = fill.getTotalLength();
+  fill.style.strokeDasharray = len;
+  const pct = progressPct();
+  fill.style.strokeDashoffset = len * (1 - pct/100);
+  label.textContent = STEP_LABELS[state.step] || '';
+}
+
+function opt(label, onclick, icon){
+  return '<button type="button" class="opt" onclick="'+onclick+'">'
+    + (icon ? '<span class="opt-icon">'+icon+'</span>' : '')
+    + '<span>'+label+'</span></button>';
 }
 function backBtn(){
   return state.history.length ? '<button type="button" class="back-btn" onclick="back()">&larr; Voltar</button>' : '';
@@ -225,7 +290,7 @@ function backBtn(){
 /* ====================== RENDER ====================== */
 function render(){
   const root = document.getElementById('quiz-root');
-  document.getElementById('progress-bar').style.width = progressPct()+'%';
+  updateGauge();
   let html = '';
 
   if(state.step === 'intro'){
@@ -243,31 +308,31 @@ function render(){
 
   else if(state.step === 'veiculo'){
     html = backBtn() + '<p class="step-title">Esse é o carro que você está procurando?</p>'
-      + opt('Sim, é esse mesmo', "set('veiculo','correto');go(nextAfter('veiculo'))")
-      + opt('Mais ou menos, mas gostei', "set('veiculo','parcial');go(nextAfter('veiculo'))")
-      + opt('Não, quero outro modelo', "set('veiculo','outro');go(nextAfter('veiculo'))");
+      + opt('Sim, é esse mesmo', "set('veiculo','correto');go(nextAfter('veiculo'))", '🎯')
+      + opt('Mais ou menos, mas gostei', "set('veiculo','parcial');go(nextAfter('veiculo'))", '👀')
+      + opt('Não, quero outro modelo', "set('veiculo','outro');go(nextAfter('veiculo'))", '🔄');
   }
 
   else if(state.step === 'orcamento'){
     html = backBtn() + '<p class="step-title">Esse valor está dentro do seu orçamento?</p>'
-      + opt('Sim, cabe certinho', "set('orcamento','dentro');go(nextAfter('orcamento'))")
-      + opt('Um pouco acima, mas consigo', "set('orcamento','pouco_acima');go(nextAfter('orcamento'))")
-      + opt('Está fora do meu orçamento', "set('orcamento','fora');go(nextAfter('orcamento'))");
+      + opt('Sim, cabe certinho', "set('orcamento','dentro');go(nextAfter('orcamento'))", '✅')
+      + opt('Um pouco acima, mas consigo', "set('orcamento','pouco_acima');go(nextAfter('orcamento'))", '📈')
+      + opt('Está fora do meu orçamento', "set('orcamento','fora');go(nextAfter('orcamento'))", '📉');
   }
 
   else if(state.step === 'urgencia'){
     html = backBtn() + '<p class="step-title">Pra quando você pretende fechar?</p>'
-      + opt('Essa semana', "set('urgencia','semana');go(nextAfter('urgencia'))")
-      + opt('Esse mês', "set('urgencia','mes');go(nextAfter('urgencia'))")
-      + opt('Nos próximos 3 meses', "set('urgencia','3meses');go(nextAfter('urgencia'))")
-      + opt('Só pesquisando por enquanto', "set('urgencia','pesquisando');go(nextAfter('urgencia'))");
+      + opt('Essa semana', "set('urgencia','semana');go(nextAfter('urgencia'))", '🔥')
+      + opt('Esse mês', "set('urgencia','mes');go(nextAfter('urgencia'))", '📅')
+      + opt('Nos próximos 3 meses', "set('urgencia','3meses');go(nextAfter('urgencia'))", '🗓️')
+      + opt('Só pesquisando por enquanto', "set('urgencia','pesquisando');go(nextAfter('urgencia'))", '🔎');
   }
 
   else if(state.step === 'pagamento'){
     html = backBtn() + '<p class="step-title">Como pretende pagar?</p>'
-      + opt('Troca', "set('pagamento','troca');go(nextAfter('pagamento'))")
-      + opt('Financiamento', "set('pagamento','financiamento');go(nextAfter('pagamento'))")
-      + opt('À vista', "set('pagamento','avista');go(nextAfter('pagamento'))");
+      + opt('Troca', "set('pagamento','troca');go(nextAfter('pagamento'))", '🔁')
+      + opt('Financiamento', "set('pagamento','financiamento');go(nextAfter('pagamento'))", '🏦')
+      + opt('À vista', "set('pagamento','avista');go(nextAfter('pagamento'))", '💵');
   }
 
   else if(state.step === 'semofertas'){
@@ -290,7 +355,7 @@ function render(){
 
   else if(state.step === 'resumo'){ html = renderResumo(); }
 
-  root.innerHTML = html;
+  root.innerHTML = '<div class="step-enter">' + html + '</div>';
 }
 
 function submitContato(){
