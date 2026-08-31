@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Quiz de qualificação — Pedroso Multimarcas</title>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://sgtm.pedrosomultimarcassjp.site/1fdibxgliq.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','7=GA1RICwvRCpJUCQvMjUtQgdUXklJRA0KTBkJAwoNGgscHAATEQ8IFhIIHxQSEkcXGB0J');</script>
+<!-- End Google Tag Manager -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0B0B0D;
+    --surface:#131316;
+    --surface-2:#141417;
+    --border:#2A2A30;
+    --border-soft:#1E1E23;
+    --text:#F2F0EA;
+    --text-secondary:#8A8780;
+    --text-body:#D6D3CB;
+    --accent:#C9A961;
+    --red:#7A1F2B;
+    --whatsapp:#25D366;
+    --font-display:'Big Shoulders Display', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+    --page-max-width:460px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    background:#050506;
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 16px;
+  }
+  button{font-family:inherit;}
+  .page{width:100%;max-width:var(--page-max-width);}
+
+  /* ===== ANIMAÇÕES ===== */
+  @keyframes fadeSlideIn{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @keyframes popIn{
+    0%{opacity:0;transform:scale(0.6);}
+    60%{opacity:1;transform:scale(1.15);}
+    100%{opacity:1;transform:scale(1);}
+  }
+  @keyframes spin{
+    to{transform:rotate(360deg);}
+  }
+  @keyframes pulseRing{
+    0%{box-shadow:0 0 0 0 rgba(201,169,97,0.35);}
+    100%{box-shadow:0 0 0 14px rgba(201,169,97,0);}
+  }
+  .quiz-anim-in{animation:fadeSlideIn .32s cubic-bezier(.2,.8,.2,1);}
+
+  /* ===== PROGRESSO ===== */
+  .progress-wrap{margin-bottom:18px;}
+  .progress-top-row{
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;
+  }
+  .progress-label{
+    font-size:11px;font-weight:600;color:var(--text-secondary);
+    letter-spacing:0.06em;text-transform:uppercase;
+  }
+  .progress-pct{font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:500;}
+  .progress-track{
+    width:100%;height:5px;background:var(--border-soft);border-radius:999px;overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;background:linear-gradient(90deg,var(--accent),#E4C888);
+    border-radius:999px;transition:width .45s cubic-bezier(.2,.8,.2,1);width:0%;
+  }
+  .step-dots{display:flex;gap:5px;margin-top:10px;}
+  .step-dot{
+    flex:1;height:3px;border-radius:999px;background:var(--border-soft);
+    transition:background .3s ease;
+  }
+  .step-dot.done{background:var(--accent);}
+  .step-dot.current{background:var(--text-secondary);}
+
+  .quiz-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:10px;
+    padding:24px 20px;position:relative;overflow:hidden;
+    box-shadow:0 8px 30px rgba(0,0,0,0.35);
+  }
+  .quiz-back-btn{
+    background:none;border:none;color:var(--text-secondary);font-size:13px;
+    margin-bottom:14px;cursor:pointer;padding:0;display:flex;align-items:center;gap:4px;
+  }
+  .quiz-step-title{font-size:16px;font-weight:600;margin-bottom:18px;color:var(--text);letter-spacing:-0.01em;}
+
+  /* ===== CARDS DE OPÇÃO ===== */
+  .quiz-option{
+    width:100%;display:flex;align-items:center;gap:12px;background:var(--bg);
+    border:1.5px solid var(--border);border-radius:8px;padding:14px 14px;color:var(--text);
+    font-size:14.5px;font-weight:500;margin-bottom:9px;cursor:pointer;text-align:left;
+    transition:border-color .18s ease, background .18s ease, transform .12s ease;
+    position:relative;
+  }
+  .quiz-option:active{transform:scale(0.98);}
+  .quiz-option:disabled{cursor:default;}
+  .quiz-option.selected{
+    border-color:var(--accent);background:rgba(201,169,97,0.08);
+    animation:pulseRing .5s ease-out;
+  }
+  .quiz-option.dimmed{opacity:0.4;}
+  .opt-icon-wrap{
+    width:38px;height:38px;border-radius:8px;background:var(--surface-2);
+    display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+    transition:background .18s ease;
+  }
+  .quiz-option.selected .opt-icon-wrap{background:rgba(201,169,97,0.18);}
+  .opt-label{flex:1;line-height:1.3;}
+  .opt-check{
+    width:20px;height:20px;border-radius:999px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;transform:scale(0.5);transition:opacity .2s ease, transform .2s ease;
+  }
+  .quiz-option.selected .opt-check{opacity:1;transform:scale(1);animation:popIn .35s ease;}
+
+  .quiz-input{
+    width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;
+    padding:12px 14px 12px 38px;color:var(--text);font-size:15px;box-sizing:border-box;
+    transition:border-color .15s ease;
+  }
+  .quiz-input:focus{outline:none;border-color:var(--accent);}
+  .quiz-input.invalid{border-color:#C0392B;}
+  .quiz-field{margin-bottom:14px;}
+  .quiz-label{display:block;font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-weight:500;}
+  .quiz-input-wrap{position:relative;}
+  .quiz-input-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none;}
+  .quiz-field-error{color:#C0392B;font-size:11px;margin:5px 0 0;display:none;}
+  .quiz-field-error.show{display:block;}
+  .quiz-reassurance{
+    display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);
+    margin:0 0 18px;line-height:1.4;
+  }
+  .quiz-error{color:#C0392B;font-size:12px;margin-bottom:10px;}
+  .quiz-badge{
+    display:inline-block;border:1px solid var(--accent);color:var(--accent);font-size:11px;
+    letter-spacing:0.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:14px;
+  }
+  .quiz-center{text-align:center;}
+  .quiz-lead{font-size:13px;color:var(--text-secondary);line-height:1.5;margin-bottom:18px;}
+  .quiz-bullets{text-align:left;font-size:13px;color:var(--text-secondary);margin-bottom:20px;}
+  .quiz-bullets p{margin:6px 0;}
+  .quiz-resumo-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;margin-bottom:10px;gap:8px;}
+  .quiz-resumo-row .r-left{display:flex;align-items:center;gap:8px;}
+  .quiz-resumo-row .r-label{color:var(--text-secondary);}
+  .quiz-resumo-row .r-value{font-weight:600;text-align:right;}
+  .quiz-badge-sm{
+    border:1px solid var(--accent);color:var(--accent);font-size:11px;padding:2px 8px;border-radius:999px;
+  }
+  .quiz-note{
+    background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px 14px;
+    font-size:13px;color:var(--text-secondary);margin-bottom:16px;
+  }
+
+  /* ===== TELA DE PROCESSAMENTO ===== */
+  .processing-ring{
+    width:64px;height:64px;border-radius:999px;border:3px solid var(--border-soft);
+    border-top-color:var(--accent);margin:8px auto 18px;animation:spin .9s linear infinite;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .processing-steps{text-align:left;font-size:12.5px;color:var(--text-secondary);margin-top:18px;}
+  .processing-steps .p-item{
+    display:flex;align-items:center;gap:8px;padding:6px 0;opacity:0.35;
+    transition:opacity .25s ease, color .25s ease;
+  }
+  .processing-steps .p-item.active{opacity:1;color:var(--text);}
+  .processing-steps .p-check{
+    width:16px;height:16px;border-radius:999px;border:1.5px solid var(--border);
+    flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  }
+  .processing-steps .p-item.active .p-check{border-color:var(--accent);background:rgba(201,169,97,0.15);}
+
+  .result-check-circle{
+    width:56px;height:56px;border-radius:999px;background:rgba(201,169,97,0.12);
+    border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;
+    margin:0 auto 12px;animation:popIn .4s ease;
+  }
+
+  .btn-primary{
+    background:var(--red);color:var(--text);border:none;padding:16px;
+    font-size:14px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+    cursor:pointer;border-radius:4px;
+  }
+  .btn-whatsapp{
+    display:block;width:100%;box-sizing:border-box;text-align:center;background:var(--whatsapp);
+    color:var(--bg);border:none;padding:16px;font-size:14px;font-weight:600;letter-spacing:0.02em;
+    border-radius:4px;text-decoration:none;
+  }
+  .quiz-loading{text-align:center;padding:30px 0;}
+  .quiz-loading p{font-size:13px;color:var(--text-secondary);}
+</style>
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://sgtm.pedrosomultimarcassjp.site/ns.html?id=GTM-N89HHJWD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="page">
+  <div class="progress-wrap">
+    <div class="progress-top-row">
+      <span class="progress-label" id="gauge-label">Início</span>
+      <span class="progress-pct" id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="step-dots" id="step-dots"></div>
+  </div>
+  <div class="quiz-card" id="quiz-root"></div>
+</div>
+
+<script>
+const SHEETS_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbwOU0yt1zCmudrn6b9WwY7EPZ5FlW54ogL9ZoF14SAbxABbmeNrsX9gjX22Cj-6bGIj/exec";
+const WHATSAPP_NUMBER = "5541997730107";
+const GTM_CONTAINER_ID = "GTM-N89HHJWD";
+const VEHICLE_NAME = ""; // Deixe em branco pra teste genérico, ou preencha p/ testar com um carro específico
+const THRESHOLD_PCT_MINIMO = 50;
+
+function getUTMs() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    utm_source: params.get("utm_source") || "",
+    utm_medium: params.get("utm_medium") || "",
+    utm_campaign: params.get("utm_campaign") || "",
+    utm_content: params.get("utm_content") || "",
+    utm_term: params.get("utm_term") || "",
+  };
+}
+
+function fbEventId() {
+  try {
+    const gtm = window.google_tag_manager[GTM_CONTAINER_ID].dataLayer.get("gtm");
+    return gtm.start + "." + gtm.uniqueEventId;
+  } catch (e) {
+    return "evt_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+  }
+}
+
+function pushDataLayer(payload) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(payload);
+}
+
+window.dataLayer = window.dataLayer || [];
+pushDataLayer({
+  event: "page_view",
+  event_id: fbEventId(),
+  action_source: "website",
+  vehicle_name: VEHICLE_NAME,
+});
+/* ============================================================
+   QUIZ DE QUALIFICAÇÃO
+   ============================================================ */
+const SCORE_VEICULO = { correto: 10, parcial: 4, outro: -8 };
+const SCORE_ORCAMENTO = { dentro: 10, pouco_acima: 5, fora: -8 };
+const SCORE_URGENCIA = { semana: 10, mes: 7, "3meses": -5, pesquisando: -10 };
+const SCORE_PAGAMENTO = { troca: 8, financiamento: 8, avista: 10 };
+
+function calculateScore(a) {
+  let score = 0;
+  const max = 40;
+  score += SCORE_VEICULO[a.veiculo] || 0;
+  score += SCORE_ORCAMENTO[a.orcamento] || 0;
+  score += SCORE_URGENCIA[a.urgencia] || 0;
+  score += SCORE_PAGAMENTO[a.pagamento] || 0;
+  const pct = Math.round((score / max) * 100);
+  let status = "lead";
+  if (pct >= 70) status = "quente";
+  else if (pct >= 50) status = "qualificado";
+  return { pontuacao: score, lead_status: status, pct: pct };
+}
+
+const QUIZ_ORDER = ["intro", "veiculo", "orcamento", "urgencia", "pagamento", "processando", "contato", "resumo"];
+const QUIZ_STEP_LABELS = {
+  intro: "Início",
+  veiculo: "Pergunta 1 de 4",
+  orcamento: "Pergunta 2 de 4",
+  urgencia: "Pergunta 3 de 4",
+  pagamento: "Pergunta 4 de 4",
+  processando: "Analisando",
+  contato: "Quase lá",
+  resumo: "Concluído",
+  semofertas: "Concluído",
+};
+const QUESTION_STEPS = ["veiculo", "orcamento", "urgencia", "pagamento"];
+
+function nextAfter(step, answers) {
+  if (step === "intro") return "veiculo";
+  if (step === "veiculo") return "orcamento";
+  if (step === "orcamento") return "urgencia";
+  if (step === "urgencia") return "pagamento";
+  if (step === "pagamento") {
+    const c = calculateScore(answers);
+    if (c.pct < THRESHOLD_PCT_MINIMO) {
+      pushDataLayer({
+        event: "lead_baixo_score",
+        quiz_answers: JSON.stringify(answers),
+        pontuacao: c.pontuacao,
+        pct: c.pct,
+      });
+      state.pendingAfterProcessing = "semofertas";
+    } else {
+      pushDataLayer({
+        event: "quiz_completed",
+        quiz_answers: JSON.stringify(answers),
+        pontuacao: c.pontuacao,
+        pct: c.pct,
+      });
+      state.pendingAfterProcessing = "contato";
+    }
+    return "processando";
+  }
+  if (step === "contato") return "resumo";
+  return "contato";
+}
+
+function progressPct(step) {
+  if (step === "semofertas" || step === "resumo") return 100;
+  const idx = QUIZ_ORDER.indexOf(step);
+  return Math.min(100, Math.round(((idx + 1) / QUIZ_ORDER.length) * 100));
+}
+
+const state = { step: "intro", history: [], a: {}, pendingAfterProcessing: "contato" };
+const progressFillEl = document.getElementById("progress-fill");
+const progressPctEl = document.getElementById("progress-pct");
+const stepDotsEl = document.getElementById("step-dots");
+const gaugeLabel = document.getElementById("gauge-label");
+const quizRoot = document.getElementById("quiz-root");
+
+function updateGauge() {
+  const pct = progressPct(state.step);
+  progressFillEl.style.width = pct + "%";
+  progressPctEl.textContent = pct + "%";
+  gaugeLabel.textContent = QUIZ_STEP_LABELS[state.step] || "";
+
+  const qIdx = QUESTION_STEPS.indexOf(state.step);
+  stepDotsEl.innerHTML = QUESTION_STEPS.map(function (s, i) {
+    let cls = "step-dot";
+    if (qIdx === -1) {
+      if (state.step !== "intro") cls += " done";
+    } else if (i < qIdx) cls += " done";
+    else if (i === qIdx) cls += " current";
+    return '<div class="' + cls + '"></div>';
+  }).join("");
+}
+
+function go(next) {
+  state.history.push(state.step);
+  state.step = next;
+  pushDataLayer({ event: "quiz_step", quiz_step: next, quiz_answers: JSON.stringify(state.a) });
+  render();
+}
+function back() {
+  if (state.history.length) {
+    state.step = state.history.pop();
+    render();
+  }
+}
+function setAnswer(field, value) {
+  state.a[field] = value;
+}
+
+const CHECK_SVG_SM =
+  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0B0B0D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+function opt(label, field, value, icon) {
+  return (
+    '<button type="button" class="quiz-option" onclick="selectOption(this,\'' + field + "','" + value + '\')">' +
+    '<span class="opt-icon-wrap">' + (icon || "") + "</span>" +
+    '<span class="opt-label">' + label + "</span>" +
+    '<span class="opt-check" style="background:var(--accent);">' + CHECK_SVG_SM + "</span>" +
+    "</button>"
+  );
+}
+
+function selectOption(el, field, value) {
+  const group = el.parentElement.querySelectorAll(".quiz-option");
+  group.forEach(function (b) {
+    b.disabled = true;
+    if (b !== el) b.classList.add("dimmed");
+  });
+  el.classList.add("selected");
+  setAnswer(field, value);
+  setTimeout(function () {
+    go(nextAfter(state.step, state.a));
+  }, 320);
+}
+
+function backBtn() {
+  return state.history.length
+    ? '<button type="button" class="quiz-back-btn" onclick="back()">← Voltar</button>'
+    : "";
+}
+
+function render() {
+  updateGauge();
+  let html = "";
+
+  if (state.step === "intro") {
+    html =
+      '<div class="quiz-center">' +
+      (VEHICLE_NAME ? '<div class="quiz-badge">🚗 Você está falando sobre: ' + VEHICLE_NAME + "</div>" : "") +
+      '<h1 style="font-family:var(--font-display);font-size:22px;margin:0 0 10px;">Ótimo ter você por aqui!</h1>' +
+      '<p class="quiz-lead">Antes de falar com um vendedor, responda 4 perguntas rápidas — assim já entendemos o que faz mais sentido pra você e chegamos na negociação com a melhor condição já pensada.</p>' +
+      '<div class="quiz-bullets">' +
+      "<p>⏱️ Leva menos de 30 segundos</p>" +
+      "<p>🔒 Seus dados são só para contato, com segurança</p>" +
+      "<p>💬 Depois disso, você já fala direto com um vendedor no WhatsApp</p>" +
+      "</div>" +
+      '<button type="button" class="btn-primary" style="width:100%;border-radius:4px;" onclick="go(nextAfter(\'intro\', state.a))">Continuar</button>' +
+      "</div>";
+  } else if (state.step === "veiculo") {
+    html =
+      backBtn() +
+      '<p class="quiz-step-title">Esse é o carro que você está procurando?</p>' +
+      opt("Sim, é esse mesmo", "veiculo", "correto", "🎯") +
+      opt("Mais ou menos, mas gostei", "veiculo", "parcial", "👀") +
+      opt("Não, quero outro modelo", "veiculo", "outro", "🔄");
+  } else if (state.step === "orcamento") {
+    html =
+      backBtn() +
+      '<p class="quiz-step-title">Esse valor está dentro do seu orçamento?</p>' +
+      opt("Sim, cabe certinho", "orcamento", "dentro", "✅") +
+      opt("Um pouco acima, mas consigo", "orcamento", "pouco_acima", "📈") +
+      opt("Está fora do meu orçamento", "orcamento", "fora", "📉");
+  } else if (state.step === "urgencia") {
+    html =
+      backBtn() +
+      '<p class="quiz-step-title">Pra quando você pretende fechar?</p>' +
+      opt("Essa semana", "urgencia", "semana", "🔥") +
+      opt("Esse mês", "urgencia", "mes", "📅") +
+      opt("Nos próximos 3 meses", "urgencia", "3meses", "🗓️") +
+      opt("Só pesquisando por enquanto", "urgencia", "pesquisando", "🔎");
+  } else if (state.step === "pagamento") {
+    html =
+      backBtn() +
+      '<p class="quiz-step-title">Como pretende pagar?</p>' +
+      opt("Troca", "pagamento", "troca", "🔁") +
+      opt("Financiamento", "pagamento", "financiamento", "🏦") +
+      opt("À vista", "pagamento", "avista", "💵");
+  } else if (state.step === "processando") {
+    html =
+      '<div class="quiz-center">' +
+      '<div class="processing-ring"></div>' +
+      '<p style="font-weight:600;font-size:15px;margin:0 0 4px;">Analisando o seu perfil...</p>' +
+      '<p style="font-size:12px;color:var(--text-secondary);margin:0;">Só um segundo</p>' +
+      '<div class="processing-steps" id="processing-steps">' +
+      '<div class="p-item" data-i="0"><span class="p-check"></span><span>Verificando disponibilidade</span></div>' +
+      '<div class="p-item" data-i="1"><span class="p-check"></span><span>Calculando condições</span></div>' +
+      '<div class="p-item" data-i="2"><span class="p-check"></span><span>Preparando sua proposta</span></div>' +
+      "</div>" +
+      "</div>";
+  } else if (state.step === "semofertas") {
+    html =
+      '<div class="quiz-center">' +
+      '<div style="font-size:30px;margin-bottom:8px;">🙏</div>' +
+      '<p style="font-weight:600;font-size:15px;margin-bottom:8px;">Obrigado pelo seu interesse!</p>' +
+      '<p class="quiz-lead">No momento não temos uma condição que encaixe com o que você respondeu. Fique à vontade pra voltar outra hora ou acompanhar nossas novidades.</p>' +
+      "</div>";
+  } else if (state.step === "contato") {
+    html =
+      backBtn() +
+      '<p class="quiz-step-title">Só mais um passinho!</p>' +
+      '<div class="quiz-reassurance">🔒 Sem spam — é rapidinho e o vendedor já te chama no WhatsApp.</div>' +
+      '<div class="quiz-field">' +
+        '<label class="quiz-label" for="q-nome">Nome</label>' +
+        '<div class="quiz-input-wrap">' + ICON_PERSON +
+          '<input class="quiz-input" id="q-nome" placeholder="Como podemos te chamar?" autocomplete="name">' +
+        '</div>' +
+        '<p class="quiz-field-error" id="q-nome-err">Digite seu nome</p>' +
+      '</div>' +
+      '<div class="quiz-field">' +
+        '<label class="quiz-label" for="q-celular">Celular (WhatsApp)</label>' +
+        '<div class="quiz-input-wrap">' + ICON_PHONE +
+          '<input class="quiz-input" id="q-celular" type="tel" inputmode="tel" placeholder="(41) 99999-9999" autocomplete="tel" maxlength="16">' +
+        '</div>' +
+        '<p class="quiz-field-error" id="q-celular-err">Digite um celular válido com DDD</p>' +
+      '</div>' +
+      '<div class="quiz-field">' +
+        '<label class="quiz-label" for="q-email">E-mail</label>' +
+        '<div class="quiz-input-wrap">' + ICON_EMAIL +
+          '<input class="quiz-input" id="q-email" type="email" inputmode="email" placeholder="seu@email.com" autocomplete="email">' +
+        '</div>' +
+        '<p class="quiz-field-error" id="q-email-err">Digite um e-mail válido</p>' +
+      '</div>' +
+      '<button type="button" class="btn-primary" style="width:100%;border-radius:4px;" onclick="submitContato()">Continuar</button>';
+  } else if (state.step === "resumo") {
+    html = renderResumo();
+  }
+
+  quizRoot.classList.remove("quiz-anim-in");
+  quizRoot.innerHTML = html;
+  void quizRoot.offsetWidth;
+  quizRoot.classList.add("quiz-anim-in");
+
+  if (state.step === "contato") {
+    const nomeInput = document.getElementById("q-nome");
+    if (nomeInput) nomeInput.focus();
+    attachPhoneMask();
+  }
+
+  if (state.step === "processando") {
+    const items = quizRoot.querySelectorAll(".processing-steps .p-item");
+    items.forEach(function (el, i) {
+      setTimeout(function () {
+        el.classList.add("active");
+      }, 250 + i * 380);
+    });
+    setTimeout(function () {
+      go(state.pendingAfterProcessing || "contato");
+    }, 1450);
+  }
+}
+
+const ICON_PERSON =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8780" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
+const CHECK_SVG_LG =
+  '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+const ICON_PHONE =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8780" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>';
+const ICON_EMAIL =
+  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8780" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>';
+
+function attachPhoneMask() {
+  const el = document.getElementById("q-celular");
+  if (!el) return;
+  el.addEventListener("input", function () {
+    let v = el.value.replace(/\D/g, "").slice(0, 11);
+    if (v.length > 6) el.value = "(" + v.slice(0, 2) + ") " + v.slice(2, 7) + "-" + v.slice(7);
+    else if (v.length > 2) el.value = "(" + v.slice(0, 2) + ") " + v.slice(2);
+    else if (v.length > 0) el.value = "(" + v;
+    else el.value = "";
+  });
+}
+
+function showLoading(message) {
+  quizRoot.innerHTML = '<div class="quiz-loading"><p>' + message + "</p></div>";
+}
+
+function clearFieldErrors() {
+  ["q-nome", "q-celular", "q-email"].forEach(function (id) {
+    const input = document.getElementById(id);
+    const err = document.getElementById(id + "-err");
+    if (input) input.classList.remove("invalid");
+    if (err) err.classList.remove("show");
+  });
+}
+function showFieldError(id) {
+  const input = document.getElementById(id);
+  const err = document.getElementById(id + "-err");
+  if (input) input.classList.add("invalid");
+  if (err) err.classList.add("show");
+}
+
+function submitContato() {
+  const nome = document.getElementById("q-nome").value.trim();
+  const celular = document.getElementById("q-celular").value.trim();
+  const email = document.getElementById("q-email").value.trim();
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const celularOk = celular.replace(/\D/g, "").length >= 10;
+
+  clearFieldErrors();
+  let hasError = false;
+  if (!nome) {
+    showFieldError("q-nome");
+    hasError = true;
+  }
+  if (!celularOk) {
+    showFieldError("q-celular");
+    hasError = true;
+  }
+  if (!emailOk) {
+    showFieldError("q-email");
+    hasError = true;
+  }
+  if (hasError) return;
+
+  setAnswer("nome", nome);
+  setAnswer("email", email);
+  setAnswer("celular", celular);
+  setAnswer("event_id", fbEventId());
+  const classification = calculateScore(state.a);
+  setAnswer("pontuacao", classification.pontuacao);
+  setAnswer("lead_status", classification.lead_status);
+  showLoading("Enviando seus dados...");
+  sendToSheets().finally(function () {
+    go(nextAfter("contato", state.a));
+  });
+}
+
+/* ---------- Google Sheets ---------- */
+function sendToSheets() {
+  const veiculoLabel =
+    { correto: "Sim, é esse mesmo", parcial: "Mais ou menos, mas gostei", outro: "Não, quer outro modelo" }[
+      state.a.veiculo
+    ] || "";
+  const pagamentoLabel = { troca: "Troca", financiamento: "Financiamento", avista: "À vista" }[state.a.pagamento] || "";
+
+  const payload = Object.assign(
+    {
+      timestamp: new Date().toISOString(),
+      nome: state.a.nome,
+      email: state.a.email,
+      celular: state.a.celular,
+      pontuacao: state.a.pontuacao,
+      urgencia: state.a.urgencia,
+      pagamento: pagamentoLabel,
+      veiculo: veiculoLabel + (VEHICLE_NAME ? " | Anúncio: " + VEHICLE_NAME : ""),
+    },
+    getUTMs()
+  );
+
+  pushDataLayer({ event: "lead_qualificado", lead_data: payload });
+  pushDataLayer({
+    event: "Lead",
+    event_id: state.a.event_id,
+    action_source: "website",
+    value: 1,
+    currency: "BRL",
+    lead_status: state.a.lead_status,
+    pontuacao: state.a.pontuacao,
+  });
+  pushDataLayer({
+    event: "generate_lead",
+    event_id: state.a.event_id,
+    lead_status: state.a.lead_status,
+    pontuacao: state.a.pontuacao,
+  });
+  if (state.a.lead_status === "quente") {
+    pushDataLayer({ event: "Lead_Quente", pontuacao: state.a.pontuacao, lead_data: payload });
+  }
+
+  if (!SHEETS_ENDPOINT || SHEETS_ENDPOINT.indexOf("COLE_AQUI") === 0) {
+    console.warn("[Prisma Quiz] SHEETS_ENDPOINT não configurado — nenhum dado foi enviado ao Sheets.");
+    return Promise.resolve();
+  }
+
+  const qs = Object.keys(payload)
+    .map(function (key) {
+      return encodeURIComponent(key) + "=" + encodeURIComponent(payload[key] || "");
+    })
+    .join("&");
+  const url = SHEETS_ENDPOINT + "?" + qs;
+
+  return fetch(url, { method: "GET", mode: "no-cors" })
+    .then(function () {
+      console.log("[Prisma Quiz] Lead enviado (modo no-cors não confirma sucesso — confira a planilha).");
+    })
+    .catch(function (err) {
+      console.error("[Prisma Quiz] Erro ao enviar lead pro Sheets:", err);
+    });
+}
+
+/* ---------- Resumo final ---------- */
+function renderResumo() {
+  const a = state.a;
+  const primeiroNome = (a.nome || "").split(" ")[0] || "você";
+  const urgenciaLabel =
+    { semana: "Essa semana", mes: "Esse mês", "3meses": "3 meses", pesquisando: "Pesquisando" }[a.urgencia] || "-";
+  const pagamentoLabel = { troca: "Troca", financiamento: "Financiamento", avista: "À vista" }[a.pagamento] || "-";
+  const veiculoLabel =
+    { correto: "É esse mesmo carro", parcial: "Parecido com o que procura", outro: "Procura outro modelo" }[
+      a.veiculo
+    ] || "-";
+
+  let mensagem = "Vamos preparar as melhores condições pra você.";
+  if (a.pagamento === "financiamento") mensagem = "Já vamos separar as condições de financiamento que combinam com seu perfil.";
+  if (a.pagamento === "avista") mensagem = "Já vamos preparar as opções pra fechar à vista.";
+  if (a.pagamento === "troca") mensagem = "Já vamos preparar as condições pra avaliar seu carro na troca.";
+  if (a.urgencia === "semana") mensagem += " Como é pra essa semana, priorizamos seu atendimento.";
+
+  const utms = getUTMs();
+  const origemLinhas =
+    (utms.utm_campaign ? "Campanha: " + utms.utm_campaign + "\n" : "") +
+    (utms.utm_content ? "Anúncio: " + utms.utm_content + "\n" : "");
+
+  const waText = encodeURIComponent(
+    "Olá! Respondi algumas perguntas no site sobre o anúncio.\n" +
+      "Nome: " + a.nome + "\n" +
+      (VEHICLE_NAME ? "Veículo anunciado: " + VEHICLE_NAME + "\n" : "") +
+      "Interesse: " + veiculoLabel + "\n" +
+      "Pagamento: " + pagamentoLabel + "\n" +
+      "Urgência: " + urgenciaLabel + "\n" +
+      origemLinhas
+  );
+  const waLink = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + waText;
+
+  return (
+    '<div class="quiz-center" style="margin-bottom:16px;">' +
+    '<div class="result-check-circle">' + CHECK_SVG_LG + "</div>" +
+    '<p style="font-weight:600;font-size:16px;margin:0 0 4px;">Prontinho, ' + primeiroNome + "!</p>" +
+    '<p style="font-size:12px;color:var(--text-secondary);margin:0;">Seu resumo já foi montado</p>' +
+    "</div>" +
+    '<div style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;margin-bottom:14px;">' +
+    (VEHICLE_NAME ? '<div class="quiz-resumo-row"><span class="r-label">Veículo</span><span class="r-value">' + VEHICLE_NAME + "</span></div>" : '<div class="quiz-resumo-row"><span class="r-label">Interesse</span><span class="r-value">' + veiculoLabel + "</span></div>") +
+    '<div class="quiz-resumo-row"><span class="r-label">Pagamento</span><span class="r-value">' + pagamentoLabel + "</span></div>" +
+    '<div class="quiz-resumo-row"><span class="r-label">Urgência</span><span class="quiz-badge-sm">' + urgenciaLabel + "</span></div>" +
+    "</div>" +
+    '<div class="quiz-note">' + mensagem + "</div>" +
+    '<a href="' + waLink + '" target="_blank" class="btn-whatsapp" onclick="dataLayerWhatsappClick()">💬 Falar agora no WhatsApp</a>'
+  );
+}
+
+function dataLayerWhatsappClick() {
+  pushDataLayer({
+    event: "whatsapp_click",
+    lead_status: state.a.lead_status,
+    pontuacao: state.a.pontuacao,
+    event_id: state.a.event_id,
+  });
+  pushDataLayer({
+    event: "Lead_Qualificado",
+    event_id: state.a.event_id,
+    pontuacao: state.a.pontuacao,
+    lead_status: state.a.lead_status,
+    veiculo: state.a.veiculo,
+    orcamento: state.a.orcamento,
+    pagamento: state.a.pagamento || "",
+  });
+}
+
+/* ---------- Inicialização direta (sem botão CTA, sem overlay) ---------- */
+render();
+
+
+</script>
+</body>
+</html>
