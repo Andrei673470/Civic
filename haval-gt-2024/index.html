@@ -513,10 +513,7 @@
         <label for="tdCelular">Celular</label>
         <input type="tel" id="tdCelular" placeholder="(11) 91234-5678" oninput="toggleTdSubmit()">
       </div>
-      <a class="cta-inline disabled" id="tdWhatsBtn" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.89.53 3.66 1.44 5.17L2 22l4.97-1.4C8.44 21.5 10.17 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-.86.22-2.9-.6-2.46-.98-4-3.5-4.13-3.66-.12-.16-.98-1.3-.98-2.48s.62-1.76.84-2c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.5.7 1.7.76 1.83.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.6 1 1.3 1.62.9.8 1.65 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.16 1.2z"/></svg>
-        Falar com consultor no WhatsApp
-      </a>
+      <button class="cta-inline disabled" id="tdContinuarBtn" style="background:var(--amber); color:#1a1406;" disabled>Continuar</button>
       <button class="back-btn" style="background:none;border:none;color:var(--text-dim);font-size:13px;margin-top:12px;cursor:pointer;width:100%;" onclick="goToStep1()">← Voltar</button>
     </div>
   </section>
@@ -597,7 +594,21 @@
 
 <div class="buffer-overlay" id="bufferOverlay">
   <div class="buffer-spinner"></div>
-  <div class="buffer-text">Verificando condição especial para você...</div>
+  <div class="buffer-text" id="bufferText">Verificando condição especial para você...</div>
+</div>
+
+<div class="discount-popup" id="entradaPopup">
+  <div class="discount-card">
+    <button class="discount-close" onclick="closeEntradaPopup()">&times;</button>
+    <div class="discount-eyebrow">PEDROSO MULTIMARCAS</div>
+    <h3 class="discount-title" id="entradaPopupTitulo">Perfeito!</h3>
+    <p class="discount-text" id="entradaPopupTexto">Recebemos seus dados. Agora você será direcionado para o WhatsApp da nossa equipe pra continuar sua negociação e receber a avaliação do seu veículo de entrada.</p>
+    <div class="discount-note">É só clicar no botão abaixo pra falar com um consultor agora.</div>
+    <a class="cta-inline" id="entradaWhatsBtn" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.89.53 3.66 1.44 5.17L2 22l4.97-1.4C8.44 21.5 10.17 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-.86.22-2.9-.6-2.46-.98-4-3.5-4.13-3.66-.12-.16-.98-1.3-.98-2.48s.62-1.76.84-2c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.5.7 1.7.76 1.83.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.6 1 1.3 1.62.9.8 1.65 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.16 1.2z"/></svg>
+      Ir para o WhatsApp agora
+    </a>
+  </div>
 </div>
 
 <div class="discount-popup" id="discountPopup">
@@ -721,6 +732,7 @@
   // ---------- Fluxo: Comprar à vista (buffer + popup de desconto) ----------
   function iniciarCompraAvista(){
     window.dataLayer.push({ event: 'clique_comprar_avista', veiculo: 'Haval GT 1.5 2024' });
+    document.getElementById('bufferText').textContent = 'Verificando condição especial para você...';
     document.getElementById('bufferOverlay').classList.add('open');
     setTimeout(() => {
       document.getElementById('bufferOverlay').classList.remove('open');
@@ -932,33 +944,32 @@
   const tdNome = document.getElementById('tdNome');
   const tdEmail = document.getElementById('tdEmail');
   const tdCelular = document.getElementById('tdCelular');
-  const tdWhatsBtn = document.getElementById('tdWhatsBtn');
+  const tdContinuarBtn = document.getElementById('tdContinuarBtn');
 
   function toggleTdSubmit(){
     const ok = tdNome.value.trim().length > 1 && tdEmail.value.trim().length > 4 && tdCelular.value.trim().length > 7;
-    tdWhatsBtn.classList.toggle('disabled', !ok);
-    if(ok){
-      const entradaInfo = `${marcaSelect.value} ${modeloSelect.value} ${anoSelect.value}`;
-      const msg = `Olá! Tenho interesse na Haval GT 1.5 2024.%0A` +
-        `Veículo de entrada: ${entradaInfo}%0A` +
-        `Nome: ${tdNome.value}%0A` +
-        `E-mail: ${tdEmail.value}%0A` +
-        `Celular: ${tdCelular.value}`;
-      tdWhatsBtn.href = `https://wa.me/5541997730107?text=${msg}`;
-    } else {
-      tdWhatsBtn.removeAttribute('href');
-    }
+    tdContinuarBtn.disabled = !ok;
+    tdContinuarBtn.classList.toggle('disabled', !ok);
   }
 
-  // ---------- Tracking: Lead qualificado (com dados de contato p/ Advanced Matching) ----------
-  tdWhatsBtn.addEventListener('click', () => {
+  // ---------- Tracking + popup persuasivo: dispara o lead ANTES de ir pro WhatsApp ----------
+  tdContinuarBtn.addEventListener('click', () => {
     const veiculoEntradaVal = `${marcaSelect.value} ${modeloSelect.value} ${anoSelect.value}`;
+    const primeiroNome = tdNome.value.trim().split(' ')[0];
+
+    const msg = `Olá! Tenho interesse na Haval GT 1.5 2024.%0A` +
+      `Veículo de entrada: ${veiculoEntradaVal}%0A` +
+      `Nome: ${tdNome.value}%0A` +
+      `E-mail: ${tdEmail.value}%0A` +
+      `Celular: ${tdCelular.value}`;
+
+    // dispara o tracking primeiro, com tempo de sobra antes do usuário sair da página
     window.dataLayer.push({
       event: 'lead_veiculo_entrada',
       veiculo: 'Haval GT 1.5 2024',
       veiculo_entrada: veiculoEntradaVal,
       user_data: {
-        first_name: tdNome.value.trim().split(' ')[0],
+        first_name: primeiroNome,
         email: tdEmail.value.trim().toLowerCase(),
         phone_number: tdCelular.value.replace(/\D/g, '')
       }
@@ -970,7 +981,21 @@
       celular: tdCelular.value.trim(),
       veiculo_entrada: veiculoEntradaVal
     });
+
+    document.getElementById('bufferText').textContent = 'Confirmando seus dados, ' + primeiroNome + '...';
+    document.getElementById('bufferOverlay').classList.add('open');
+
+    setTimeout(() => {
+      document.getElementById('bufferOverlay').classList.remove('open');
+      document.getElementById('entradaPopupTitulo').textContent = 'Perfeito, ' + primeiroNome + '!';
+      document.getElementById('entradaWhatsBtn').href = `https://wa.me/5541997730107?text=${msg}`;
+      document.getElementById('entradaPopup').classList.add('open');
+    }, 1400);
   });
+
+  function closeEntradaPopup(){
+    document.getElementById('entradaPopup').classList.remove('open');
+  }
 </script>
 
 </body>
