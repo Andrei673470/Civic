@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- Google Tag Manager (server-side via Stape) -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://sgtm.pedrosomultimarcassjp.site/1fdibxgliq.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','7=GA1RICwvRCpJUCQvMjUtQgdUXklJRA0KTBkJAwoNGgscHAATEQ8IFhIIHxQSEkcXGB0J');</script>
+<!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ford Ka SE Hatch 1.0 2019 — Repasse</title>
@@ -291,14 +294,33 @@ footer{padding:26px 0 90px;color:var(--text-faint);font-size:12.5px;border-top:1
 
 .back-link{background:none;border:none;color:var(--text-dim);font-size:13px;margin-bottom:14px;padding:0;text-decoration:underline;}
 
+/* ---------- buffer / loader ---------- */
+.buffer-overlay{
+  position:fixed;inset:0;background:rgba(8,9,13,0.92);
+  z-index:120;display:none;align-items:center;justify-content:center;
+  flex-direction:column;gap:18px;
+}
+.buffer-overlay.open{display:flex;}
+.buffer-spinner{
+  width:44px;height:44px;border-radius:50%;
+  border:3px solid var(--border);border-top-color:var(--accent);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.buffer-text{color:var(--text-dim);font-size:14px;text-align:center;padding:0 30px;}
+
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;}
   .modal{animation:none;}
   .gallery-item:hover img{transform:none;}
+  .buffer-spinner{animation:none;}
 }
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://sgtm.pedrosomultimarcassjp.site/ns.html?id=GTM-N89HHJWD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <!-- ============ TOPBAR ============ -->
 <div class="topbar">
@@ -527,6 +549,14 @@ footer{padding:26px 0 90px;color:var(--text-faint);font-size:12.5px;border-top:1
   </div>
 </div>
 
+<!-- ============================================================
+     LOADER — aparece por um instante entre o envio do form e o WhatsApp
+     ============================================================ -->
+<div class="buffer-overlay" id="bufferOverlay">
+  <div class="buffer-spinner"></div>
+  <div class="buffer-text" id="bufferText">Confirmando seus dados...</div>
+</div>
+
 <script>
 /* ============================================================
    RASTREAMENTO — page_view, view_content, lead_repasse, contact
@@ -544,6 +574,28 @@ function trackEvent(eventName, payload){
     fbq('track', fbMap[eventName] || eventName, payload);
   }
   console.log('[track]', eventName, payload);
+}
+
+/* ============================================================
+   PLANILHA — grava cada evento numa Google Sheet via Apps Script
+   1. No Google Sheets: Extensões > Apps Script > cole um doGet(e)
+      que pegue e.parameter e adicione uma linha na planilha.
+   2. Implante como Web App (executar como "eu", acesso "qualquer pessoa").
+   3. Cole a URL do Web App (termina em /exec) abaixo.
+   ============================================================ */
+var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyjaGMx4U19YsJ88SYlvPX6DpmD-d2sTwM_lE8VckHl3mYlylJ_xlrgKcZkVRZ8mBQVLw/exec';
+
+function sendToSheet(payload){
+  if (!SHEET_ENDPOINT) return;
+  var body = Object.assign({
+    timestamp: new Date().toISOString(),
+    veiculo: 'Ford Ka SE Hatch 1.0 2019',
+    pagina: window.location.href
+  }, payload);
+  var params = new URLSearchParams();
+  Object.keys(body).forEach(function(k){ params.append(k, body[k] == null ? '' : String(body[k])); });
+  // GET evita o bug conhecido do Apps Script: POST some no redirect 302 (script.google.com -> googleusercontent.com)
+  fetch(SHEET_ENDPOINT + '?' + params.toString(), { method:'GET', mode:'no-cors' }).catch(function(){});
 }
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -631,7 +683,7 @@ frame.addEventListener('touchend', function(){
 /* ============================================================
    MODAIS / QUIZ / LEAD / WHATSAPP
    ============================================================ */
-var WHATS_NUMBER = "5541999999999"; // <-- troque pelo número real (DDI+DDD+numero, só dígitos)
+var WHATS_NUMBER = "5541997730107"; // número real
 var selectedProfile = null;
 var leadSource = null;
 
@@ -676,18 +728,38 @@ function submitLead(e){
 
   if(!ok) return false;
 
+  var nomeVal = nome.value.trim();
+  var primeiroNome = nomeVal.split(' ')[0];
+
   trackEvent('lead_repasse', {
     profile: selectedProfile,
     source: leadSource,
     email: email.value.trim(),
-    name: nome.value.trim(),
+    name: nomeVal,
     phone: cel.value.trim(),
     vehicle: 'Ford Ka SE Hatch 1.0 2019',
     value: 37000,
     currency: 'BRL'
   });
+  sendToSheet({
+    evento: 'lead_repasse',
+    perfil: selectedProfile,
+    origem: leadSource,
+    nome: nomeVal,
+    email: email.value.trim(),
+    celular: cel.value.trim()
+  });
 
-  showOverlay('overlayWhats');
+  document.getElementById('bufferText').textContent = 'Confirmando seus dados, ' + (primeiroNome || '') + '...';
+  closeAll(); // fecha o form por baixo do loader
+  document.getElementById('bufferOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  setTimeout(function(){
+    document.getElementById('bufferOverlay').classList.remove('open');
+    showOverlay('overlayWhats');
+  }, 1300);
+
   return false;
 }
 function goToWhats(){
@@ -697,6 +769,11 @@ function goToWhats(){
     profile: selectedProfile,
     source: leadSource,
     vehicle: 'Ford Ka SE Hatch 1.0 2019'
+  });
+  sendToSheet({
+    evento: 'contact',
+    perfil: selectedProfile,
+    origem: leadSource
   });
   var url = 'https://wa.me/' + WHATS_NUMBER + '?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
