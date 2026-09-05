@@ -348,18 +348,24 @@
 
   /* ---- Desktop: evita que topo, galeria e barra fixa esticem full-width ---- */
   @media (min-width: 760px){
+    .wrap{
+      max-width: 860px;
+    }
     .topbar, .hero-gallery-wrap, .sticky-cta{
-      max-width: 720px;
+      max-width: 860px;
       margin-left: auto;
       margin-right: auto;
     }
     .hero-gallery .slide{
-      aspect-ratio: unset;
-      height: 420px;
+      aspect-ratio: 1/1;
+      height: auto;
+      background-size: cover;
     }
     .sticky-cta{
       left:0; right:0;
     }
+    .price-block .model{ font-size: 26px; }
+    .price-block .price{ font-size: 40px; }
   }
 </style>
 </head>
@@ -383,7 +389,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
   </button>
   <div class="hero-count" id="heroCount"></div>
-</div>
+
 
 <div class="wrap">
   <div class="price-block">
@@ -492,6 +498,10 @@
       <div class="field">
         <label for="modeloSelect">Modelo</label>
         <select id="modeloSelect" disabled><option value="">Selecione a marca primeiro</option></select>
+      </div>
+      <div class="field" id="modeloOutroField" style="display:none;">
+        <label for="modeloOutroInput">Digite a marca e o modelo</label>
+        <input type="text" id="modeloOutroInput" placeholder="Ex: Kia Sportage 2019" oninput="checkTdStep1()">
       </div>
       <div class="field">
         <label for="anoSelect">Ano</label>
@@ -856,21 +866,36 @@
 
   // ---------- Fluxo de veículo de entrada ----------
   const MARCAS = {
-    "Volkswagen": ["Tiguan", "T-Cross", "Nivus", "Polo", "Virtus", "Jetta", "Gol"],
-    "Chevrolet": ["Onix", "Prisma", "Tracker", "S10", "Cruze", "Spin"],
-    "Fiat": ["Argo", "Mobi", "Toro", "Strada", "Pulse", "Cronos"],
-    "Ford": ["Ka", "EcoSport", "Ranger", "Territory"],
-    "Toyota": ["Corolla", "Hilux", "Yaris", "SW4", "RAV4"],
-    "Honda": ["Civic", "HR-V", "City", "Fit"],
-    "Hyundai": ["HB20", "Creta", "Tucson", "ix35"],
-    "Jeep": ["Renegade", "Compass", "Commander"],
+    "Volkswagen": ["Tiguan", "T-Cross", "Nivus", "Polo", "Virtus", "Jetta", "Gol", "Voyage", "Saveiro", "Amarok", "Taos"],
+    "Chevrolet": ["Onix", "Prisma", "Tracker", "S10", "Cruze", "Spin", "Montana", "Equinox", "Trailblazer", "Celta"],
+    "Fiat": ["Argo", "Mobi", "Toro", "Strada", "Pulse", "Cronos", "Uno", "Palio", "Fastback", "Fiorino"],
+    "Ford": ["Ka", "EcoSport", "Ranger", "Territory", "Fiesta", "Focus", "Fusion", "Edge"],
+    "Toyota": ["Corolla", "Hilux", "Yaris", "SW4", "RAV4", "Corolla Cross", "Etios", "Camry"],
+    "Honda": ["Civic", "HR-V", "City", "Fit", "WR-V", "CR-V", "Accord"],
+    "Hyundai": ["HB20", "Creta", "Tucson", "ix35", "Santa Fe", "HB20S", "Azera"],
+    "Jeep": ["Renegade", "Compass", "Commander", "Wrangler", "Grand Cherokee"],
     "Haval": ["H6", "H6 GT", "GT", "Jolion"],
-    "Renault": ["Kwid", "Sandero", "Duster", "Logan"],
-    "Nissan": ["Kicks", "Versa", "Frontier"],
-    "Peugeot": ["208", "2008", "3008"],
-    "BMW": ["X1", "320i", "X3"],
-    "Mercedes-Benz": ["GLA", "C180", "CLA"],
-    "Audi": ["A3", "Q3", "A4"]
+    "Renault": ["Kwid", "Sandero", "Duster", "Logan", "Captur", "Oroch", "Stepway"],
+    "Nissan": ["Kicks", "Versa", "Frontier", "Sentra", "March"],
+    "Peugeot": ["208", "2008", "3008", "308", "408"],
+    "Citroën": ["C3", "C4 Cactus", "Aircross", "C4"],
+    "BMW": ["X1", "320i", "X3", "X5", "118i", "M3"],
+    "Mercedes-Benz": ["GLA", "C180", "CLA", "GLC", "A200"],
+    "Audi": ["A3", "Q3", "A4", "Q5", "A1"],
+    "Volvo": ["XC60", "XC40", "S60"],
+    "Land Rover": ["Evoque", "Discovery", "Defender"],
+    "Mitsubishi": ["ASX", "Outlander", "L200", "Eclipse Cross"],
+    "Suzuki": ["Vitara", "Jimny", "S-Cross"],
+    "Subaru": ["Forester", "XV", "Impreza"],
+    "Kia": ["Sportage", "Cerato", "Sorento", "Stonic"],
+    "RAM": ["1500", "2500", "Rampage"],
+    "BYD": ["Dolphin", "Song Plan", "Yuan Plus", "Seal"],
+    "Chery/Caoa Chery": ["Tiggo 5x", "Tiggo 7", "Tiggo 8", "Arrizo 6"],
+    "JAC": ["T40", "T50", "e-JS1"],
+    "GWM": ["Poer", "Ora 03"],
+    "Mini": ["Cooper", "Countryman"],
+    "Porsche": ["Macan", "Cayenne"],
+    "Outra marca (não está na lista)": []
   };
 
   const marcaSelect = document.getElementById('marcaSelect');
@@ -887,19 +912,39 @@
   const anos = [];
   for(let y = 2026; y >= 2008; y--){ anos.push(y); }
 
+  const OUTRA_MARCA = "Outra marca (não está na lista)";
+  const modeloOutroField = document.getElementById('modeloOutroField');
+  const modeloOutroInput = document.getElementById('modeloOutroInput');
+
   marcaSelect.addEventListener('change', () => {
     modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
-    anoSelect.innerHTML = '<option value="">Selecione o modelo primeiro</option>';
-    anoSelect.disabled = true;
-    if(marcaSelect.value){
-      MARCAS[marcaSelect.value].forEach(modelo => {
-        const opt = document.createElement('option');
-        opt.value = modelo; opt.textContent = modelo;
-        modeloSelect.appendChild(opt);
-      });
-      modeloSelect.disabled = false;
-    } else {
+    anoSelect.innerHTML = '<option value="">Selecione o ano</option>';
+
+    if(marcaSelect.value === OUTRA_MARCA){
       modeloSelect.disabled = true;
+      modeloSelect.style.display = 'none';
+      modeloOutroField.style.display = 'block';
+      anos.forEach(y => {
+        const opt = document.createElement('option');
+        opt.value = y; opt.textContent = y;
+        anoSelect.appendChild(opt);
+      });
+      anoSelect.disabled = false;
+    } else {
+      modeloOutroField.style.display = 'none';
+      modeloSelect.style.display = '';
+      anoSelect.disabled = true;
+      anoSelect.innerHTML = '<option value="">Selecione o modelo primeiro</option>';
+      if(marcaSelect.value){
+        MARCAS[marcaSelect.value].forEach(modelo => {
+          const opt = document.createElement('option');
+          opt.value = modelo; opt.textContent = modelo;
+          modeloSelect.appendChild(opt);
+        });
+        modeloSelect.disabled = false;
+      } else {
+        modeloSelect.disabled = true;
+      }
     }
     checkTdStep1();
   });
@@ -922,7 +967,12 @@
   anoSelect.addEventListener('change', checkTdStep1);
 
   function checkTdStep1(){
-    const ok = marcaSelect.value && modeloSelect.value && anoSelect.value;
+    let ok;
+    if(marcaSelect.value === OUTRA_MARCA){
+      ok = modeloOutroInput.value.trim().length > 1 && anoSelect.value;
+    } else {
+      ok = marcaSelect.value && modeloSelect.value && anoSelect.value;
+    }
     tdContinueBtn.disabled = !ok;
     tdContinueBtn.classList.toggle('disabled', !ok);
   }
@@ -954,7 +1004,9 @@
 
   // ---------- Tracking + popup persuasivo: dispara o lead ANTES de ir pro WhatsApp ----------
   tdContinuarBtn.addEventListener('click', () => {
-    const veiculoEntradaVal = `${marcaSelect.value} ${modeloSelect.value} ${anoSelect.value}`;
+    const veiculoEntradaVal = marcaSelect.value === OUTRA_MARCA
+      ? `${modeloOutroInput.value.trim()} ${anoSelect.value}`
+      : `${marcaSelect.value} ${modeloSelect.value} ${anoSelect.value}`;
     const primeiroNome = tdNome.value.trim().split(' ')[0];
 
     const msg = `Olá! Tenho interesse na Haval GT 1.5 2024.%0A` +
