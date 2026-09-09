@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedroso Multimarcas — São José dos Pinhais</title>
+
+<!--
+  ==========================================================================
+  RASTREAMENTO (Meta Pixel / GTM)
+  Substitua "SEU_PIXEL_ID_AQUI" pelo ID real do seu Pixel do Meta.
+  Se você usa Google Tag Manager, os eventos também são empurrados para
+  window.dataLayer automaticamente (veja a função trackEvent() no <script>
+  principal, no fim do arquivo).
+  ==========================================================================
+-->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #0D0C0E;
+    --panel: #18161A;
+    --panel-raised: #221F23;
+    --panel-raised-hover: #2A2529;
+    --border: #322D31;
+    --orange: #FF6B2C;
+    --orange-soft: #FFA366;
+    --orange-dim: rgba(255,107,44,.14);
+    --orange-dim-strong: rgba(255,107,44,.24);
+    --text: #F5F1EC;
+    --muted: #9C9498;
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background:
+      radial-gradient(circle at 15% -10%, rgba(255,107,44,.10) 0%, transparent 45%),
+      linear-gradient(180deg, #0F0D10 0%, #0D0C0E 100%);
+    color: var(--text);
+    font-family: 'Manrope', -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+
+  body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 16px 60px;
+  }
+
+  .app { width: 100%; max-width: 440px; }
+
+  h1, h2, h3 {
+    font-family: 'Oswald', 'Manrope', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes popIn {
+    0%   { opacity: 0; transform: scale(.85); }
+    60%  { opacity: 1; transform: scale(1.04); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes pulseRing {
+    0%   { box-shadow: 0 0 0 0 rgba(255,107,44,.35); }
+    70%  { box-shadow: 0 0 0 14px rgba(255,107,44,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,107,44,0); }
+  }
+
+  @keyframes drawCheck {
+    from { stroke-dashoffset: 32; }
+    to   { stroke-dashoffset: 0; }
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -120px 0; }
+    100% { background-position: 220px 0; }
+  }
+
+  /* ---------- Store header ---------- */
+  .store-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    animation: fadeSlideUp .5s ease both;
+  }
+
+  .store-badge {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .store-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .store-name { font-size: 17.5px; margin: 0; line-height: 1.2; }
+
+  .store-loc {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 3px 0 0;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  /* ---------- Vehicle hero ---------- */
+  .hero {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 18px;
+    overflow: hidden;
+    animation: fadeSlideUp .5s ease .05s both;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--orange-dim) 0%, transparent 70%);
+  }
+
+  .hero-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    color: var(--orange-soft);
+    font-size: 12.5px;
+    margin: 0 0 4px;
+  }
+
+  .hero h2 {
+    font-size: 21px;
+    margin: 0 0 6px;
+    line-height: 1.18;
+  }
+
+  .verified-badge {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--orange-dim-strong);
+    border: 1px solid rgba(255,107,44,.4);
+    border-radius: 999px;
+    padding: 5px 10px 5px 8px;
+    font-size: 11.5px;
+    color: var(--orange-soft);
+    white-space: nowrap;
+  }
+
+  .hero-price {
+    font-size: 27px;
+    color: var(--orange);
+    margin: 0 0 12px;
+    font-family: 'Oswald', sans-serif;
+    position: relative;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+  }
+
+  .chip {
+    background: var(--panel-raised);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+  }
+
+  .chip.km {
+    color: var(--orange-soft);
+    border-color: rgba(255,107,44,.3);
+  }
+
+  /* ---------- Card / question flow ---------- */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 20px 20px;
+    animation: fadeSlideUp .45s ease both;
+  }
+
+  .progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .progress-label { font-size: 12.5px; color: var(--muted); }
+
+  .progress-pct {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    color: var(--orange);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .gauge {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 22px;
+  }
+
+  .gauge-seg {
+    height: 6px;
+    flex: 1;
+    border-radius: 3px;
+    background: var(--panel-raised);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .gauge-seg .fill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--orange-soft), var(--orange));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .45s cubic-bezier(.4,0,.2,1);
+  }
+
+  .gauge-seg.filled .fill { transform: scaleX(1); }
+
+  .q-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--orange-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    animation: popIn .4s ease both;
+  }
+
+  .question {
+    font-size: 19px;
+    line-height: 1.35;
+    margin: 0 0 18px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    background: var(--panel-raised);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease, transform .12s ease, box-shadow .15s ease;
+    opacity: 0;
+    animation: fadeSlideUp .4s ease forwards;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option:hover {
+    border-color: var(--orange);
+    background: var(--panel-raised-hover);
+    transform: translateY(-1px);
+  }
+
+  .option:active { transform: scale(0.98); }
+
+  .option:disabled { cursor: default; }
+
+  .option .dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--muted);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color .2s ease, background .2s ease;
+  }
+
+  .option:hover .dot { border-color: var(--orange); }
+
+  .option .dot svg {
+    width: 12px;
+    height: 12px;
+    opacity: 0;
+    transform: scale(.4);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+
+  .option.selected {
+    border-color: var(--orange);
+    background: var(--orange-dim-strong);
+    box-shadow: 0 0 0 1px var(--orange);
+  }
+
+  .option.selected .dot {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+
+  .option.selected .dot svg { opacity: 1; transform: scale(1); }
+
+  .option.dimmed { opacity: .4 !important; }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+    padding: 0;
+  }
+
+  .back-link:hover { color: var(--text); }
+
+  /* ---------- Intro screen ---------- */
+  .intro h2 { font-size: 19px; margin: 0 0 10px; }
+
+  .intro p {
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+
+  .intro-lead {
+    color: var(--text);
+    font-size: 16.5px;
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+
+  .intro-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .intro-bullet {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  .intro-bullet .ico {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: var(--orange-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .btn-primary {
+    width: 100%;
+    background: linear-gradient(135deg, var(--orange-soft), var(--orange));
+    color: #1A1210;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 15.5px;
+    font-weight: 700;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: filter .15s ease, transform .1s ease;
+  }
+
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-primary:active { transform: scale(.98); }
+
+  /* ---------- Result screen ---------- */
+  .result-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--orange-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    animation: popIn .5s ease both;
+  }
+
+  .result-icon svg path {
+    stroke-dasharray: 32;
+    stroke-dashoffset: 32;
+    animation: drawCheck .5s ease .25s forwards;
+  }
+
+  .result h2 { font-size: 20px; margin: 0 0 10px; }
+
+  .result p {
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin: 0 0 22px;
+  }
+
+  .btn-whatsapp {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #25D366;
+    color: #0B2E1B;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 15.5px;
+    font-weight: 700;
+    font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+    transition: filter .15s ease, transform .1s ease;
+  }
+
+  .btn-whatsapp:hover { filter: brightness(1.06); }
+  .btn-whatsapp:active { transform: scale(.98); }
+
+  .footnote {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 18px;
+  }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 380px) {
+    .question { font-size: 17.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Store header -->
+  <div class="store-header">
+    <div class="store-badge"><img src="data:image/png;base64,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" alt="Pedroso Multimarcas"></div>
+    <div>
+      <h1 class="store-name">Pedroso Multimarcas</h1>
+      <p class="store-loc">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.2 7-12.5A7 7 0 0 0 5 9.5C5 14.8 12 22 12 22Z" stroke="#FF6B2C" stroke-width="2"/><circle cx="12" cy="9.5" r="2.4" stroke="#FF6B2C" stroke-width="2"/></svg>
+        São José dos Pinhais, PR
+      </p>
+    </div>
+  </div>
+
+  <!-- Vehicle hero -->
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <p class="hero-eyebrow">Anúncio selecionado</p>
+        <h2>Renault Duster Dynamique 1.6 2013</h2>
+      </div>
+      <span class="verified-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 5-3 8.5-7 9-4-.5-7-4-7-9V6l7-3Z" stroke="#FFA366" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#FFA366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Periciada e aprovada
+      </span>
+    </div>
+    <p class="hero-price">R$ 49.900</p>
+    <div class="chips">
+      <span class="chip">2013</span>
+      <span class="chip">Motor 1.6 16V</span>
+      <span class="chip">Câmbio manual</span>
+      <span class="chip">Versão Dynamique</span>
+      <span class="chip km">186.000 km</span>
+    </div>
+  </div>
+
+  <!-- Intro screen -->
+  <div class="card intro" id="screen-intro">
+    <p class="intro-lead">Responda 5 perguntas rápidas sobre esse Duster e nosso consultor já vai preparado com as informações certas, pra te dar o melhor atendimento possível — sem enrolação e sem perguntas repetidas.</p>
+    <div class="intro-bullets">
+      <div class="intro-bullet">
+        <span class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2" stroke="#FF6B2C" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#FF6B2C" stroke-width="2"/></svg></span>
+        Leva menos de 1 minuto
+      </div>
+      <div class="intro-bullet">
+        <span class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 12L10 18L20 6" stroke="#FF6B2C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Sem compromisso nenhum
+      </div>
+    </div>
+    <button class="btn-primary" onclick="startQuiz()">Começar agora</button>
+  </div>
+
+  <!-- Question screen -->
+  <div class="card hidden" id="screen-question">
+    <div class="progress-row">
+      <span class="progress-label" id="progress-label">Pergunta 1 de 5</span>
+      <span class="progress-pct" id="progress-pct">20%</span>
+    </div>
+    <div class="gauge" id="gauge"></div>
+    <div class="q-icon" id="q-icon"></div>
+    <p class="question" id="question-text"></p>
+    <div class="options" id="options-container"></div>
+    <button class="back-link hidden" id="back-btn" onclick="goBack()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#9C9498" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Voltar
+    </button>
+  </div>
+
+  <!-- Result screen -->
+  <div class="card hidden" id="screen-result">
+    <div class="result">
+      <div class="result-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12L10 18L20 6" stroke="#FF6B2C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 id="result-title">Prontinho!</h2>
+      <p id="result-text">Recebemos suas respostas.</p>
+      <a class="btn-whatsapp" id="whatsapp-btn" href="#" target="_blank" rel="noopener" onclick="onWhatsAppClick()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#0B2E1B"><path d="M17.6 6.3A8.9 8.9 0 0 0 3.1 16.9L2 22l5.2-1.4A9 9 0 1 0 17.6 6.3ZM12 20a7 7 0 0 1-3.6-1l-.3-.2-2.7.7.7-2.6-.2-.3A7 7 0 1 1 12 20Zm4-5.2c-.2-.1-1.3-.7-1.5-.7s-.4-.1-.5.1-.5.7-.6.8-.3.1-.5 0a5.7 5.7 0 0 1-1.7-1 6.4 6.4 0 0 1-1.2-1.5c-.1-.2 0-.3.1-.4l.3-.4.2-.3v-.3c0-.1-.5-1.2-.7-1.6s-.4-.4-.5-.4h-.4a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2 4.7 4.7 0 0 0 1 2.5 10.6 10.6 0 0 0 4.1 3.6c.6.2 1 .4 1.4.5a3.3 3.3 0 0 0 1.5.1 2.5 2.5 0 0 0 1.6-1.1 2 2 0 0 0 .1-1.1c-.1-.1-.2-.2-.4-.3Z"/></svg>
+        <span id="whatsapp-btn-label">Falar no WhatsApp</span>
+      </a>
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+  /* ==========================================================================
+     CONFIGURAÇÃO
+     ========================================================================== */
+  const STORE = {
+    name: "Pedroso Multimarcas",
+    city: "São José dos Pinhais",
+    state: "PR"
+  };
+
+  const VEHICLE = {
+    name: "Renault Duster Dynamique 1.6 2013",
+    price: 49900,
+    currency: "BRL",
+    km: 186000,
+    status: "Periciada e aprovada"
+  };
+
+  const WHATSAPP_NUMBER = "5541997730107"; // Pedroso Multimarcas — WhatsApp
+
+  /* ==========================================================================
+     PERGUNTAS (conforme especificação de qualificação de leads)
+     ========================================================================== */
+  const ICONS = {
+    urgencia: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 7v5l3.2 2" stroke="#FF6B2C" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#FF6B2C" stroke-width="2"/></svg>',
+    veiculo_interesse: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#FF6B2C" stroke-width="2"/><circle cx="12" cy="12" r="4.5" stroke="#FF6B2C" stroke-width="2"/><circle cx="12" cy="12" r="1" fill="#FF6B2C"/></svg>',
+    forma_pagamento: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.4" stroke="#FF6B2C" stroke-width="2"/><path d="M3 10h18" stroke="#FF6B2C" stroke-width="2"/></svg>',
+    disponibilidade_loja: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="16" rx="2.4" stroke="#FF6B2C" stroke-width="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="#FF6B2C" stroke-width="2" stroke-linecap="round"/></svg>',
+    barreira_compra: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 3v18M6 4h11l-2.5 3.5L17 11H6" stroke="#FF6B2C" stroke-width="2" stroke-linejoin="round"/></svg>'
+  };
+
+  const questions = [
+    {
+      key: "urgencia",
+      text: "Quando você pretende comprar seu próximo veículo?",
+      options: [
+        { text: "Nos próximos 7 dias", points: 30 },
+        { text: "Entre 8 e 30 dias", points: 25 },
+        { text: "Entre 1 e 3 meses", points: 15 },
+        { text: "Ainda estou pesquisando, sem prazo definido", points: 5 },
+        { text: "Só estou olhando por enquanto", points: 0 }
+      ]
+    },
+    {
+      key: "veiculo_interesse",
+      text: "O veículo que você viu no anúncio é exatamente o que você está procurando?",
+      options: [
+        { text: "Sim, é exatamente o que procuro", points: 25 },
+        { text: "É uma das opções que estou considerando", points: 18 },
+        { text: "Gostei desse, mas aceito outras opções", points: 10 },
+        { text: "Estou apenas pesquisando preços e modelos", points: 3 }
+      ]
+    },
+    {
+      key: "forma_pagamento",
+      text: "Como você pretende realizar a compra?",
+      options: [
+        { text: "Tenho entrada disponível", points: 20, entrada: true, troca: false },
+        { text: "Tenho um veículo para dar na troca", points: 20, entrada: false, troca: true },
+        { text: "Tenho entrada e veículo para troca", points: 20, entrada: true, troca: true },
+        { text: "Preciso financiar sem entrada", points: 12, entrada: false, troca: false },
+        { text: "Ainda preciso avaliar as condições", points: 7, entrada: false, troca: false },
+        { text: "Ainda não sei como vou pagar", points: 3, entrada: false, troca: false }
+      ]
+    },
+    {
+      key: "disponibilidade_loja",
+      text: "Se encontrarmos o veículo e as condições que você procura, quando conseguiria ir até a loja?",
+      options: [
+        { text: "Hoje ou amanhã", points: 15 },
+        { text: "Nos próximos 7 dias", points: 12 },
+        { text: "Preciso me organizar, mas consigo ir em breve", points: 8 },
+        { text: "Só consigo ir depois de algumas semanas", points: 4 },
+        { text: "Ainda não tenho previsão", points: 0 }
+      ]
+    },
+    {
+      key: "barreira_compra",
+      text: "O que está faltando para você conseguir avançar na compra?",
+      options: [
+        { text: "Só preciso confirmar as condições" },
+        { text: "Preciso organizar a entrada" },
+        { text: "Preciso avaliar o financiamento" },
+        { text: "Preciso avaliar a troca do meu veículo" },
+        { text: "Preciso me organizar para ir à loja" },
+        { text: "Ainda estou apenas pesquisando" }
+      ]
+    }
+  ];
+
+  let currentIndex = 0;
+  const answers = {}; // key -> selected option object
+  let leadPayload = null;
+
+  /* ==========================================================================
+     RASTREAMENTO
+     Empurra para dataLayer (Google Tag Manager) e, se disponível, dispara
+     o Meta Pixel (fbq). Eventos padrão do Meta usam fbq('track', ...),
+     eventos customizados usam fbq('trackCustom', ...).
+     ========================================================================== */
+  const STANDARD_FB_EVENTS = ["PageView", "ViewContent"];
+
+  function trackEvent(eventName, params) {
+    params = params || {};
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: eventName }, params));
+
+    if (typeof fbq === "function") {
+      try {
+        if (STANDARD_FB_EVENTS.includes(eventName)) {
+          fbq("track", eventName, params);
+        } else {
+          fbq("trackCustom", eventName, params);
+        }
+      } catch (e) { /* silencioso: pixel pode não estar configurado ainda */ }
+    }
+    console.log("[tracking]", eventName, params);
+  }
+
+  // PageView + ViewContent disparam assim que a página carrega
+  document.addEventListener("DOMContentLoaded", function () {
+    trackEvent("PageView");
+    trackEvent("ViewContent", {
+      content_name: VEHICLE.name,
+      content_type: "vehicle",
+      value: VEHICLE.price,
+      currency: VEHICLE.currency,
+      km: VEHICLE.km,
+      store: STORE.name,
+      city: STORE.city
+    });
+    buildGauge();
+  });
+
+  /* ==========================================================================
+     NAVEGAÇÃO DO QUIZ
+     ========================================================================== */
+  function startQuiz() {
+    document.getElementById("screen-intro").classList.add("hidden");
+    document.getElementById("screen-question").classList.remove("hidden");
+    renderQuestion();
+  }
+
+  function buildGauge() {
+    const gauge = document.getElementById("gauge");
+    gauge.innerHTML = "";
+    for (let i = 0; i < questions.length; i++) {
+      const seg = document.createElement("div");
+      seg.className = "gauge-seg";
+      seg.id = "gauge-seg-" + i;
+      seg.innerHTML = '<div class="fill"></div>';
+      gauge.appendChild(seg);
+    }
+  }
+
+  function updateGauge() {
+    for (let i = 0; i < questions.length; i++) {
+      const seg = document.getElementById("gauge-seg-" + i);
+      if (seg) seg.classList.toggle("filled", i <= currentIndex);
+    }
+    const pct = Math.round(((currentIndex + 1) / questions.length) * 100);
+    document.getElementById("progress-pct").textContent = pct + "%";
+  }
+
+  function renderQuestion() {
+    const q = questions[currentIndex];
+
+    // reinicia a animação de entrada do card
+    const cardEl = document.getElementById("screen-question");
+    cardEl.style.animation = "none";
+    void cardEl.offsetWidth;
+    cardEl.style.animation = "";
+
+    document.getElementById("progress-label").textContent =
+      "Pergunta " + (currentIndex + 1) + " de " + questions.length;
+    document.getElementById("question-text").textContent = q.text;
+    document.getElementById("q-icon").innerHTML = ICONS[q.key] || "";
+    updateGauge();
+
+    const container = document.getElementById("options-container");
+    container.innerHTML = "";
+    q.options.forEach(function (opt, i) {
+      const btn = document.createElement("button");
+      btn.className = "option";
+      btn.style.animationDelay = (i * 55) + "ms";
+      btn.innerHTML =
+        '<span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12L10 18L20 6" stroke="#1A1210" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        "<span>" + opt.text + "</span>";
+      btn.onclick = function () { selectOption(q.key, opt, btn); };
+      container.appendChild(btn);
+    });
+
+    const backBtn = document.getElementById("back-btn");
+    backBtn.classList.toggle("hidden", currentIndex === 0);
+  }
+
+  function selectOption(key, option, btnEl) {
+    const allOptions = document.querySelectorAll(".option");
+    allOptions.forEach(function (b) {
+      b.disabled = true;
+      if (b !== btnEl) b.classList.add("dimmed");
+    });
+    btnEl.classList.add("selected");
+    answers[key] = option;
+
+    setTimeout(function () {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }, 380);
+  }
+
+  function goBack() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderQuestion();
+    }
+  }
+
+  /* ==========================================================================
+     PONTUAÇÃO E CLASSIFICAÇÃO
+     ========================================================================== */
+  function classifyByScore(score) {
+    if (score >= 80) return { classificacao: "comprador_quente", prioridade: 1 };
+    if (score >= 60) return { classificacao: "lead_qualificado", prioridade: 2 };
+    if (score >= 40) return { classificacao: "lead_morno", prioridade: 3 };
+    return { classificacao: "baixa_intencao", prioridade: 4 };
+  }
+
+  function finishQuiz() {
+    const u = answers.urgencia;
+    const v = answers.veiculo_interesse;
+    const p = answers.forma_pagamento;
+    const d = answers.disponibilidade_loja;
+    const b = answers.barreira_compra;
+
+    const scoreTotal = u.points + v.points + p.points + d.points; // máx. 90
+
+    let result = classifyByScore(scoreTotal);
+
+    // Regras de trava (evitam classificar curiosos como compradores)
+    const travaMorno =
+      u.text === "Só estou olhando por enquanto" ||
+      v.text === "Estou apenas pesquisando preços e modelos";
+    const travaSemQuente = d.text === "Ainda não tenho previsão";
+
+    if (travaMorno && (result.classificacao === "comprador_quente" || result.classificacao === "lead_qualificado")) {
+      result = { classificacao: "lead_morno", prioridade: 3 };
+    }
+    if (travaSemQuente && result.classificacao === "comprador_quente") {
+      result = { classificacao: "lead_qualificado", prioridade: 2 };
+    }
+
+    const leadQualified = result.classificacao === "comprador_quente" || result.classificacao === "lead_qualificado";
+
+    leadPayload = {
+      score_total: scoreTotal,
+      classificacao: result.classificacao,
+      prioridade: result.prioridade,
+      lead_qualified: leadQualified,
+      urgencia: u.points,
+      urgencia_resposta: u.text,
+      veiculo_interesse: v.points,
+      veiculo_interesse_resposta: v.text,
+      forma_pagamento: p.points,
+      forma_pagamento_resposta: p.text,
+      entrada: !!p.entrada,
+      troca: !!p.troca,
+      disponibilidade_loja: d.points,
+      disponibilidade_loja_resposta: d.text,
+      barreira_compra: b.text,
+      veiculo_anuncio: VEHICLE.name,
+      valor_anuncio: VEHICLE.price,
+      km_anuncio: VEHICLE.km,
+      loja: STORE.name,
+      cidade: STORE.city
+    };
+
+    trackEvent("quiz_completed", leadPayload);
+    showResult(result.classificacao);
+  }
+
+  /* ==========================================================================
+     TELA DE RESULTADO (mensagem varia por classificação, sem expor pontuação)
+     ========================================================================== */
+  const RESULT_COPY = {
+    comprador_quente: {
+      title: "Boa! Vamos agilizar seu atendimento",
+      text: "Um consultor da " + STORE.name + " já vai te chamar no WhatsApp pra entender exatamente o que você procura e agilizar tudo.",
+      whatsapp: "Falar agora no WhatsApp"
+    },
+    lead_qualificado: {
+      title: "Perfeito, já temos o que precisamos",
+      text: "Um de nossos consultores vai te passar as opções disponíveis e as condições pra você decidir com calma.",
+      whatsapp: "Falar com um consultor"
+    },
+    lead_morno: {
+      title: "Combinado!",
+      text: "Vamos te mandar mais informações sobre os veículos disponíveis. Quando estiver pronto pra avançar, é só chamar.",
+      whatsapp: "Tirar dúvidas no WhatsApp"
+    },
+    baixa_intencao: {
+      title: "Sem pressa nenhuma",
+      text: "Fique à vontade pra conhecer os veículos da " + STORE.name + ". Estamos por aqui quando quiser.",
+      whatsapp: "Conversar no WhatsApp"
+    }
+  };
+
+  function buildWhatsAppMessage(payload) {
+    let msg = "Olá! Vi o anúncio do " + payload.veiculo_anuncio +
+      " (" + payload.km_anuncio.toLocaleString("pt-BR") + " km) por R$ " +
+      payload.valor_anuncio.toLocaleString("pt-BR") + " na " + payload.loja + " e respondi o quiz.";
+    msg += "\nQuando pretendo comprar: " + payload.urgencia_resposta;
+    msg += "\nO que falta pra avançar: " + payload.barreira_compra;
+    return msg;
+  }
+
+  function showResult(classificacao) {
+    document.getElementById("screen-question").classList.add("hidden");
+    const resultEl = document.getElementById("screen-result");
+    resultEl.classList.remove("hidden");
+
+    const copy = RESULT_COPY[classificacao];
+    document.getElementById("result-title").textContent = copy.title;
+    document.getElementById("result-text").textContent = copy.text;
+    document.getElementById("whatsapp-btn-label").textContent = copy.whatsapp;
+
+    const message = buildWhatsAppMessage(leadPayload);
+    const link = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+    document.getElementById("whatsapp-btn").setAttribute("href", link);
+  }
+
+  /* ==========================================================================
+     CLIQUE NO BOTÃO DO WHATSAPP -> evento Lead_Qualificado
+     (payload completo já traz lead_qualified: true/false, então no seu
+     Pixel/CRM você pode filtrar por esse campo se quiser separar quem
+     realmente é um lead qualificado de quem está em nutrição)
+     ========================================================================== */
+  function onWhatsAppClick() {
+    if (leadPayload) {
+      trackEvent("Lead_Qualificado", leadPayload);
+    }
+    // o link já navega normalmente para o WhatsApp (href do próprio elemento)
+  }
+</script>
+
+</body>
+</html>
