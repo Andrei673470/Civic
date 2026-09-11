@@ -500,6 +500,91 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     margin-top: 18px;
   }
 
+  .motivation {
+    font-size: 12px;
+    color: var(--orange-soft);
+    margin: -8px 0 18px;
+    text-align: center;
+    animation: fadeSlideUp .35s ease both;
+  }
+
+  .field-group {
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .field-group label {
+    display: block;
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .field-group input {
+    width: 100%;
+    background: var(--panel-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+
+  .field-group input::placeholder { color: #6b6468; }
+
+  .field-group input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px var(--orange-dim);
+  }
+
+  .field-group input.invalid {
+    border-color: var(--danger-soft);
+  }
+
+  .field-error {
+    display: block;
+    min-height: 16px;
+    font-size: 12px;
+    color: var(--danger-soft);
+    margin-top: 5px;
+  }
+
+  .capture-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .confetti-piece {
+    position: absolute;
+    top: -10px;
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    animation: confettiFall 1.5s ease-in forwards;
+  }
+
+  @keyframes confettiFall {
+    to { transform: translateY(240px) rotate(360deg); opacity: 0; }
+  }
+
+  #screen-capture { position: relative; overflow: hidden; text-align: center; }
+
+  .capture-title { font-size: 20px; margin: 0 0 8px; }
+
+  .capture-text {
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin: 0 0 22px;
+    text-align: left;
+  }
+
   .hidden { display: none !important; }
 
   @media (max-width: 380px) {
@@ -551,7 +636,7 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
 
   <!-- Intro screen -->
   <div class="card intro" id="screen-intro">
-    <p class="intro-lead">Responda 5 perguntas rápidas sobre esse Golf e nosso consultor já vai preparado com as informações certas, pra te dar o melhor atendimento possível — sem enrolação e sem perguntas repetidas.</p>
+    <p class="intro-lead">Responda 4 perguntas rápidas sobre esse Golf e nosso consultor já vai preparado com as informações certas, pra te dar o melhor atendimento possível — sem enrolação e sem perguntas repetidas.</p>
     <div class="intro-bullets">
       <div class="intro-bullet">
         <span class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2" stroke="#FF6B2C" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#FF6B2C" stroke-width="2"/></svg></span>
@@ -572,6 +657,7 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       <span class="progress-pct" id="progress-pct">20%</span>
     </div>
     <div class="gauge" id="gauge"></div>
+    <p class="motivation" id="motivation-text"></p>
     <div class="q-icon" id="q-icon"></div>
     <p class="question" id="question-text"></p>
     <div class="options" id="options-container"></div>
@@ -579,6 +665,29 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#9C9498" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Voltar
     </button>
+  </div>
+
+  <!-- Capture screen -->
+  <div class="card hidden" id="screen-capture">
+    <div class="capture-confetti" id="confetti-container"></div>
+    <div class="result-icon" style="margin: 0 auto 14px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12L10 18L20 6" stroke="#FF6B2C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h2 class="capture-title">Parabéns! 🎉</h2>
+    <p class="capture-text">
+      <strong id="capture-vehicle-name" style="color: var(--text);"></strong> é o veículo perfeito para você. Fechando a negociação, você ganha a <strong style="color: var(--orange-soft);">transferência gratuita</strong> pela loja — vamos levar o seu próximo veículo pra sua garagem. Preencha os dados abaixo:
+    </p>
+    <div class="field-group">
+      <label for="input-email">E-mail</label>
+      <input type="email" id="input-email" placeholder="seu@email.com" autocomplete="email">
+      <span class="field-error" id="error-email"></span>
+    </div>
+    <div class="field-group">
+      <label for="input-phone">Celular / WhatsApp</label>
+      <input type="tel" id="input-phone" placeholder="(41) 99999-9999" autocomplete="tel" inputmode="numeric" oninput="maskPhone(this)">
+      <span class="field-error" id="error-phone"></span>
+    </div>
+    <button class="btn-primary" onclick="submitCapture()">Quero minha transferência grátis</button>
   </div>
 
   <!-- Result screen -->
@@ -637,12 +746,13 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     entrada: "entry.452505091",
     troca: "entry.658391205",
     disponibilidade_loja_resposta: "entry.1986425066",
-    barreira_compra: "entry.1112383426",
     veiculo_anuncio: "entry.1136023595",
     valor_anuncio: "entry.2007307558",
     km_anuncio: "entry.1822537913",
     loja: "entry.1349890345",
-    cidade: "entry.1755486938"
+    cidade: "entry.1755486938",
+    email: "entry.1812435547",
+    celular: "entry.1553080724"
   };
 
   /* ==========================================================================
@@ -652,8 +762,7 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     urgencia: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 7v5l3.2 2" stroke="#FF6B2C" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#FF6B2C" stroke-width="2"/></svg>',
     veiculo_interesse: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#FF6B2C" stroke-width="2"/><circle cx="12" cy="12" r="4.5" stroke="#FF6B2C" stroke-width="2"/><circle cx="12" cy="12" r="1" fill="#FF6B2C"/></svg>',
     forma_pagamento: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2.4" stroke="#FF6B2C" stroke-width="2"/><path d="M3 10h18" stroke="#FF6B2C" stroke-width="2"/></svg>',
-    disponibilidade_loja: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="16" rx="2.4" stroke="#FF6B2C" stroke-width="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="#FF6B2C" stroke-width="2" stroke-linecap="round"/></svg>',
-    barreira_compra: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 3v18M6 4h11l-2.5 3.5L17 11H6" stroke="#FF6B2C" stroke-width="2" stroke-linejoin="round"/></svg>'
+    disponibilidade_loja: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="16" rx="2.4" stroke="#FF6B2C" stroke-width="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="#FF6B2C" stroke-width="2" stroke-linecap="round"/></svg>'
   };
 
   const questions = [
@@ -682,12 +791,11 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       key: "forma_pagamento",
       text: "Como você pretende realizar a compra?",
       options: [
-        { text: "Tenho entrada disponível", points: 20, entrada: true, troca: false },
-        { text: "Tenho um veículo para dar na troca", points: 20, entrada: false, troca: true },
-        { text: "Tenho entrada e veículo para troca", points: 20, entrada: true, troca: true },
-        { text: "Preciso financiar sem entrada", points: 12, entrada: false, troca: false },
-        { text: "Ainda preciso avaliar as condições", points: 7, entrada: false, troca: false },
-        { text: "Ainda não sei como vou pagar", points: 3, entrada: false, troca: false }
+        { text: "Troca + Financiamento", points: 20, entrada: false, troca: true },
+        { text: "Carta contemplada", points: 18, entrada: true, troca: false },
+        { text: "À vista", points: 15, entrada: true, troca: false },
+        { text: "Financiamento", points: 12, entrada: false, troca: false },
+        { text: "Troca", points: 8, entrada: false, troca: true }
       ]
     },
     {
@@ -696,21 +804,10 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       options: [
         { text: "Hoje ou amanhã", points: 15 },
         { text: "Nos próximos 7 dias", points: 12 },
+        { text: "Seria ótimo se o vendedor trouxesse até mim", points: 10 },
         { text: "Preciso me organizar, mas consigo ir em breve", points: 8 },
         { text: "Só consigo ir depois de algumas semanas", points: 4 },
         { text: "Ainda não tenho previsão", points: 0 }
-      ]
-    },
-    {
-      key: "barreira_compra",
-      text: "O que está faltando para você conseguir avançar na compra?",
-      options: [
-        { text: "Só preciso confirmar as condições" },
-        { text: "Preciso organizar a entrada" },
-        { text: "Preciso avaliar o financiamento" },
-        { text: "Preciso avaliar a troca do meu veículo" },
-        { text: "Preciso me organizar para ir à loja" },
-        { text: "Ainda estou apenas pesquisando" }
       ]
     }
   ];
@@ -718,6 +815,14 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
   let currentIndex = 0;
   const answers = {}; // key -> selected option object
   let leadPayload = null;
+  let pendingClassificacao = null;
+
+  const MOTIVATION_MESSAGES = [
+    "Vamos come\u00e7ar! \ud83d\ude42",
+    "Boa! Faltam s\u00f3 2 perguntinhas",
+    "Voc\u00ea t\u00e1 quase l\u00e1!",
+    "\u00daltima pergunta \ud83d\ude80"
+  ];
 
   /* ==========================================================================
      RASTREAMENTO
@@ -802,6 +907,7 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       "Pergunta " + (currentIndex + 1) + " de " + questions.length;
     document.getElementById("question-text").textContent = q.text;
     document.getElementById("q-icon").innerHTML = ICONS[q.key] || "";
+    document.getElementById("motivation-text").textContent = MOTIVATION_MESSAGES[currentIndex] || "";
     updateGauge();
 
     const container = document.getElementById("options-container");
@@ -865,12 +971,13 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     formData.append(GOOGLE_FORM_ENTRIES.entrada, payload.entrada ? "SIM" : "NÃO");
     formData.append(GOOGLE_FORM_ENTRIES.troca, payload.troca ? "SIM" : "NÃO");
     formData.append(GOOGLE_FORM_ENTRIES.disponibilidade_loja_resposta, payload.disponibilidade_loja_resposta);
-    formData.append(GOOGLE_FORM_ENTRIES.barreira_compra, payload.barreira_compra);
     formData.append(GOOGLE_FORM_ENTRIES.veiculo_anuncio, payload.veiculo_anuncio);
     formData.append(GOOGLE_FORM_ENTRIES.valor_anuncio, payload.valor_anuncio);
     formData.append(GOOGLE_FORM_ENTRIES.km_anuncio, payload.km_anuncio);
     formData.append(GOOGLE_FORM_ENTRIES.loja, payload.loja);
     formData.append(GOOGLE_FORM_ENTRIES.cidade, payload.cidade);
+    formData.append(GOOGLE_FORM_ENTRIES.email, payload.email);
+    formData.append(GOOGLE_FORM_ENTRIES.celular, payload.celular);
 
     fetch(GOOGLE_FORM_ACTION, {
       method: "POST",
@@ -897,7 +1004,6 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     const v = answers.veiculo_interesse;
     const p = answers.forma_pagamento;
     const d = answers.disponibilidade_loja;
-    const b = answers.barreira_compra;
 
     const scoreTotal = u.points + v.points + p.points + d.points; // máx. 90
 
@@ -933,7 +1039,6 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       troca: !!p.troca,
       disponibilidade_loja: d.points,
       disponibilidade_loja_resposta: d.text,
-      barreira_compra: b.text,
       veiculo_anuncio: VEHICLE.name,
       valor_anuncio: VEHICLE.price,
       km_anuncio: VEHICLE.km,
@@ -941,9 +1046,97 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       cidade: STORE.city
     };
 
+    leadPayload.email = "";
+    leadPayload.celular = "";
+    pendingClassificacao = result.classificacao;
+
     trackEvent("quiz_completed", leadPayload);
+
+    // Lead morno e baixa intenção vão direto para a mensagem final,
+    // sem pedir e-mail/celular e sem botão de WhatsApp.
+    const semOferta = result.classificacao === "lead_morno" || result.classificacao === "baixa_intencao";
+    if (semOferta) {
+      sendToGoogleSheets(leadPayload);
+      showResult(result.classificacao);
+    } else {
+      showCaptureScreen();
+    }
+  }
+
+  /* ==========================================================================
+     TELA DE CAPTURA (e-mail + celular) COM CONFETE
+     ========================================================================== */
+  function showCaptureScreen() {
+    document.getElementById("screen-question").classList.add("hidden");
+    document.getElementById("capture-vehicle-name").textContent = VEHICLE.name;
+
+    const captureScreen = document.getElementById("screen-capture");
+    captureScreen.classList.remove("hidden");
+    spawnConfetti();
+  }
+
+  function spawnConfetti() {
+    const container = document.getElementById("confetti-container");
+    container.innerHTML = "";
+    const colors = ["#FF6B2C", "#FFA366", "#F5F1EC", "#C6470F"];
+    for (let i = 0; i < 18; i++) {
+      const piece = document.createElement("span");
+      piece.className = "confetti-piece";
+      piece.style.left = Math.random() * 100 + "%";
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDelay = (Math.random() * 0.4) + "s";
+      piece.style.animationDuration = (1.1 + Math.random() * 0.6) + "s";
+      container.appendChild(piece);
+    }
+  }
+
+  function maskPhone(el) {
+    let v = el.value.replace(/\D/g, "").slice(0, 11);
+    if (v.length > 6) {
+      v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
+    } else if (v.length > 2) {
+      v = v.replace(/(\d{2})(\d{0,5})/, "($1) $2");
+    } else if (v.length > 0) {
+      v = v.replace(/(\d{0,2})/, "($1");
+    }
+    el.value = v;
+  }
+
+  function submitCapture() {
+    const emailEl = document.getElementById("input-email");
+    const phoneEl = document.getElementById("input-phone");
+    const emailErr = document.getElementById("error-email");
+    const phoneErr = document.getElementById("error-phone");
+
+    emailErr.textContent = "";
+    phoneErr.textContent = "";
+    emailEl.classList.remove("invalid");
+    phoneEl.classList.remove("invalid");
+
+    const email = emailEl.value.trim();
+    const phoneDigits = phoneEl.value.replace(/\D/g, "");
+    let valid = true;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      emailErr.textContent = "Digite um e-mail v\u00e1lido";
+      emailEl.classList.add("invalid");
+      valid = false;
+    }
+    if (phoneDigits.length < 10) {
+      phoneErr.textContent = "Digite um celular v\u00e1lido com DDD";
+      phoneEl.classList.add("invalid");
+      valid = false;
+    }
+    if (!valid) return;
+
+    leadPayload.email = email;
+    leadPayload.celular = phoneEl.value;
+
     sendToGoogleSheets(leadPayload);
-    showResult(result.classificacao);
+
+    document.getElementById("screen-capture").classList.add("hidden");
+    showResult(pendingClassificacao);
   }
 
   /* ==========================================================================
@@ -961,13 +1154,13 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       whatsapp: "Falar com um consultor"
     },
     lead_morno: {
-      title: "Combinado!",
-      text: "Vamos te mandar mais informações sobre os veículos disponíveis. Quando estiver pronto pra avançar, é só chamar.",
+      title: "Vamos te avisar assim que surgir algo",
+      text: "Pelas informações que você passou, no momento não temos uma oferta fechada que encaixe exatamente no que você precisa. Vamos guardar seu contato com carinho e te avisar assim que aparecer uma condição que faça sentido pra você. Qualquer dúvida, estamos por aqui.",
       whatsapp: "Tirar dúvidas no WhatsApp"
     },
     baixa_intencao: {
       title: "Sem pressa nenhuma",
-      text: "Fique à vontade pra conhecer os veículos da " + STORE.name + ". Estamos por aqui quando quiser.",
+      text: "No momento não temos uma oferta específica pra te apresentar agora, mas fique à vontade pra conhecer os veículos da " + STORE.name + " quando quiser. Assim que surgir algo que combine com o que você procura, a gente avisa.",
       whatsapp: "Conversar no WhatsApp"
     }
   };
@@ -977,23 +1170,32 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       " (" + payload.km_anuncio.toLocaleString("pt-BR") + " km) por R$ " +
       payload.valor_anuncio.toLocaleString("pt-BR") + " na " + payload.loja + " e respondi o quiz.";
     msg += "\nQuando pretendo comprar: " + payload.urgencia_resposta;
-    msg += "\nO que falta pra avançar: " + payload.barreira_compra;
+    msg += "\nContato: " + payload.email + " / " + payload.celular;
     return msg;
   }
 
   function showResult(classificacao) {
     document.getElementById("screen-question").classList.add("hidden");
+    document.getElementById("screen-capture").classList.add("hidden");
     const resultEl = document.getElementById("screen-result");
     resultEl.classList.remove("hidden");
 
     const copy = RESULT_COPY[classificacao];
     document.getElementById("result-title").textContent = copy.title;
     document.getElementById("result-text").textContent = copy.text;
-    document.getElementById("whatsapp-btn-label").textContent = copy.whatsapp;
 
-    const message = buildWhatsAppMessage(leadPayload);
-    const link = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
-    document.getElementById("whatsapp-btn").setAttribute("href", link);
+    const whatsappBtn = document.getElementById("whatsapp-btn");
+    const semOferta = classificacao === "lead_morno" || classificacao === "baixa_intencao";
+
+    if (semOferta) {
+      whatsappBtn.classList.add("hidden");
+    } else {
+      whatsappBtn.classList.remove("hidden");
+      document.getElementById("whatsapp-btn-label").textContent = copy.whatsapp;
+      const message = buildWhatsAppMessage(leadPayload);
+      const link = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+      whatsappBtn.setAttribute("href", link);
+    }
   }
 
   /* ==========================================================================
