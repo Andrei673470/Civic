@@ -621,7 +621,29 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
 
   // Cole aqui a URL gerada ao implantar o Apps Script (Sheets) como Web App.
   // Instruções completas no arquivo apps-script-sheets.gs
-  const SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxqwwtQ7pFqlQtSGKDtt3XfK9MHs9wfT5n8bPUIDsTMBnd1c4pm6J7zogY_3-pN6v4K/exec";
+  // Google Forms como "porta de entrada" para a planilha — sem depender de
+  // implantação de script. Envie um POST para /formResponse com os campos
+  // entry.XXXXXXX correspondentes a cada pergunta do formulário.
+  const GOOGLE_FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSfJzckFTjHUrEmOOL4SS6DQQDipUOwiPPWgVlI-EqFKkKfSqA/formResponse";
+
+  const GOOGLE_FORM_ENTRIES = {
+    score_total: "entry.415614146",
+    classificacao: "entry.561113759",
+    prioridade: "entry.480638752",
+    lead_qualified: "entry.1633126853",
+    urgencia_resposta: "entry.1975835346",
+    veiculo_interesse_resposta: "entry.1501958803",
+    forma_pagamento_resposta: "entry.196265157",
+    entrada: "entry.452505091",
+    troca: "entry.658391205",
+    disponibilidade_loja_resposta: "entry.1986425066",
+    barreira_compra: "entry.1112383426",
+    veiculo_anuncio: "entry.1136023595",
+    valor_anuncio: "entry.2007307558",
+    km_anuncio: "entry.1822537913",
+    loja: "entry.1349890345",
+    cidade: "entry.1755486938"
+  };
 
   /* ==========================================================================
      PERGUNTAS (conforme especificação de qualificação de leads)
@@ -826,22 +848,37 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
   }
 
   /* ==========================================================================
-     ENVIO PARA O GOOGLE SHEETS
-     Usa mode: "no-cors" porque o Apps Script não responde ao preflight (CORS)
-     — não dá pra ler a resposta, mas o dado é gravado normalmente na planilha.
+     ENVIO PARA O GOOGLE FORMS (que já está ligado à planilha de leads)
+     Usa mode: "no-cors" porque o Forms não responde com CORS — não dá pra
+     ler a resposta, mas a submissão é processada normalmente do mesmo jeito
+     que aconteceria se alguém preenchesse o formulário na mão.
      ========================================================================== */
   function sendToGoogleSheets(payload) {
-    if (!SHEETS_WEBHOOK_URL || SHEETS_WEBHOOK_URL.indexOf("COLE_AQUI") !== -1) {
-      console.warn("SHEETS_WEBHOOK_URL não configurada — respostas não serão gravadas na planilha.");
-      return;
-    }
-    fetch(SHEETS_WEBHOOK_URL, {
+    const formData = new URLSearchParams();
+    formData.append(GOOGLE_FORM_ENTRIES.score_total, payload.score_total);
+    formData.append(GOOGLE_FORM_ENTRIES.classificacao, payload.classificacao);
+    formData.append(GOOGLE_FORM_ENTRIES.prioridade, payload.prioridade);
+    formData.append(GOOGLE_FORM_ENTRIES.lead_qualified, payload.lead_qualified ? "SIM" : "NÃO");
+    formData.append(GOOGLE_FORM_ENTRIES.urgencia_resposta, payload.urgencia_resposta);
+    formData.append(GOOGLE_FORM_ENTRIES.veiculo_interesse_resposta, payload.veiculo_interesse_resposta);
+    formData.append(GOOGLE_FORM_ENTRIES.forma_pagamento_resposta, payload.forma_pagamento_resposta);
+    formData.append(GOOGLE_FORM_ENTRIES.entrada, payload.entrada ? "SIM" : "NÃO");
+    formData.append(GOOGLE_FORM_ENTRIES.troca, payload.troca ? "SIM" : "NÃO");
+    formData.append(GOOGLE_FORM_ENTRIES.disponibilidade_loja_resposta, payload.disponibilidade_loja_resposta);
+    formData.append(GOOGLE_FORM_ENTRIES.barreira_compra, payload.barreira_compra);
+    formData.append(GOOGLE_FORM_ENTRIES.veiculo_anuncio, payload.veiculo_anuncio);
+    formData.append(GOOGLE_FORM_ENTRIES.valor_anuncio, payload.valor_anuncio);
+    formData.append(GOOGLE_FORM_ENTRIES.km_anuncio, payload.km_anuncio);
+    formData.append(GOOGLE_FORM_ENTRIES.loja, payload.loja);
+    formData.append(GOOGLE_FORM_ENTRIES.cidade, payload.cidade);
+
+    fetch(GOOGLE_FORM_ACTION, {
       method: "POST",
       mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" }, // evita preflight
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formData.toString()
     }).catch(function (err) {
-      console.error("Falha ao enviar para o Sheets:", err);
+      console.error("Falha ao enviar para o Google Forms:", err);
     });
   }
 
