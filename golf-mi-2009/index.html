@@ -659,24 +659,9 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     </div>
   </div>
 
-  <!-- Intro screen -->
-  <div class="card intro" id="screen-intro">
-    <p class="intro-lead">Responda 4 perguntas rápidas sobre esse Golf e nosso consultor já vai preparado com as informações certas, pra te dar o melhor atendimento possível — sem enrolação e sem perguntas repetidas.</p>
-    <div class="intro-bullets">
-      <div class="intro-bullet">
-        <span class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2" stroke="#FF6B2C" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#FF6B2C" stroke-width="2"/></svg></span>
-        Leva menos de 1 minuto
-      </div>
-      <div class="intro-bullet">
-        <span class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 12L10 18L20 6" stroke="#FF6B2C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        Sem compromisso nenhum
-      </div>
-    </div>
-    <button class="btn-primary" onclick="startQuiz()">Começar agora</button>
-  </div>
 
   <!-- Question screen -->
-  <div class="card hidden" id="screen-question">
+  <div class="card" id="screen-question">
     <div class="progress-row">
       <span class="progress-label" id="progress-label">Pergunta 1 de 5</span>
       <span class="progress-pct" id="progress-pct">20%</span>
@@ -857,7 +842,7 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
   let pendingClassificacao = null;
 
   const MOTIVATION_MESSAGES = [
-    "Vamos come\u00e7ar! \ud83d\ude42",
+    "Leva menos de 1 minuto",
     "Boa! Faltam s\u00f3 2 perguntinhas",
     "Voc\u00ea t\u00e1 quase l\u00e1!",
     "\u00daltima pergunta \ud83d\ude80"
@@ -908,17 +893,12 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       city: STORE.city
     });
     buildGauge();
+    renderQuestion();
   });
 
   /* ==========================================================================
      NAVEGAÇÃO DO QUIZ
      ========================================================================== */
-  function startQuiz() {
-    document.getElementById("screen-intro").classList.add("hidden");
-    document.getElementById("screen-question").classList.remove("hidden");
-    renderQuestion();
-  }
-
   function buildGauge() {
     const gauge = document.getElementById("gauge");
     gauge.innerHTML = "";
