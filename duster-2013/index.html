@@ -868,7 +868,7 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
      o Meta Pixel (fbq). Eventos padrão do Meta usam fbq('track', ...),
      eventos customizados usam fbq('trackCustom', ...).
      ========================================================================== */
-  const STANDARD_FB_EVENTS = ["PageView", "ViewContent"];
+  const STANDARD_FB_EVENTS = ["PageView", "ViewContent", "Contact"];
 
   function trackEvent(eventName, params) {
     params = params || {};
@@ -1194,6 +1194,7 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     leadPayload.email = email;
     leadPayload.celular = "+" + country + " " + phoneEl.value;
 
+    trackEvent("Lead_Qualificado", leadPayload);
     sendToGoogleSheets(leadPayload);
 
     document.getElementById("screen-capture").classList.add("hidden");
@@ -1260,14 +1261,14 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
   }
 
   /* ==========================================================================
-     CLIQUE NO BOTÃO DO WHATSAPP -> evento Lead_Qualificado
-     (payload completo já traz lead_qualified: true/false, então no seu
-     Pixel/CRM você pode filtrar por esse campo se quiser separar quem
-     realmente é um lead qualificado de quem está em nutrição)
+     CLIQUE NO BOTÃO DO WHATSAPP -> evento Contact
+     (Lead_Qualificado já disparou quando o formulário de e-mail/celular foi
+     enviado — este evento marca o momento em que o cliente de fato iniciou
+     o contato direto com a loja)
      ========================================================================== */
   function onWhatsAppClick() {
     if (leadPayload) {
-      trackEvent("Lead_Qualificado", leadPayload);
+      trackEvent("Contact", leadPayload);
     }
     // o link já navega normalmente para o WhatsApp (href do próprio elemento)
   }
