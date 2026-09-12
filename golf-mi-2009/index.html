@@ -535,6 +535,31 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
 
   .field-group input::placeholder { color: #6b6468; }
 
+  .phone-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .phone-row select {
+    flex: 0 0 92px;
+    background: var(--panel-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 8px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+
+  .phone-row select:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px var(--orange-dim);
+  }
+
+  .phone-row input { flex: 1; min-width: 0; }
+
   .field-group input:focus {
     border-color: var(--orange);
     box-shadow: 0 0 0 3px var(--orange-dim);
@@ -684,7 +709,21 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     </div>
     <div class="field-group">
       <label for="input-phone">Celular / WhatsApp</label>
-      <input type="tel" id="input-phone" placeholder="(41) 99999-9999" autocomplete="tel" inputmode="numeric" oninput="maskPhone(this)">
+      <div class="phone-row">
+        <select id="country-code" onchange="onCountryChange()">
+          <option value="55" selected>🇧🇷 +55</option>
+          <option value="54">🇦🇷 +54</option>
+          <option value="598">🇺🇾 +598</option>
+          <option value="595">🇵🇾 +595</option>
+          <option value="56">🇨🇱 +56</option>
+          <option value="591">🇧🇴 +591</option>
+          <option value="1">🇺🇸 +1</option>
+          <option value="351">🇵🇹 +351</option>
+          <option value="34">🇪🇸 +34</option>
+          <option value="52">🇲🇽 +52</option>
+        </select>
+        <input type="tel" id="input-phone" placeholder="(41) 99999-9999" autocomplete="tel" inputmode="numeric" oninput="maskPhone(this)">
+      </div>
       <span class="field-error" id="error-phone"></span>
     </div>
     <button class="btn-primary" onclick="submitCapture()">Quero minha transferência grátis</button>
@@ -1090,14 +1129,32 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     }
   }
 
+  function getSelectedCountry() {
+    return document.getElementById("country-code").value;
+  }
+
+  function onCountryChange() {
+    const phoneEl = document.getElementById("input-phone");
+    const isBrazil = getSelectedCountry() === "55";
+    phoneEl.placeholder = isBrazil ? "(41) 99999-9999" : "N\u00famero com DDD/c\u00f3digo de \u00e1rea";
+    maskPhone(phoneEl);
+  }
+
   function maskPhone(el) {
-    let v = el.value.replace(/\D/g, "").slice(0, 11);
-    if (v.length > 6) {
-      v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
-    } else if (v.length > 2) {
-      v = v.replace(/(\d{2})(\d{0,5})/, "($1) $2");
-    } else if (v.length > 0) {
-      v = v.replace(/(\d{0,2})/, "($1");
+    const isBrazil = getSelectedCountry() === "55";
+    let v = el.value.replace(/\D/g, "");
+
+    if (isBrazil) {
+      v = v.slice(0, 11);
+      if (v.length > 6) {
+        v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
+      } else if (v.length > 2) {
+        v = v.replace(/(\d{2})(\d{0,5})/, "($1) $2");
+      } else if (v.length > 0) {
+        v = v.replace(/(\d{0,2})/, "($1");
+      }
+    } else {
+      v = v.slice(0, 15); // outros pa\u00edses: sem m\u00e1scara fixa, s\u00f3 limita o tamanho
     }
     el.value = v;
   }
@@ -1123,15 +1180,20 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       emailEl.classList.add("invalid");
       valid = false;
     }
-    if (phoneDigits.length < 10) {
-      phoneErr.textContent = "Digite um celular v\u00e1lido com DDD";
+    const country = getSelectedCountry();
+    const isBrazil = country === "55";
+    const minDigits = isBrazil ? 11 : 7;
+    if (isBrazil ? (phoneDigits.length !== 11) : (phoneDigits.length < minDigits)) {
+      phoneErr.textContent = isBrazil
+        ? "N\u00famero incompleto \u2014 confira o DDD e os 9 d\u00edgitos do celular"
+        : "N\u00famero incompleto \u2014 confira o c\u00f3digo de \u00e1rea e o celular";
       phoneEl.classList.add("invalid");
       valid = false;
     }
     if (!valid) return;
 
     leadPayload.email = email;
-    leadPayload.celular = phoneEl.value;
+    leadPayload.celular = "+" + country + " " + phoneEl.value;
 
     sendToGoogleSheets(leadPayload);
 
