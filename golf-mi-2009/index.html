@@ -874,7 +874,14 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
   function trackEvent(eventName, params) {
     params = params || {};
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(Object.assign({ event: eventName }, params));
+
+    // "phone" \u00e9 um alias de "celular" s\u00f3 para o dataLayer, para bater com
+    // a vari\u00e1vel dl.ud_phone j\u00e1 configurada no GTM (nome de camada: "phone")
+    const dlPayload = Object.assign({ event: eventName }, params);
+    if (params.celular !== undefined) {
+      dlPayload.phone = params.celular;
+    }
+    window.dataLayer.push(dlPayload);
 
     if (typeof fbq === "function") {
       try {
