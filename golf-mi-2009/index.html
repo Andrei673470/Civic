@@ -598,6 +598,70 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     to { transform: translateY(240px) rotate(360deg); opacity: 0; }
   }
 
+  .vehicle-confirm { text-align: center; }
+
+  .vehicle-confirm-photo-wrap {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: var(--panel-raised);
+    border: 1px solid var(--border);
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vehicle-confirm-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .vehicle-confirm-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--orange);
+    color: #1A1210;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  .vehicle-confirm-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 17px;
+    margin: 0 0 4px;
+  }
+
+  .vehicle-confirm-question {
+    font-size: 15px;
+    color: var(--text);
+    margin: 4px 0 18px;
+  }
+
+  .btn-secondary {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 15px 18px;
+    font-size: 14.5px;
+    font-weight: 600;
+    font-family: 'Oswald', sans-serif;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+
+  .btn-secondary:hover { border-color: var(--orange); background: var(--panel-raised-hover); }
+
   #screen-capture { position: relative; overflow: hidden; text-align: center; }
 
   .capture-title { font-size: 20px; margin: 0 0 8px; }
@@ -747,7 +811,8 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     price: 41900,
     currency: "BRL",
     km: 188000,
-    status: "Perícia aprovada — leilão de financiamento"
+    status: "Perícia aprovada — leilão de financiamento",
+    photo: "" // cole aqui a foto em base64 (data:image/...;base64,...) quando enviar
   };
 
   const WHATSAPP_NUMBER = "5541997730107"; // Pedroso Multimarcas — WhatsApp
@@ -803,12 +868,11 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
     },
     {
       key: "veiculo_interesse",
-      text: "O veículo que você viu no anúncio é exatamente o que você está procurando?",
+      type: "vehicle_confirm",
+      text: "É esse o veículo que você procura?",
       options: [
-        { text: "Sim, é exatamente o que procuro", points: 25 },
-        { text: "É uma das opções que estou considerando", points: 18 },
-        { text: "Gostei desse, mas aceito outras opções", points: 10 },
-        { text: "Estou apenas pesquisando preços e modelos", points: 3 }
+        { text: "Sim, é esse", points: 25 },
+        { text: "Quero ver outras opções", points: 10 }
       ]
     },
     {
@@ -931,26 +995,70 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
 
     document.getElementById("progress-label").textContent =
       "Pergunta " + (currentIndex + 1) + " de " + questions.length;
-    document.getElementById("question-text").textContent = q.text;
-    document.getElementById("q-icon").innerHTML = ICONS[q.key] || "";
     document.getElementById("motivation-text").textContent = MOTIVATION_MESSAGES[currentIndex] || "";
     updateGauge();
 
+    const questionTextEl = document.getElementById("question-text");
+    const iconEl = document.getElementById("q-icon");
     const container = document.getElementById("options-container");
     container.innerHTML = "";
-    q.options.forEach(function (opt, i) {
-      const btn = document.createElement("button");
-      btn.className = "option";
-      btn.style.animationDelay = (i * 55) + "ms";
-      btn.innerHTML =
-        '<span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12L10 18L20 6" stroke="#1A1210" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
-        "<span>" + opt.text + "</span>";
-      btn.onclick = function () { selectOption(q.key, opt, btn); };
-      container.appendChild(btn);
-    });
+
+    if (q.type === "vehicle_confirm") {
+      iconEl.style.display = "none";
+      questionTextEl.style.display = "none";
+      container.appendChild(buildVehicleConfirmCard(q));
+    } else {
+      iconEl.style.display = "";
+      questionTextEl.style.display = "";
+      questionTextEl.textContent = q.text;
+      iconEl.innerHTML = ICONS[q.key] || "";
+
+      q.options.forEach(function (opt, i) {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.style.animationDelay = (i * 55) + "ms";
+        btn.innerHTML =
+          '<span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12L10 18L20 6" stroke="#1A1210" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+          "<span>" + opt.text + "</span>";
+        btn.onclick = function () { selectOption(q.key, opt, btn); };
+        container.appendChild(btn);
+      });
+    }
 
     const backBtn = document.getElementById("back-btn");
     backBtn.classList.toggle("hidden", currentIndex === 0);
+  }
+
+  function buildVehicleConfirmCard(q) {
+    const wrap = document.createElement("div");
+    wrap.className = "vehicle-confirm";
+    wrap.style.animation = "fadeSlideUp .4s ease both";
+
+    const photoHtml = VEHICLE.photo
+      ? '<img src="' + VEHICLE.photo + '" alt="' + VEHICLE.name + '">'
+      : '<svg width="64" height="64" viewBox="0 0 24 24" fill="none"><path d="M4 16c0-3 3-5 6-6l2-3c1-1 2-2 4-2h4l3 4c2 0 3 1 3 3v3c0 1-1 2-2 2h-1" stroke="#514C50" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="17" r="2" stroke="#514C50" stroke-width="1.6"/><circle cx="18" cy="17" r="2" stroke="#514C50" stroke-width="1.6"/></svg>';
+
+    wrap.innerHTML =
+      '<div class="vehicle-confirm-photo-wrap">' + photoHtml + '<span class="vehicle-confirm-tag">Veículo do anúncio</span></div>' +
+      '<p class="vehicle-confirm-title">' + VEHICLE.name + '</p>' +
+      '<p class="vehicle-confirm-question">' + q.text + '</p>' +
+      '<button class="btn-primary" id="btn-vehicle-yes" style="margin-bottom:10px;">' + q.options[0].text + '</button>' +
+      '<button class="btn-secondary" id="btn-vehicle-no">' + q.options[1].text + '</button>';
+
+    wrap.querySelector("#btn-vehicle-yes").onclick = function () {
+      confirmVehicleChoice(q.key, q.options[0]);
+    };
+    wrap.querySelector("#btn-vehicle-no").onclick = function () {
+      confirmVehicleChoice(q.key, q.options[1]);
+    };
+
+    return wrap;
+  }
+
+  function confirmVehicleChoice(key, option) {
+    document.getElementById("btn-vehicle-yes").disabled = true;
+    document.getElementById("btn-vehicle-no").disabled = true;
+    advanceAfterAnswer(key, option, 260);
   }
 
   function selectOption(key, option, btnEl) {
@@ -960,8 +1068,11 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       if (b !== btnEl) b.classList.add("dimmed");
     });
     btnEl.classList.add("selected");
-    answers[key] = option;
+    advanceAfterAnswer(key, option, 380);
+  }
 
+  function advanceAfterAnswer(key, option, delayMs) {
+    answers[key] = option;
     setTimeout(function () {
       if (currentIndex < questions.length - 1) {
         currentIndex++;
@@ -969,7 +1080,7 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       } else {
         finishQuiz();
       }
-    }, 380);
+    }, delayMs);
   }
 
   function goBack() {
@@ -1012,6 +1123,16 @@ try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
       body: formData.toString()
     }).catch(function (err) {
       console.error("Falha ao enviar para o Google Forms:", err);
+      // Só pega falhas de REDE (bloqueio de navegador, sem internet, etc.).
+      // Não detecta quando o Google aceita a requisição mas rejeita a
+      // resposta internamente (ex: campo obrigatório faltando) — isso o
+      // modo no-cors não deixa a gente enxergar.
+      trackEvent("lead_baixo_score", {
+        motivo: "erro_de_rede",
+        detalhe: String(err),
+        classificacao: payload.classificacao,
+        veiculo_anuncio: payload.veiculo_anuncio
+      });
     });
   }
 
