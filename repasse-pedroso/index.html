@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repasse — Pedroso Multimarcas</title>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src="https://sgtm.pedrosomultimarcassjp.site/1fdibxgliq.js?"+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','7=GA1RICwvRCpJUCQvMjUtQgdUXklJRA0KTBkJAwoNGgscHAATEQ8IFhIIHxQSEkcXGB0J');</script>
+<!-- End Google Tag Manager -->
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+try{ fbq('init', 'SEU_PIXEL_ID_AQUI'); }catch(e){}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#0C0B0A; --ink-2:#131110; --panel:#191614; --panel-2:#211D1A;
+    --panel-3:#2A2521; --line:#332D27;
+    --orange:#FF6A13; --orange-lt:#FF9350; --orange-dim:rgba(255,106,19,.12);
+    --gold:#D9A441; --bone:#F4EFE9; --mute:#9A908A; --mute-2:#6E645F;
+    --warn:#C9705E;
+    --r:18px;
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{
+    margin:0; padding:0;
+    background:
+      radial-gradient(1100px 520px at 50% -8%, rgba(255,106,19,.10), transparent 62%),
+      var(--ink);
+    color:var(--bone);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    min-height:100vh; -webkit-font-smoothing:antialiased;
+  }
+  body{ display:flex; justify-content:center; padding:22px 16px 56px; }
+  .shell{ width:100%; max-width:452px; }
+  h1,h2,h3{ font-family:'Archivo',sans-serif; letter-spacing:-.022em; margin:0; }
+  button{ font-family:inherit; }
+  :focus-visible{ outline:2px solid var(--orange); outline-offset:3px; border-radius:6px; }
+
+  @keyframes rise{ from{ opacity:0; transform:translateY(14px);} to{ opacity:1; transform:none; } }
+  @keyframes pop{ 0%{opacity:0;transform:scale(.86)} 60%{opacity:1;transform:scale(1.04)} 100%{transform:scale(1)} }
+
+  /* marca */
+  .brand{
+    display:flex; align-items:center; gap:11px;
+    padding-bottom:16px; border-bottom:1px solid var(--line); margin-bottom:16px;
+    animation:rise .5s ease both;
+  }
+  .brand-mark{
+    width:42px; height:42px; flex:none; border-radius:10px; overflow:hidden;
+    background:#000; display:flex; align-items:center; justify-content:center;
+  }
+  .brand-mark img{ width:100%; height:100%; object-fit:contain; }
+  .brand-name{ font-size:15px; font-weight:700; line-height:1.1; }
+  .brand-sub{ font-size:11.5px; color:var(--mute-2); margin-top:2px; }
+
+  /* faixa REPASSE */
+  .banner{
+    position:relative; overflow:hidden;
+    background:linear-gradient(135deg,rgba(255,106,19,.16),rgba(217,164,65,.06));
+    border:1px solid rgba(255,106,19,.32);
+    border-radius:var(--r);
+    padding:16px 18px;
+    margin-bottom:14px;
+    animation:rise .5s ease .05s both;
+  }
+  .banner-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'Archivo',sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase;
+    color:var(--orange-lt); margin-bottom:7px;
+  }
+  .banner h1{ font-size:24px; font-weight:800; line-height:1.12; }
+  .banner p{ font-size:13px; color:var(--mute); margin:7px 0 0; line-height:1.5; }
+
+  /* aviso de condição */
+  .notice{
+    display:flex; gap:11px; align-items:flex-start;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--gold);
+    border-radius:13px;
+    padding:13px 14px;
+    margin-bottom:14px;
+    font-size:13px; line-height:1.5; color:var(--mute);
+    animation:rise .5s ease .1s both;
+  }
+  .notice svg{ flex:none; margin-top:1px; }
+  .notice b{ color:var(--bone); font-weight:600; }
+
+  /* card */
+  .card{
+    background:linear-gradient(180deg,var(--panel),var(--ink-2));
+    border:1px solid var(--line);
+    border-radius:var(--r);
+    padding:20px 18px 18px;
+    animation:rise .5s ease .15s both;
+  }
+
+  .q{ font-family:'Archivo',sans-serif; font-size:21px; font-weight:700; line-height:1.26; margin:0 0 16px; }
+
+  .opts{ display:flex; flex-direction:column; gap:9px; }
+  .opt{
+    display:flex; align-items:center; gap:12px;
+    width:100%; text-align:left;
+    background:var(--panel-2); border:1px solid var(--line);
+    border-radius:13px; padding:15px;
+    color:var(--bone); font-size:15.5px; font-weight:600;
+    cursor:pointer;
+    transition:background .16s, border-color .16s, transform .12s;
+  }
+  .opt:hover{ background:var(--panel-3); border-color:#453C35; }
+  .opt:active{ transform:scale(.985); }
+  .opt-ic{
+    width:36px; height:36px; flex:none; border-radius:10px;
+    background:var(--orange-dim); border:1px solid rgba(255,106,19,.2);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .opt-sub{ display:block; font-size:12px; font-weight:400; color:var(--mute-2); margin-top:2px; }
+
+  /* botões */
+  .btn{
+    width:100%; display:flex; align-items:center; justify-content:center; gap:9px;
+    border:0; border-radius:13px; padding:16px 18px;
+    font-family:'Archivo',sans-serif; font-size:15.5px; font-weight:700;
+    cursor:pointer; text-decoration:none;
+    transition:filter .16s, transform .12s;
+  }
+  .btn:active{ transform:scale(.985); }
+  .btn-wa{ background:#22C55E; color:#06240F; }
+  .btn-wa:hover{ filter:brightness(1.06); }
+  .btn-ghost{
+    background:transparent; border:1px solid var(--line); color:var(--bone);
+    font-size:14.5px; font-weight:600; margin-top:9px;
+  }
+  .btn-ghost:hover{ border-color:#4A403A; background:var(--panel-2); }
+
+  /* telas de saída */
+  .out{ text-align:center; animation:rise .4s ease both; }
+  .out-ic{
+    width:56px; height:56px; margin:0 auto 14px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    animation:pop .5s ease both;
+  }
+  .out-ic.go{ background:var(--orange-dim); border:1px solid rgba(255,106,19,.32); }
+  .out-ic.no{ background:var(--panel-2); border:1px solid var(--line); }
+  .out h2{ font-size:21px; font-weight:700; margin-bottom:9px; }
+  .out p{ font-size:14.5px; line-height:1.6; color:var(--mute); margin:0 0 20px; }
+  .out .perk{
+    display:flex; gap:10px; align-items:flex-start; text-align:left;
+    background:var(--orange-dim); border:1px solid rgba(255,106,19,.26);
+    border-radius:13px; padding:12px 13px; margin:0 0 18px;
+    font-size:13.5px; line-height:1.45; color:var(--bone);
+  }
+  .out .perk svg{ flex:none; margin-top:1px; }
+
+  .hidden{ display:none !important; }
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition-duration:.01ms !important; } }
+  @media (max-width:370px){ .banner h1{ font-size:21px; } .q{ font-size:19px; } }
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://sgtm.pedrosomultimarcassjp.site/ns.html?id=GTM-N89HHJWD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="shell">
+
+  <div class="brand">
+    <div class="brand-mark"><img src="data:image/png;base64,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" alt="Pedroso Multimarcas"></div>
+    <div>
+      <div class="brand-name">Pedroso Multimarcas</div>
+      <div class="brand-sub">São José dos Pinhais · PR</div>
+    </div>
+  </div>
+
+  <div class="banner">
+    <span class="banner-tag">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Grupo de repasse
+    </span>
+    <h1>Repasse Pedroso Multimarcas</h1>
+    <p>Veículos de repasse com preço de atacado, direto para quem trabalha com revenda.</p>
+  </div>
+
+  <div class="notice">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 8.5v5M12 16.8v.2" stroke="#D9A441" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#D9A441" stroke-width="1.8"/></svg>
+    <span>Os veículos de repasse são vendidos <b>no estado em que se encontram</b> e <b>não possuem garantia mecânica</b>. Leia com atenção antes de continuar.</span>
+  </div>
+
+  <!-- pergunta -->
+  <div class="card" id="screen-q">
+    <p class="q">Qual a finalidade da compra?</p>
+    <div class="opts">
+      <button class="opt" onclick="choose('lojista')">
+        <span class="opt-ic">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 9.5 4.6 5h14.8L21 9.5M3 9.5h18M3 9.5v9.5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9.5M3 9.5a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0" stroke="#FF9350" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        </span>
+        <span>Sou lojista<span class="opt-sub">Compro para revenda na minha loja</span></span>
+      </button>
+
+      <button class="opt" onclick="choose('investidor')">
+        <span class="opt-ic">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 18V9M10 18V5M16 18v-6M22 18H2" stroke="#FF9350" stroke-width="1.9" stroke-linecap="round"/></svg>
+        </span>
+        <span>Sou investidor<span class="opt-sub">Compro para revender com lucro</span></span>
+      </button>
+
+      <button class="opt" onclick="choose('particular')">
+        <span class="opt-ic">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="#FF9350" stroke-width="1.8"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6" stroke="#FF9350" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <span>Para uso particular<span class="opt-sub">Para andar / uso próprio</span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- liberado -->
+  <div class="card hidden" id="screen-go">
+    <div class="out">
+      <div class="out-ic go">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6.5" stroke="#FF6A13" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 id="go-h">Perfeito, você tem acesso</h2>
+      <p id="go-p">Nosso grupo recebe os repasses em primeira mão, com preço e condição de atacado.</p>
+      <div class="perk">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3l7.5 3.2v5.4c0 4.8-3.1 8.6-7.5 9.4-4.4-.8-7.5-4.6-7.5-9.4V6.2L12 3Z" stroke="#FF9350" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2.2 2.2L15.5 10" stroke="#FF9350" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Repasses divulgados no grupo antes de irem para o público geral.</span>
+      </div>
+      <a class="btn btn-wa" id="wa-btn" href="#" target="_blank" rel="noopener">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="#06240F"><path d="M17.6 6.3A8.9 8.9 0 0 0 3.1 16.9L2 22l5.2-1.4A9 9 0 1 0 17.6 6.3ZM12 20a7 7 0 0 1-3.6-1l-.3-.2-2.7.7.7-2.6-.2-.3A7 7 0 1 1 12 20Zm4-5.2c-.2-.1-1.3-.7-1.5-.7s-.4-.1-.5.1-.5.7-.6.8-.3.1-.5 0a5.7 5.7 0 0 1-1.7-1 6.4 6.4 0 0 1-1.2-1.5c-.1-.2 0-.3.1-.4l.3-.4.2-.3v-.3c0-.1-.5-1.2-.7-1.6s-.4-.4-.5-.4h-.4a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2 4.7 4.7 0 0 0 1 2.5 10.6 10.6 0 0 0 4.1 3.6c.6.2 1 .4 1.4.5a3.3 3.3 0 0 0 1.5.1 2.5 2.5 0 0 0 1.6-1.1 2 2 0 0 0 .1-1.1c-.1-.1-.2-.2-.4-.3Z"/></svg>
+        Quero entrar no grupo de repasse
+      </a>
+    </div>
+  </div>
+
+  <!-- bloqueado -->
+  <div class="card hidden" id="screen-no">
+    <div class="out">
+      <div class="out-ic no">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#9A908A" stroke-width="1.8"/><path d="M5.8 5.8l12.4 12.4" stroke="#9A908A" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <h2>Repasse é só para revenda</h2>
+      <p>
+        Os veículos de repasse são vendidos <b style="color:var(--bone);font-weight:600;">exclusivamente para lojistas e investidores</b>. Não vendemos repasse para uso particular.
+        <br><br>
+        O motivo é simples: são carros vendidos no estado em que se encontram, sem garantia mecânica — não é o tipo de compra indicada para quem vai usar o veículo no dia a dia.
+      </p>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* ===================== configuração ===================== */
+  const STORE = { name:"Pedroso Multimarcas", city:"São José dos Pinhais", state:"PR" };
+  const WHATSAPP_NUMBER = "5541997730107";
+
+  const PERFIS = {
+    lojista: {
+      label: "Sou lojista",
+      h: "Perfeito, você tem acesso",
+      p: "Nosso grupo recebe os repasses em primeira mão, com preço e condição de atacado.",
+      msg: "Olá! Sou lojista e quero entrar no grupo de repasse da Pedroso Multimarcas."
+    },
+    investidor: {
+      label: "Sou investidor",
+      h: "Perfeito, você tem acesso",
+      p: "Nosso grupo recebe os repasses em primeira mão, com preço e margem para revenda.",
+      msg: "Olá! Sou investidor e quero entrar no grupo de repasse da Pedroso Multimarcas."
+    }
+  };
+
+  /* ===================== rastreamento ===================== */
+  /* Disparo triplo: nome interno (GTM atual) + padrão GA4 + padrão Meta. */
+  const EVENT_MAP = {
+    PageView:               { fb:"PageView",    ga4:"page_view"      },
+    view_content:           { fb:"ViewContent", ga4:"view_item_list" },
+    lead_repasse:           { fb:"Lead",        ga4:"generate_lead"  },
+    repasse_uso_particular: { fb:null,          ga4:null             }
+  };
+
+  function ga4Params(name, params){
+    if (name === "PageView") return { page_title: document.title };
+    if (name === "view_content") return {
+      item_list_id:   "repasse",
+      item_list_name: "Repasse Pedroso Multimarcas"
+    };
+    if (name === "lead_repasse") return {
+      lead_source: "repasse",
+      lead_type:   params.perfil
+    };
+    return params;
+  }
+
+  function fbParams(name, params){
+    if (name === "PageView") return {};
+    return Object.assign({
+      content_name:     "Repasse Pedroso Multimarcas",
+      content_type:     "product_group",
+      content_category: "repasse"
+    }, params);
+  }
+
+  function trackEvent(name, params){
+    params = params || {};
+    const map = EVENT_MAP[name] || {};
+    window.dataLayer = window.dataLayer || [];
+
+    // 1) nome interno
+    window.dataLayer.push(Object.assign({ event:name }, params));
+
+    // 2) nome padrão GA4
+    if (map.ga4) window.dataLayer.push(Object.assign({ event: map.ga4 }, ga4Params(name, params)));
+
+    // 3) Meta Pixel
+    if (typeof fbq === "function"){
+      try{
+        if (map.fb) fbq("track", map.fb, fbParams(name, params));
+        else fbq("trackCustom", name, params);
+      }catch(e){}
+    }
+    console.log("[tracking]", name, map.ga4 ? "| ga4:"+map.ga4 : "", map.fb ? "| fb:"+map.fb : "", params);
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    trackEvent("PageView");
+    trackEvent("view_content", {
+      content_name: "Repasse Pedroso Multimarcas",
+      content_type: "repasse",
+      page: "repasse",
+      store: STORE.name,
+      city: STORE.city
+    });
+  });
+
+  /* ===================== fluxo ===================== */
+  function choose(perfil){
+    document.getElementById("screen-q").classList.add("hidden");
+
+    if (perfil === "particular"){
+      // Uso particular não é o público do repasse: não recebe CTA nenhum.
+      // O evento existe só para medir quanto do tráfego chega fora do alvo.
+      trackEvent("repasse_uso_particular", {
+        perfil: "particular",
+        finalidade: "Para uso particular",
+        elegivel: false,
+        store: STORE.name
+      });
+
+      document.getElementById("screen-no").classList.remove("hidden");
+      window.scrollTo({ top:0, behavior:"smooth" });
+      return;
+    }
+
+    const p = PERFIS[perfil];
+    document.getElementById("go-h").textContent = p.h;
+    document.getElementById("go-p").textContent = p.p;
+
+    const link = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(p.msg);
+    const btn = document.getElementById("wa-btn");
+    btn.setAttribute("href", link);
+
+    btn.addEventListener("click", function(){
+      trackEvent("lead_repasse", {
+        perfil: perfil,
+        finalidade: p.label,
+        elegivel: true,
+        store: STORE.name,
+        city: STORE.city
+      });
+    }, { once:true });
+
+    document.getElementById("screen-go").classList.remove("hidden");
+    window.scrollTo({ top:0, behavior:"smooth" });
+  }
+</script>
+</body>
+</html>
