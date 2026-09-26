@@ -837,14 +837,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     const prazoVal = parseInt(prazoSelect.value, 10);
     const parcelaVal = Math.round(PRICE - entradaVal > 0 ? (PRICE - entradaVal) * (RATE * Math.pow(1+RATE, prazoVal)) / (Math.pow(1+RATE, prazoVal) - 1) : 0);
     window.dataLayer.push({
-      event: 'lead_simulacao_financiamento',
+      event: 'Lead_Quente',
       veiculo: 'Golf TSI Comfortline 2015',
       entrada: entradaVal,
       prazo_meses: prazoVal,
       parcela_estimada: parcelaVal
     });
     sendToSheet({
-      evento: 'lead_simulacao_financiamento',
+      evento: 'Lead_Quente',
       entrada: entradaVal,
       prazo_meses: prazoVal,
       parcela_estimada: parcelaVal
