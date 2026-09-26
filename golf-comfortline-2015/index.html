@@ -458,16 +458,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <h2>Simule sua parcela</h2>
     <div class="simulator">
       <div class="row">
-        <label>Valor de entrada: <span class="slider-value" id="entradaLabel">R$ 30.000</span></label>
-        <input type="range" id="entradaSlider" min="0" max="100000" step="1000" value="30000">
+        <label for="entradaInput">Valor de entrada</label>
+        <input type="text" id="entradaInput" inputmode="numeric" placeholder="R$ 0">
       </div>
       <div class="row">
         <label>Prazo</label>
         <select id="prazoSelect">
           <option value="24">24 meses</option>
-          <option value="36" selected>36 meses</option>
+          <option value="36">36 meses</option>
           <option value="48">48 meses</option>
-          <option value="60">60 meses</option>
+          <option value="60" selected>60 meses</option>
         </select>
       </div>
       <div class="sim-result">
@@ -499,8 +499,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <select id="marcaSelect"><option value="">Selecione a marca</option></select>
       </div>
       <div class="field">
-        <label for="modeloSelect">Modelo</label>
-        <select id="modeloSelect" disabled><option value="">Selecione a marca primeiro</option></select>
+        <label for="modeloInput">Modelo</label>
+        <input type="text" id="modeloInput" placeholder="Escreva o modelo aqui" disabled oninput="checkTdStep1(); handleModeloInput();">
       </div>
       <div class="field" id="modeloOutroField" style="display:none;">
         <label for="modeloOutroInput">Digite a marca e o modelo</label>
@@ -795,16 +795,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   const PRICE = 79900;
   const RATE = 0.019; // taxa média de referência — ajuste conforme sua financeira
 
-  const entradaSlider = document.getElementById('entradaSlider');
-  const entradaLabel = document.getElementById('entradaLabel');
+  const entradaInput = document.getElementById('entradaInput');
   const prazoSelect = document.getElementById('prazoSelect');
   const parcelaValor = document.getElementById('parcelaValor');
   const ctaSimulado = document.getElementById('ctaSimulado');
 
   function fmt(n){ return 'R$ ' + Math.round(n).toLocaleString('pt-BR'); }
 
+  function parseEntrada(){
+    const digits = entradaInput.value.replace(/\D/g, '');
+    return digits ? parseInt(digits, 10) : 0;
+  }
+
   function calcParcela(){
-    const entrada = parseInt(entradaSlider.value, 10);
+    const entrada = parseEntrada();
+    entradaInput.value = entrada > 0 ? fmt(entrada) : '';
     const prazo = parseInt(prazoSelect.value, 10);
     const financiado = Math.max(PRICE - entrada, 0);
     let parcela = 0;
@@ -812,7 +817,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       const i = RATE;
       parcela = financiado * (i * Math.pow(1+i, prazo)) / (Math.pow(1+i, prazo) - 1);
     }
-    entradaLabel.textContent = fmt(entrada);
     parcelaValor.textContent = fmt(parcela) + '/mês';
 
     const msg = `Olá! Simulei o financiamento da Golf TSI Comfortline 2015 (R$ 79.900):%0A` +
@@ -822,13 +826,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       `Quero simular com meu CPF pra uma condição mais precisa.`;
     ctaSimulado.href = `https://wa.me/5541997730107?text=${msg}`;
   }
-  entradaSlider.addEventListener('input', calcParcela);
+  entradaInput.addEventListener('input', calcParcela);
   prazoSelect.addEventListener('change', calcParcela);
+  entradaInput.value = fmt(10000);
   calcParcela();
 
   // ---------- Tracking: Lead ao clicar em "Simular com CPF" ----------
   ctaSimulado.addEventListener('click', () => {
-    const entradaVal = parseInt(entradaSlider.value, 10);
+    const entradaVal = parseEntrada();
     const prazoVal = parseInt(prazoSelect.value, 10);
     const parcelaVal = Math.round(PRICE - entradaVal > 0 ? (PRICE - entradaVal) * (RATE * Math.pow(1+RATE, prazoVal)) / (Math.pow(1+RATE, prazoVal) - 1) : 0);
     window.dataLayer.push({
@@ -881,7 +886,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   };
 
   const marcaSelect = document.getElementById('marcaSelect');
-  const modeloSelect = document.getElementById('modeloSelect');
   const anoSelect = document.getElementById('anoSelect');
   const tdContinueBtn = document.getElementById('tdContinueBtn');
 
@@ -895,56 +899,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   for(let y = 2026; y >= 2008; y--){ anos.push(y); }
 
   const OUTRA_MARCA = "Outra marca (não está na lista)";
+  const modeloInput = document.getElementById('modeloInput');
   const modeloOutroField = document.getElementById('modeloOutroField');
   const modeloOutroInput = document.getElementById('modeloOutroInput');
 
-  marcaSelect.addEventListener('change', () => {
-    modeloSelect.innerHTML = '<option value="">Selecione o modelo</option>';
+  function popularAnos(){
     anoSelect.innerHTML = '<option value="">Selecione o ano</option>';
+    anos.forEach(y => {
+      const opt = document.createElement('option');
+      opt.value = y; opt.textContent = y;
+      anoSelect.appendChild(opt);
+    });
+    anoSelect.disabled = false;
+  }
+
+  marcaSelect.addEventListener('change', () => {
+    modeloInput.value = '';
+    anoSelect.disabled = true;
+    anoSelect.innerHTML = '<option value="">Selecione o modelo primeiro</option>';
 
     if(marcaSelect.value === OUTRA_MARCA){
-      modeloSelect.disabled = true;
-      modeloSelect.style.display = 'none';
+      modeloInput.disabled = true;
+      modeloInput.style.display = 'none';
       modeloOutroField.style.display = 'block';
-      anos.forEach(y => {
-        const opt = document.createElement('option');
-        opt.value = y; opt.textContent = y;
-        anoSelect.appendChild(opt);
-      });
-      anoSelect.disabled = false;
+      modeloOutroInput.value = '';
+      popularAnos();
     } else {
       modeloOutroField.style.display = 'none';
-      modeloSelect.style.display = '';
-      anoSelect.disabled = true;
-      anoSelect.innerHTML = '<option value="">Selecione o modelo primeiro</option>';
-      if(marcaSelect.value){
-        MARCAS[marcaSelect.value].forEach(modelo => {
-          const opt = document.createElement('option');
-          opt.value = modelo; opt.textContent = modelo;
-          modeloSelect.appendChild(opt);
-        });
-        modeloSelect.disabled = false;
-      } else {
-        modeloSelect.disabled = true;
-      }
+      modeloOutroInput.value = '';
+      modeloInput.style.display = '';
+      modeloInput.disabled = !marcaSelect.value;
     }
     checkTdStep1();
   });
 
-  modeloSelect.addEventListener('change', () => {
-    anoSelect.innerHTML = '<option value="">Selecione o ano</option>';
-    if(modeloSelect.value){
-      anos.forEach(y => {
-        const opt = document.createElement('option');
-        opt.value = y; opt.textContent = y;
-        anoSelect.appendChild(opt);
-      });
-      anoSelect.disabled = false;
+  function handleModeloInput(){
+    if(modeloInput.value.trim()){
+      if(anoSelect.disabled) popularAnos();
     } else {
       anoSelect.disabled = true;
+      anoSelect.innerHTML = '<option value="">Selecione o modelo primeiro</option>';
     }
-    checkTdStep1();
-  });
+  }
 
   anoSelect.addEventListener('change', checkTdStep1);
 
@@ -953,7 +949,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     if(marcaSelect.value === OUTRA_MARCA){
       ok = modeloOutroInput.value.trim().length > 1 && anoSelect.value;
     } else {
-      ok = marcaSelect.value && modeloSelect.value && anoSelect.value;
+      ok = marcaSelect.value && modeloInput.value.trim().length > 0 && anoSelect.value;
     }
     tdContinueBtn.disabled = !ok;
     tdContinueBtn.classList.toggle('disabled', !ok);
@@ -982,7 +978,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     const ok = tdNome.value.trim().length > 1 && tdEmail.value.trim().length > 4 && tdCelular.value.trim().length > 7;
     tdWhatsBtn.classList.toggle('disabled', !ok);
     if(ok){
-      const entradaInfo = `${marcaSelect.value} ${modeloSelect.value} ${anoSelect.value}`;
+      const entradaInfo = marcaSelect.value === OUTRA_MARCA
+        ? `${modeloOutroInput.value.trim()} ${anoSelect.value}`
+        : `${marcaSelect.value} ${modeloInput.value.trim()} ${anoSelect.value}`;
       const msg = `Olá! Tenho interesse na Golf TSI Comfortline 2015.%0A` +
         `Veículo de entrada: ${entradaInfo}%0A` +
         `Nome: ${tdNome.value}%0A` +
@@ -998,7 +996,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   tdWhatsBtn.addEventListener('click', () => {
     const veiculoEntradaVal = marcaSelect.value === OUTRA_MARCA
       ? `${modeloOutroInput.value.trim()} ${anoSelect.value}`
-      : `${marcaSelect.value} ${modeloSelect.value} ${anoSelect.value}`;
+      : `${marcaSelect.value} ${modeloInput.value.trim()} ${anoSelect.value}`;
     window.dataLayer.push({
       event: 'lead_veiculo_entrada',
       veiculo: 'Golf TSI Comfortline 2015',
