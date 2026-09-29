@@ -13,364 +13,434 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Volkswagen Golf TSI Comfortline 2015 — R$ 79.900</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --asphalt: #000000;
-    --panel: #0d1013;
-    --panel-raised: #14181c;
-    --line: #2a2f35;
-    --amber: #f2a93b;
-    --amber-dim: #c9872a;
-    --text: #ffffff;
-    --text-dim: #a8b0ba;
-    --whatsapp: #25D366;
-    --neon: #ffcf70;
-    --radius: 4px;
+    --black:#000000; --graphite:#0F1113; --graphite-2:#16191C; --graphite-3:#24282D; --line:#2E3339;
+    --white:#FFFFFF; --dim:#A0A5AC; --faint:#6A7077;
+    --orange:#FF7A1A; --orange-2:#FF9A45; --orange-soft:rgba(255,122,26,0.10); --orange-line:rgba(255,122,26,0.5);
+    --whatsapp:#25D366;
+    --amber: var(--orange); --text: var(--white); --text-dim: var(--dim);
+    --display:'Big Shoulders Display','Arial Narrow',sans-serif;
+    --body:'Archivo',system-ui,sans-serif;
+    --r:10px; --r-lg:16px; --ease: cubic-bezier(.2,.8,.2,1);
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; }
-  body{
-    background: var(--asphalt);
-    color: var(--text);
-    font-family:'Work Sans', sans-serif;
-    line-height:1.55;
-    padding-bottom: 78px;
-  }
-  h1,h2,h3,.display{ font-family:'Oswald', sans-serif; font-weight:600; }
-  a{ color:inherit; }
-  .wrap{ max-width: 720px; margin:0 auto; padding: 0 20px; }
+  body{ background:var(--black); color:var(--white); font-family:var(--body); line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  body.sticky-on{ padding-bottom:92px; }
+  a{ color:inherit; } button{ font-family:inherit; }
+  :focus-visible{ outline:2px solid var(--orange); outline-offset:3px; }
+  .visually-hidden{ position:absolute !important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; padding:0; }
+  svg{ flex-shrink:0; }
 
-  .topbar{
-    display:flex; align-items:center; justify-content:space-between;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--line);
-  }
-  .topbar .brand{ font-family:'Oswald',sans-serif; font-size:16px; letter-spacing:0.5px; }
-  .topbar .brand span{ color:var(--amber); }
-  .topbar .phone{ font-size:13px; color:var(--text-dim); }
+  /* ============ TOPO ============ */
+  .topbar{ display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 20px; border-bottom:1px solid var(--graphite-3); position:relative; z-index:10; }
+  .brand{ font-family:var(--display); font-weight:900; font-size:22px; letter-spacing:0.5px; text-transform:uppercase; white-space:nowrap; line-height:1; }
+  .brand span{ color:var(--orange); }
+  .brand small{ display:block; font-family:var(--body); font-size:8.5px; font-weight:700; letter-spacing:3.6px; color:var(--dim); margin-top:3px; }
+  .topnav{ display:none; gap:28px; font-size:13px; font-weight:500; }
+  .topnav a{ text-decoration:none; color:var(--dim); transition:color .2s ease; }
+  .topnav a:hover{ color:var(--white); }
+  .btn-talk{ display:flex; align-items:center; gap:8px; padding:9px 14px; border-radius:10px; border:1px solid var(--line); text-decoration:none; font-size:12.5px; font-weight:600; white-space:nowrap; transition:border-color .2s ease, background .2s ease; }
+  .btn-talk svg{ width:16px; height:16px; color:var(--whatsapp); }
+  .btn-talk:hover{ border-color:var(--whatsapp); background:rgba(37,211,102,0.08); }
 
-  .hero-gallery-wrap{
-    position: relative;
-    width:100%;
-    border-bottom: 1px solid var(--line);
-  }
-  .hero-gallery{
-    display:flex;
-    overflow-x:auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-  }
+  /* ============ HERO ============ */
+  .hero{ display:grid; grid-template-columns:minmax(0,1fr); grid-template-areas:"stage" "panel" "badges"; }
+  .hero-stage{ grid-area:stage; position:relative; }
+  .hero-panel{ grid-area:panel; padding:24px 20px 6px; }
+  .hero-badges{ grid-area:badges; }
+
+  .hero-gallery-wrap{ position:relative; overflow:hidden; background:var(--graphite); }
+  .hero-gallery{ display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
   .hero-gallery::-webkit-scrollbar{ display:none; }
-  .hero-gallery .slide{
-    flex: 0 0 100%;
-    aspect-ratio: 4/3;
-    scroll-snap-align: center;
-    background-size:cover;
-    background-position:center;
-    cursor: pointer;
-  }
-  .badge-float{
-    position:absolute; top:14px; left:14px; z-index:5;
-    background: var(--amber); color:#1a1406;
-    font-family:'Oswald',sans-serif; font-size:12px; font-weight:600;
-    padding: 6px 12px; border-radius: var(--radius);
-  }
-  .hero-count{
-    position:absolute; bottom:12px; right:14px; z-index:5;
-    background: rgba(18,22,29,0.75); color: var(--text);
-    font-family:'Oswald',sans-serif; font-size:12px;
-    padding: 4px 10px; border-radius: 12px;
-  }
-  .hero-nav{
-    position:absolute; top:50%; transform:translateY(-50%);
-    z-index:6; width:38px; height:38px; border-radius:50%;
-    background: rgba(18,22,29,0.55); border:1px solid rgba(255,255,255,0.15);
-    color: var(--text); display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-  }
-  .hero-nav svg{ width:20px; height:20px; }
-  .hero-nav.prev{ left:10px; }
-  .hero-nav.next{ right:10px; }
-  .hero-nav:active{ background: rgba(18,22,29,0.8); }
+  .hero-gallery .slide{ flex:0 0 100%; aspect-ratio:1/1; scroll-snap-align:center; background-size:cover; background-position:center; background-repeat:no-repeat; cursor:zoom-in; position:relative; }
+  .hero-gallery-wrap::before{ content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 32%), linear-gradient(to right, rgba(0,0,0,0.25), transparent 20%, transparent 80%, rgba(0,0,0,0.25)); }
+  .hero-count{ position:absolute; left:16px; bottom:18px; z-index:5; padding:6px 13px; border-radius:30px; background:rgba(0,0,0,0.6); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.15); font-family:var(--display); font-weight:800; font-size:15px; letter-spacing:1px; font-variant-numeric:tabular-nums; }
+  .hero-nav{ position:absolute; top:50%; transform:translateY(-50%); z-index:6; width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; background:rgba(0,0,0,0.5); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); color:var(--white); transition:background .2s ease, border-color .2s ease, transform .2s var(--ease); }
+  .hero-nav:hover{ background:var(--orange); border-color:var(--orange); }
+  .hero-nav:active{ transform:translateY(-50%) scale(.92); }
+  .hero-nav svg{ width:22px; height:22px; }
+  .hero-nav.prev{ left:12px; } .hero-nav.next{ right:12px; }
+  .hero-progress{ position:absolute; left:0; right:0; bottom:0; height:3px; background:rgba(255,255,255,0.12); z-index:6; }
+  .hero-progress-fill{ height:100%; width:0; background:var(--orange); transition:width .4s var(--ease); }
+  .swipe-hint{ position:absolute; right:16px; bottom:18px; z-index:5; display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:30px; background:rgba(0,0,0,0.6); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); font-size:11.5px; white-space:nowrap; pointer-events:none; opacity:0; animation:hintFade 4s ease 1.4s forwards; }
+  .swipe-hint svg{ width:15px; height:15px; animation:nudge 1s ease-in-out 1.6s 3; }
+  @keyframes hintFade{ 0%{opacity:0} 12%{opacity:1} 80%{opacity:1} 100%{opacity:0} }
+  @keyframes nudge{ 0%,100%{transform:translateX(0)} 50%{transform:translateX(5px)} }
 
-  .hero-photo{
-    width:100%;
-    aspect-ratio: 4/3;
-    background: linear-gradient(160deg, #232a34, #171b22 70%);
-    display:flex; align-items:center; justify-content:center;
-    color: var(--text-dim);
-    font-size: 13px;
-    border-bottom: 1px solid var(--line);
-    position: relative;
-  }
-  .hero-photo .badge{
-    position:absolute; top:14px; left:14px;
-    background: var(--amber); color:#1a1406;
-    font-family:'Oswald',sans-serif; font-size:12px; font-weight:600;
-    padding: 6px 12px; border-radius: var(--radius);
-  }
-  .thumbrow{
-    display:flex; gap:8px; padding: 10px 20px 0;
-    max-width: 720px; margin:0 auto;
-    overflow-x:auto;
-  }
-  .thumb{
-    flex: 0 0 22%; aspect-ratio:4/3;
-    background: var(--panel-raised);
-    border:1px solid var(--line); border-radius: var(--radius);
-    display:flex; align-items:center; justify-content:center;
-    font-size: 10px; color: var(--text-dim);
-  }
+  .hero-thumbs{ display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding:12px 20px 0; scroll-behavior:smooth; }
+  .hero-thumbs::-webkit-scrollbar{ display:none; }
+  .hero-thumb{ flex:0 0 72px; height:54px; padding:0; border-radius:8px; cursor:pointer; border:2px solid transparent; background-size:cover; background-position:center; opacity:.45; transition:opacity .25s ease, border-color .25s ease, transform .25s var(--ease); }
+  .hero-thumb:hover{ opacity:.9; transform:translateY(-2px); }
+  .hero-thumb.on{ opacity:1; border-color:var(--orange); box-shadow:0 0 0 3px rgba(255,122,26,0.18); }
 
-  .price-block{ padding: 24px 20px 8px; }
-  .price-block .model{ font-size: 22px; margin-bottom: 4px; }
-  .price-block .trim{ color: var(--text-dim); font-size: 14px; margin-bottom: 18px; }
-  .price-block .price-row{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
-  .price-block .price{ font-family:'Oswald',sans-serif; font-size: 34px; color: var(--amber); }
-  .price-block .cash-tag{ font-size:13px; color: var(--text-dim); }
-  .price-block .installment{ font-size: 13px; color: var(--text-dim); margin-top: 6px; }
-  .price-block .installment a{ color: var(--amber); text-decoration:underline; cursor:pointer; }
+  /* painel */
+  .pill-live{ display:inline-flex; align-items:center; gap:7px; padding:4px 11px; border-radius:30px; background:rgba(37,211,102,0.12); border:1px solid rgba(37,211,102,0.4); color:#5BE38F; font-size:10.5px; font-weight:800; letter-spacing:1.6px; text-transform:uppercase; }
+  .pill-live::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--whatsapp); animation:live 2.4s ease-out infinite; }
+  @keyframes live{ 0%{box-shadow:0 0 0 0 rgba(37,211,102,.6)} 70%,100%{box-shadow:0 0 0 7px rgba(37,211,102,0)} }
+  .hp-brand{ margin-top:14px; font-size:12px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:var(--dim); }
+  .hp-model{ font-family:var(--display); text-transform:uppercase; line-height:.86; margin-top:6px; }
+  .hp-model .l1{ display:block; font-weight:900; font-size:clamp(58px,17vw,84px); letter-spacing:.5px; }
+  .hp-model .l2{ display:block; font-weight:800; font-size:clamp(32px,9.5vw,46px); color:var(--orange); letter-spacing:.8px; margin-top:2px; }
+  .hp-sub{ margin-top:10px; font-size:14px; color:var(--dim); font-weight:500; }
+  .hp-sub b{ color:var(--orange); font-weight:700; margin:0 6px; }
+  .hp-specs{ display:flex; flex-wrap:wrap; gap:8px 18px; margin:18px 0 0; padding:14px 0; border-top:1px solid var(--graphite-3); border-bottom:1px solid var(--graphite-3); }
+  .hp-specs span{ display:flex; align-items:center; gap:7px; font-size:13px; color:var(--white); }
+  .hp-specs svg{ width:17px; height:17px; color:var(--dim); }
 
-  .quick-specs{
-    display:grid; grid-template-columns: repeat(4,1fr);
-    gap: 1px; background: var(--line);
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-    margin-top: 20px;
-  }
-  .quick-specs .qs{ background: var(--panel); padding: 14px 6px; text-align:center; }
-  .quick-specs .qs .v{ font-family:'Oswald',sans-serif; font-size:14px; }
-  .quick-specs .qs .l{ font-size: 10.5px; color: var(--text-dim); margin-top:2px; }
+  .hp-price{ margin-top:20px; }
+  .hp-price .num{ display:flex; align-items:flex-start; gap:6px; font-family:var(--display); font-weight:900; line-height:.84; }
+  .hp-price .num .cur{ font-size:34px; margin-top:7px; }
+  .hp-price .num .val{ font-size:clamp(84px,25vw,112px); letter-spacing:-.5px; }
+  .hp-price .tag{ font-size:11.5px; font-weight:700; letter-spacing:2.2px; text-transform:uppercase; color:var(--dim); margin-top:8px; }
 
-  section{ padding: 28px 20px; border-bottom: 1px solid var(--line); }
-  section h2{ font-size: 18px; margin-bottom: 16px; }
-  section .subnote{ font-size: 13px; color: var(--text-dim); margin-top: -10px; margin-bottom: 16px; }
+  /* card de pagamento editável */
+  .pay-card{ position:relative; margin-top:20px; border-radius:var(--r-lg); border:1px solid var(--orange-line); background:linear-gradient(165deg,#191B1E 0%,#0C0D0F 100%); box-shadow:0 0 0 4px rgba(255,122,26,.05), 0 20px 50px rgba(255,122,26,.10); overflow:hidden; }
+  .pay-head{ display:flex; align-items:center; justify-content:space-between; }
+  .pay-tag{ display:inline-block; padding:7px 22px 7px 16px; background:var(--orange); color:#150800; font-size:11px; font-weight:800; letter-spacing:1.8px; text-transform:uppercase; clip-path:polygon(0 0,100% 0,88% 100%,0 100%); }
+  .pay-edit-hint{ display:flex; align-items:center; gap:5px; padding-right:16px; font-size:11px; color:var(--dim); }
+  .pay-edit-hint svg{ width:13px; height:13px; color:var(--orange); }
+  .pay-body{ padding:16px 16px 16px; }
+  .pay-row{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1.15fr); align-items:end; gap:10px; }
+  .pay-k{ font-size:10.5px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; color:var(--dim); margin-bottom:6px; display:block; }
+  .pay-entrada-field{ position:relative; }
+  .pay-entrada-field input{ width:100%; padding:10px 32px 10px 12px; border-radius:var(--r); background:rgba(255,255,255,0.04); border:1px solid var(--line); color:var(--white); font-family:var(--display); font-weight:800; font-size:24px; line-height:1; transition:border-color .2s ease, box-shadow .2s ease; }
+  .pay-entrada-field input:focus{ outline:none; border-color:var(--orange); box-shadow:0 0 0 3px rgba(255,122,26,.18); }
+  .pay-entrada-field svg{ position:absolute; right:10px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--orange); pointer-events:none; }
+  .pay-plus{ font-family:var(--display); font-weight:800; font-size:28px; color:var(--orange); padding-bottom:8px; }
+  .pay-parcela .pay-k{ color:var(--orange-2); }
+  .pay-parcela .big{ display:flex; align-items:flex-start; gap:3px; font-family:var(--display); font-weight:900; line-height:.9; white-space:nowrap; }
+  .pay-parcela .big small{ font-size:16px; margin-top:4px; color:var(--dim); font-weight:800; }
+  .pay-parcela .big strong{ font-size:clamp(40px,11.5vw,50px); color:var(--white); font-weight:900; }
+  .pay-parcela .big.flash strong{ animation:valFlash .4s ease; }
+  .pay-parcela .per{ font-size:11px; color:var(--dim); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-top:4px; display:block; }
+  .pay-prazos{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:14px; }
+  .pay-prazos button{ padding:10px 0; border-radius:8px; cursor:pointer; background:rgba(255,255,255,0.03); border:1px solid var(--line); color:var(--dim); font-family:var(--display); font-weight:800; font-size:17px; transition:all .2s ease; }
+  .pay-prazos button:hover{ color:var(--white); border-color:var(--faint); }
+  .pay-prazos button.on{ background:var(--orange-soft); border-color:var(--orange); color:var(--orange); }
+  .pay-note{ font-size:10.5px; color:var(--faint); margin-top:10px; line-height:1.45; }
+  .btn-sim{ margin-top:14px; width:100%; display:flex; align-items:center; justify-content:center; gap:10px; padding:15px; border:none; border-radius:var(--r); cursor:pointer; background:linear-gradient(180deg,var(--orange-2),var(--orange)); color:#150800; font-family:var(--display); font-weight:900; font-size:18px; letter-spacing:.8px; text-transform:uppercase; white-space:nowrap; transition:filter .2s ease, transform .2s var(--ease), box-shadow .2s ease; }
+  .btn-sim svg{ width:18px; height:18px; transition:transform .25s var(--ease); }
+  .btn-sim:hover{ filter:brightness(1.07); transform:translateY(-1px); box-shadow:0 10px 28px rgba(255,122,26,.35); }
+  .btn-sim:hover svg{ transform:translateX(4px); }
+  .btn-sim:active{ transform:scale(.98); }
 
-  .spec-table{ display:flex; flex-direction:column; gap:0; }
-  .spec-row{ display:flex; justify-content:space-between; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
-  .spec-row:last-child{ border-bottom:none; }
-  .spec-row .k{ color: var(--text-dim); }
-  .spec-row .v{ color: var(--text); font-weight:500; text-align:right; }
+  .hp-ctas{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+  .btn-main, .btn-line{ display:flex; align-items:center; justify-content:center; gap:8px; padding:15px 10px; border-radius:var(--r); cursor:pointer; font-family:var(--display); font-weight:800; font-size:15.5px; letter-spacing:.6px; text-transform:uppercase; white-space:nowrap; transition:transform .2s var(--ease), filter .2s ease, border-color .2s ease, background .2s ease; }
+  .btn-main{ background:var(--white); color:#000; border:1px solid var(--white); }
+  .btn-main:hover{ transform:translateY(-1px); filter:brightness(.92); }
+  .btn-line{ background:transparent; color:var(--white); border:1px solid var(--line); }
+  .btn-line:hover{ border-color:var(--white); transform:translateY(-1px); }
+  .btn-main svg, .btn-line svg{ width:17px; height:17px; transition:transform .25s var(--ease); }
+  .btn-main:hover svg, .btn-line:hover svg{ transform:translateX(3px); }
+  .btn-line svg{ color:var(--orange); }
 
-  .gallery-tabs{ display:flex; gap:8px; margin-bottom: 14px; }
-  .gtab{
-    flex:1; background: var(--panel-raised); border:1px solid var(--line);
-    border-radius: var(--radius); padding: 10px; color: var(--text-dim);
-    font-family:'Oswald',sans-serif; font-size: 13px; letter-spacing:0.3px;
-    cursor:pointer;
-  }
-  .gtab.active{ background: rgba(242,169,59,0.1); border-color: var(--amber-dim); color: var(--amber); }
-  .gallery-grid{
-    display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  }
-  .gallery-grid .gimg{
-    aspect-ratio: 4/3; border-radius: var(--radius); overflow:hidden;
-    border:1px solid var(--line); cursor:pointer; background-size:cover; background-position:center;
-  }
+  .hero-badges{ display:grid; gap:0; margin:20px 20px 0; border:1px solid var(--graphite-3); border-radius:var(--r-lg); background:var(--graphite); }
+  .hb{ display:flex; align-items:center; gap:12px; padding:14px 16px; }
+  .hb + .hb{ border-top:1px solid var(--graphite-3); }
+  .hb svg{ width:30px; height:30px; color:var(--orange); }
+  .hb b{ display:block; font-size:13.5px; font-weight:700; }
+  .hb span{ font-size:12px; color:var(--dim); line-height:1.45; display:block; margin-top:2px; }
 
-  .buffer-overlay{
-    display:none; position:fixed; inset:0; background: rgba(0,0,0,0.92);
-    z-index: 60; align-items:center; justify-content:center; flex-direction:column; gap:18px;
-  }
-  .buffer-overlay.open{ display:flex; }
-  .buffer-spinner{
-    width:44px; height:44px; border-radius:50%;
-    border: 3px solid var(--line); border-top-color: var(--amber);
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin{ to{ transform: rotate(360deg); } }
-  .buffer-text{ color: var(--text-dim); font-size:14px; text-align:center; padding:0 30px; }
+  /* entrada da primeira tela em sequência */
+  .hero-stage{ animation:photoIn .9s var(--ease) both; }
+  @keyframes photoIn{ from{ opacity:0; transform:scale(1.03); } to{ opacity:1; transform:none; } }
+  .seq{ animation:rise .6s var(--ease) both; }
+  .seq-1{ animation-delay:.25s } .seq-2{ animation-delay:.35s } .seq-3{ animation-delay:.45s } .seq-4{ animation-delay:.55s } .seq-5{ animation-delay:.68s } .seq-6{ animation-delay:.8s }
+  @keyframes rise{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
+  @keyframes valFlash{ from{ opacity:.35; transform:translateY(4px); } to{ opacity:1; transform:none; } }
 
-  .discount-popup{
-    display:none; position:fixed; inset:0; background: rgba(0,0,0,0.88);
-    z-index: 60; align-items:center; justify-content:center; padding: 20px;
-  }
-  .discount-popup.open{ display:flex; }
-  .discount-card{
-    position:relative; width:100%; max-width: 420px;
-    background: var(--panel); border:1px solid var(--amber-dim); border-radius: 8px;
-    padding: 28px 24px 24px;
-    box-shadow: 0 0 40px 4px rgba(242,169,59,0.15);
-    animation: popIn 0.3s ease;
-  }
-  @keyframes popIn{
-    from{ opacity:0; transform: scale(0.95) translateY(8px); }
-    to{ opacity:1; transform: scale(1) translateY(0); }
-  }
-  .discount-close{
-    position:absolute; top:14px; right:14px; background:none; border:none;
-    color: var(--text-dim); font-size:24px; cursor:pointer; line-height:1;
-  }
-  .discount-eyebrow{ color: var(--amber); font-size:12px; font-weight:600; letter-spacing:0.5px; margin-bottom:10px; }
-  .discount-title{ font-size:22px; margin-bottom:10px; }
-  .discount-text{ font-size:14px; color: var(--text); line-height:1.5; margin-bottom:18px; }
-  .discount-text strong{ color: var(--amber); }
-  .discount-price-row{
-    display:flex; align-items:baseline; gap:12px; margin-bottom:6px;
-  }
-  .discount-old{ font-size:16px; color: var(--text-dim); text-decoration: line-through; }
-  .discount-new{ font-family:'Oswald',sans-serif; font-size:30px; color: var(--amber); }
-  .discount-note{ font-size:11.5px; color: var(--text-dim); margin-bottom: 4px; }
+  /* ============ SEÇÕES ============ */
+  .eyebrow{ font-size:11px; font-weight:700; letter-spacing:2.6px; text-transform:uppercase; color:var(--orange); display:block; margin-bottom:8px; }
+  .sec-title{ font-family:var(--display); font-weight:900; font-size:clamp(40px,11vw,60px); line-height:.9; text-transform:uppercase; letter-spacing:.3px; }
+  .sec-lead{ font-size:14px; color:var(--dim); margin-top:10px; max-width:48ch; }
+  .split{ position:relative; overflow:hidden; border-top:1px solid var(--graphite-3); }
+  .split-content{ position:relative; z-index:2; padding:52px 20px 36px; }
+  .split-photo{ position:relative; height:300px; background-size:cover; background-position:center; }
+  .split-photo::before{ content:""; position:absolute; inset:0; background:linear-gradient(to bottom, var(--black) 0%, transparent 35%, transparent 60%, rgba(0,0,0,.85) 100%); }
+  .split-photo::after{ content:""; position:absolute; left:0; right:0; top:0; height:3px; background:linear-gradient(90deg,var(--orange),transparent 70%); }
+  .photo-caption{ position:absolute; left:20px; right:20px; bottom:20px; z-index:2; }
+  .photo-caption strong{ display:block; font-family:var(--display); font-weight:900; font-size:30px; line-height:.95; text-transform:uppercase; }
+  .photo-caption span{ font-size:13px; color:var(--dim); }
 
-  .lightbox{
-    display:none; position:fixed; inset:0; background: rgba(8,10,13,0.94);
-    z-index: 50; align-items:center; justify-content:center; flex-direction:column;
-    padding: 20px;
-  }
-  .lightbox.open{ display:flex; }
-  .lightbox img{ max-width:100%; max-height:75vh; border-radius: var(--radius); }
-  .lightbox-controls{
-    display:flex; align-items:center; justify-content:space-between;
-    width:100%; max-width: 500px; margin-top: 16px;
-  }
-  .lightbox-btn{
-    background: var(--panel-raised); border:1px solid var(--line); color: var(--text);
-    width:42px; height:42px; border-radius:50%; font-size:18px; cursor:pointer;
-  }
-  .lightbox-close{
-    position:absolute; top:18px; right:18px; background:none; border:none;
-    color: var(--text); font-size:26px; cursor:pointer;
-  }
-  .lightbox-count{ color: var(--text-dim); font-size:13px; }
+  /* ficha */
+  .spec-cards{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:26px; }
+  .spec-card{ display:flex; gap:12px; align-items:flex-start; padding:14px; border-radius:var(--r); background:var(--graphite); border:1px solid var(--graphite-3); transition:transform .25s var(--ease), border-color .25s ease, box-shadow .25s ease; }
+  .spec-card:hover{ transform:translateY(-3px); border-color:var(--orange-line); box-shadow:0 12px 30px rgba(0,0,0,.4); }
+  .spec-card svg{ width:22px; height:22px; color:var(--orange); margin-top:2px; }
+  .spec-card > div{ min-width:0; }
+  .spec-card .k{ overflow-wrap:break-word; font-size:10.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--faint); }
+  .spec-card .v{ font-size:14.5px; font-weight:600; line-height:1.3; margin-top:2px; overflow-wrap:break-word; }
+  .spec-card.extra{ display:none; }
+  .spec-cards.show-all .spec-card.extra{ display:flex; }
+  .btn-more{ display:inline-flex; align-items:center; gap:8px; margin-top:18px; padding:11px 18px; border-radius:30px; background:transparent; border:1px solid var(--orange-line); color:var(--white); font-size:12px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; cursor:pointer; transition:background .2s ease, transform .2s var(--ease); }
+  .btn-more:hover{ background:var(--orange-soft); transform:translateY(-1px); }
+  .btn-more svg{ width:14px; height:14px; color:var(--orange); transition:transform .25s ease; }
+  .btn-more[aria-expanded="true"] svg{ transform:rotate(180deg); }
 
-  .equip-grid{
-    display:grid; grid-template-columns: 1fr 1fr; gap: 10px 14px;
-  }
-  .equip-item{
-    display:flex; align-items:flex-start; gap:8px;
-    font-size: 13.5px; color: var(--text);
-  }
-  .equip-item svg{ width:15px; height:15px; flex-shrink:0; color: var(--amber); margin-top:2px; }
-  @media (max-width: 420px){
-    .equip-grid{ grid-template-columns: 1fr; }
-  }
+  /* equipamentos */
+  .equip-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:26px; }
+  .equip-item{ display:flex; align-items:center; gap:11px; padding:12px; border-radius:var(--r); background:var(--graphite); border:1px solid var(--graphite-3); font-size:13px; line-height:1.3; transition:transform .25s var(--ease), border-color .25s ease; }
+  .equip-item:hover{ transform:translateY(-2px); border-color:var(--orange-line); }
+  .equip-item .ico{ width:34px; height:34px; border-radius:9px; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:var(--orange-soft); color:var(--orange); }
+  .equip-item .ico svg{ width:18px; height:18px; }
 
-  .trust-grid{ display:flex; flex-direction:column; gap:12px; }
-  .trust-item{ display:flex; gap:12px; align-items:flex-start; }
-  .trust-item svg{ width:20px; height:20px; flex-shrink:0; color: var(--amber); margin-top:2px; }
-  .trust-item .t{ font-size:14px; color:var(--text); }
-  .trust-item .d{ font-size:13px; color:var(--text-dim); margin-top:2px; }
+  /* procedência */
+  .trust-sec{ padding:56px 20px; border-top:1px solid var(--graphite-3); background:radial-gradient(90% 60% at 0% 0%, rgba(255,122,26,.08), transparent 60%); }
+  .trust-grid{ display:grid; gap:12px; margin-top:26px; }
+  .trust-item{ display:flex; gap:14px; align-items:flex-start; padding:18px; border-radius:var(--r-lg); background:var(--graphite); border:1px solid var(--graphite-3); transition:transform .25s var(--ease), border-color .25s ease, box-shadow .25s ease; }
+  .trust-item:hover{ transform:translateY(-3px); border-color:var(--orange-line); box-shadow:0 14px 34px rgba(0,0,0,.45); }
+  .trust-item svg{ width:46px; height:46px; padding:11px; border-radius:12px; background:var(--orange-soft); border:1px solid rgba(255,122,26,.25); color:var(--orange); }
+  .trust-item .t{ font-family:var(--display); font-weight:800; font-size:20px; line-height:1.05; text-transform:uppercase; }
+  .trust-item .d{ font-size:13px; color:var(--dim); margin-top:4px; line-height:1.5; }
 
-  .simulator{ background: var(--panel); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; }
-  .simulator .row{ margin-bottom: 16px; }
-  .simulator label{ display:block; font-size:13px; color: var(--text-dim); margin-bottom:8px; }
-  .simulator .slider-value{ color: var(--amber); font-family:'Oswald',sans-serif; }
-  input[type="range"]{ width:100%; accent-color: var(--amber); height: 4px; }
-  select, input[type="text"], input[type="email"], input[type="tel"]{
-    width:100%; background: var(--panel-raised); border:1px solid var(--line);
-    border-radius: var(--radius); padding: 13px 14px; color: var(--text);
-    font-family:'Work Sans',sans-serif; font-size:14px;
-  }
-  select:focus, input:focus{ outline:none; border-color: var(--amber-dim); }
-  .sim-result{ margin-top: 18px; padding-top:18px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:baseline; }
-  .sim-result .lbl{ font-size:13px; color:var(--text-dim); }
-  .sim-result .val{ font-family:'Oswald',sans-serif; font-size:26px; color: var(--amber); }
-  .sim-note{
-    font-size:12px; color:var(--text-dim); margin-top:12px;
-    background: rgba(242,169,59,0.08); border:1px solid rgba(242,169,59,0.25);
-    border-radius: var(--radius); padding: 10px 12px;
-  }
-  .sim-note strong{ color: var(--amber); }
+  /* CTA final com foto */
+  .final-cta{ position:relative; overflow:hidden; margin:0 20px 40px; border-radius:22px; border:1px solid var(--graphite-3); background:var(--graphite); }
+  .final-photo{ height:210px; background-size:cover; background-position:center 60%; position:relative; }
+  .final-photo::after{ content:""; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 40%, var(--graphite) 100%); }
+  .final-body{ position:relative; padding:0 20px 24px; margin-top:-30px; }
+  .final-body h2{ font-family:var(--display); font-weight:900; font-size:clamp(38px,10.5vw,54px); line-height:.9; text-transform:uppercase; }
+  .final-body h2 span{ color:var(--orange); }
+  .final-body p{ font-size:14px; color:var(--dim); margin:10px 0 20px; }
+  .action-buttons{ display:grid; gap:10px; }
+  .action-btn{ display:flex; align-items:center; gap:14px; width:100%; text-align:left; cursor:pointer; padding:16px; border-radius:var(--r-lg); background:var(--black); border:1px solid var(--graphite-3); color:var(--white); transition:border-color .25s ease, transform .25s var(--ease); }
+  .action-btn:hover{ border-color:var(--orange); transform:translateY(-2px); }
+  .action-icon{ width:44px; height:44px; flex-shrink:0; border-radius:12px; display:flex; align-items:center; justify-content:center; background:var(--orange-soft); color:var(--orange); }
+  .action-icon svg{ width:21px; height:21px; }
+  .action-text{ flex:1; display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .action-label{ font-family:var(--display); font-weight:800; font-size:19px; text-transform:uppercase; line-height:1.05; }
+  .action-sub{ font-size:12.5px; color:var(--dim); }
+  .action-arrow{ font-size:24px; color:var(--faint); transition:transform .25s var(--ease), color .2s ease; }
+  .action-btn:hover .action-arrow{ color:var(--orange); transform:translateX(4px); }
 
-  @keyframes neonPulse{
-    0%, 100%{ box-shadow: 0 0 6px 0px rgba(37,211,102,0.5), 0 0 0px 0px rgba(37,211,102,0.3); }
-    50%{ box-shadow: 0 0 18px 4px rgba(37,211,102,0.85), 0 0 30px 8px rgba(37,211,102,0.35); }
-  }
-  @keyframes neonPulseAmber{
-    0%, 100%{ box-shadow: 0 0 6px 0px rgba(242,169,59,0.5), 0 0 0px 0px rgba(242,169,59,0.3); }
-    50%{ box-shadow: 0 0 18px 4px rgba(242,169,59,0.85), 0 0 30px 8px rgba(242,169,59,0.35); }
+  .footer-note{ padding:30px 20px 36px; text-align:center; font-size:12px; color:var(--faint); line-height:1.7; border-top:1px solid var(--graphite-3); }
+  .footer-links a{ color:var(--dim); text-underline-offset:3px; }
+  .footer-links a:hover{ color:var(--orange); }
+
+  /* reveal (IntersectionObserver) + cartões em cascata */
+  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .75s var(--ease), transform .75s var(--ease); }
+  .reveal.revealed{ opacity:1; transform:none; }
+  .reveal .stag > *{ opacity:0; transform:translateY(14px); }
+  .reveal.revealed .stag > *{ animation:rise .55s var(--ease) forwards; }
+  .reveal.revealed .stag > *:nth-child(2){ animation-delay:.05s } .reveal.revealed .stag > *:nth-child(3){ animation-delay:.1s }
+  .reveal.revealed .stag > *:nth-child(4){ animation-delay:.15s } .reveal.revealed .stag > *:nth-child(5){ animation-delay:.2s }
+  .reveal.revealed .stag > *:nth-child(6){ animation-delay:.25s } .reveal.revealed .stag > *:nth-child(7){ animation-delay:.3s }
+  .reveal.revealed .stag > *:nth-child(n+8){ animation-delay:.35s }
+
+  /* ============ STICKY ============ */
+  .sticky-cta{ position:fixed; left:10px; right:10px; bottom:10px; z-index:30; display:flex; align-items:center; gap:12px; padding:9px 9px 9px 16px; border-radius:16px; background:rgba(15,17,19,.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid var(--graphite-3); box-shadow:0 14px 40px rgba(0,0,0,.6); transform:translateY(150%); transition:transform .45s var(--ease); }
+  body.sticky-on .sticky-cta{ transform:translateY(0); }
+  .sticky-thumb{ display:none; width:70px; height:46px; border-radius:8px; background-size:cover; background-position:center; }
+  .sticky-cta .info{ flex:1; min-width:0; }
+  .sticky-cta .info .p{ font-family:var(--display); font-weight:900; font-size:25px; line-height:1; white-space:nowrap; }
+  .sticky-cta .info .l{ font-size:11px; color:var(--dim); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .btn-sim-sticky{ display:none; align-items:center; gap:8px; padding:12px 16px; border-radius:11px; cursor:pointer; background:transparent; border:1px solid var(--orange); color:var(--white); font-family:var(--display); font-weight:800; font-size:14.5px; letter-spacing:.5px; text-transform:uppercase; white-space:nowrap; transition:background .2s ease; }
+  .btn-sim-sticky:hover{ background:var(--orange-soft); }
+  .sticky-cta .btn{ position:relative; overflow:hidden; flex-shrink:0; cursor:pointer; display:flex; align-items:center; gap:7px; padding:13px 14px; border:none; border-radius:11px; background:var(--whatsapp); color:#04210d; font-family:var(--display); font-weight:900; font-size:15px; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap; transition:filter .2s ease; }
+  .sticky-cta .btn:hover{ filter:brightness(1.06); }
+  .sticky-cta .btn svg{ width:18px; height:18px; }
+  .sticky-cta .btn::after{ content:""; position:absolute; top:0; left:-60%; width:40%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent); transform:skewX(-20deg); animation:sheen 6s ease-in-out 3s infinite; }
+  @keyframes sheen{ 0%,82%{ left:-60% } 100%{ left:130% } }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *,*::before,*::after{ animation-duration:.01ms !important; animation-delay:0s !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+    .reveal, .reveal .stag > *{ opacity:1 !important; transform:none !important; }
   }
 
-  .cta-inline{
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    width:100%; background: var(--whatsapp); color:#08240f;
-    border:none; border-radius: var(--radius); padding:16px;
-    font-family:'Oswald',sans-serif; font-size:15px; font-weight:600;
-    text-decoration:none; margin-top: 20px; cursor:pointer;
-    animation: neonPulse 2.2s ease-in-out infinite;
+  /* ============ RESPONSIVO ============ */
+  @media (max-width:480px){
+    .btn-talk span{ display:none; }
+    .btn-talk{ padding:9px; }
   }
-  .cta-inline svg{ width:18px; height:18px; flex-shrink:0; }
-  .cta-inline:disabled, .cta-inline.disabled{
-    background: var(--line); color: var(--text-dim); pointer-events:none;
-    animation: none; box-shadow: none;
+  @media (max-width:400px){
+    .brand{ font-size:19px; }
+    .pay-body{ padding:14px 13px; }
+    .pay-row{ gap:7px; }
+    .pay-entrada-field input{ font-size:21px; padding:9px 28px 9px 10px; }
+    .hp-ctas .btn-main, .hp-ctas .btn-line{ font-size:14px; padding:14px 6px; }
+    .spec-card{ padding:12px; gap:10px; }
+    .equip-item{ font-size:12.5px; padding:10px; gap:9px; }
   }
+  @media (max-width:699px){
+    .spec-card{ flex-direction:column; gap:8px; }
+    .spec-card .k{ letter-spacing:.8px; }
+  }
+  @media (min-width:700px){
+    .hero-badges{ grid-template-columns:repeat(3,1fr); }
+    .hb + .hb{ border-top:none; border-left:1px solid var(--graphite-3); }
+    .spec-cards{ grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .equip-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .trust-grid{ grid-template-columns:repeat(3,1fr); }
+    .action-buttons{ grid-template-columns:repeat(3,1fr); }
+    .action-btn{ flex-direction:column; align-items:flex-start; padding:20px; }
+    .action-arrow{ display:none; }
+    .sticky-cta{ left:50%; right:auto; width:min(900px,calc(100% - 24px)); transform:translate(-50%,150%); }
+    body.sticky-on .sticky-cta{ transform:translate(-50%,0); }
+    .sticky-thumb, .btn-sim-sticky{ display:flex; }
+    .sticky-thumb{ display:block; }
+  }
+  @media (min-width:1024px){
+    .topbar{ padding:16px 40px; }
+    .topnav{ display:flex; }
+    .hero{ grid-template-columns:minmax(0,58fr) minmax(0,42fr); grid-template-areas:"stage panel" "badges panel"; column-gap:44px; max-width:1440px; margin:0 auto; padding:24px 40px 0; align-items:start; }
+    .hero-stage{ border-radius:20px; overflow:hidden; background:var(--graphite); border:1px solid var(--graphite-3); }
+    .hero-gallery .slide{ aspect-ratio:auto; height:min(62vh,600px); background-size:0 0; }
+    .hero-gallery .slide::before{ content:""; position:absolute; inset:-40px; z-index:0; background-image:inherit; background-size:cover; background-position:center; filter:blur(28px) brightness(.35) saturate(1.1); }
+    .hero-gallery .slide::after{ content:""; position:absolute; inset:0; z-index:1; background-image:inherit; background-size:contain; background-position:center; background-repeat:no-repeat; }
+    .hero-thumbs{ padding:12px 14px 14px; }
+    .hero-thumb{ flex-basis:92px; height:64px; }
+    .hero-nav{ width:54px; height:54px; opacity:.85; }
+    .hero-nav.prev{ left:18px; } .hero-nav.next{ right:18px; }
+    .swipe-hint{ display:none; }
+    .hero-panel{ padding:4px 0 0; }
+    .hero-badges{ margin:16px 0 0; }
+    .hp-model .l1{ font-size:88px; } .hp-model .l2{ font-size:46px; }
+    .hp-price .num .val{ font-size:104px; }
+    .hp-specs{ margin-top:14px; padding:11px 0; }
+    .hp-price{ margin-top:16px; }
+    .pay-card{ margin-top:16px; }
 
-  .field{ margin-bottom: 14px; }
-  .field label{ display:block; font-size:13px; color: var(--text-dim); margin-bottom:6px; }
+    .split{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:stretch; min-height:560px; margin-top:64px; }
+    .split-content{ padding:72px 40px 72px max(40px, calc((100vw - 1440px)/2 + 40px)); }
+    .split-photo{ height:auto; clip-path:polygon(14% 0,100% 0,100% 100%,0 100%); }
+    .split-photo::before{ background:linear-gradient(to right, var(--black) 0%, transparent 30%), linear-gradient(to top, rgba(0,0,0,.85), transparent 45%); }
+    .split-photo::after{ inset:0; width:auto; height:auto; background:var(--orange); clip-path:polygon(14% 0, calc(14% + 5px) 0, 5px 100%, 0 100%); }
+    .split.reverse .split-content{ order:2; padding:72px max(40px, calc((100vw - 1440px)/2 + 40px)) 72px 40px; }
+    .split.reverse .split-photo{ order:1; clip-path:polygon(0 0,100% 0,86% 100%,0 100%); }
+    .split.reverse .split-photo::before{ background:linear-gradient(to left, var(--black) 0%, transparent 30%), linear-gradient(to top, rgba(0,0,0,.85), transparent 45%); }
+    .split.reverse .split-photo::after{ clip-path:polygon(calc(100% - 5px) 0, 100% 0, 86% 100%, calc(86% - 5px) 100%); }
+    .split.reverse .photo-caption{ left:40px; right:20%; }
+    .photo-caption{ left:18%; bottom:40px; }
+    .photo-caption strong{ font-size:40px; }
+    .spec-cards{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .equip-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .trust-sec{ max-width:1440px; margin:0 auto; padding:80px 40px; border-top:none; }
+    .trust-grid{ grid-template-columns:repeat(3,1fr); gap:16px; }
+    .final-cta{ max-width:1360px; margin:0 auto 60px; display:grid; grid-template-columns:minmax(0,40fr) minmax(0,60fr); align-items:center; }
+    .final-photo{ height:100%; min-height:340px; }
+    .final-photo::after{ background:linear-gradient(to right, transparent 45%, var(--graphite) 100%); }
+    .final-body{ margin-top:0; padding:40px 40px 40px 10px; }
+  }
+  /* ================= POPUPS / OVERLAYS ================= */
+  .discount-popup, .policy-popup{
+    display:none; position:fixed; inset:0; z-index:60; align-items:center; justify-content:center; padding:18px;
+    background: rgba(0,0,0,0.78); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .policy-popup{ z-index:65; }
+  .discount-popup.open, .policy-popup.open{ display:flex; }
+  .discount-card, .policy-card{
+    position:relative; width:100%; max-width:440px; max-height:88vh; overflow-y:auto;
+    background: var(--graphite); border:1px solid var(--graphite-3); border-top:2px solid var(--orange);
+    border-radius: 20px; padding: 32px 24px 24px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    animation: popIn .35s cubic-bezier(.2,.9,.25,1);
+  }
+  .policy-card{ max-width:580px; }
+  @keyframes popIn{ from{ opacity:0; transform: translateY(16px) scale(0.97); } to{ opacity:1; transform:none; } }
+  .discount-close, .policy-close{
+    position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1;
+    background: var(--graphite-2); border:1px solid var(--graphite-3); color: var(--dim); font-size:20px;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  .discount-close:hover, .policy-close:hover{ color: var(--white); border-color: var(--orange); }
+  .discount-eyebrow{ font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color: var(--orange); margin-bottom:12px; }
+  .discount-title{ font-family: var(--display); font-weight:900; font-size:32px; line-height:0.95; text-transform:uppercase; margin-bottom:12px; padding-right:36px; }
+  .discount-text{ font-size:14.5px; color: var(--dim); line-height:1.55; margin-bottom:20px; }
+  .discount-text strong{ color: var(--orange); }
+  .discount-price-row{ display:flex; align-items:baseline; gap:14px; margin-bottom:8px; }
+  .discount-old{ font-size:16px; color: var(--faint); text-decoration:line-through; }
+  .discount-new{ font-family: var(--display); font-weight:900; font-size:48px; line-height:1; color: var(--orange); }
+  .discount-note{ font-size:11.5px; color: var(--faint); }
+  .subnote{ font-size:13.5px; color: var(--dim); margin-bottom:22px; }
 
-  .td-step{ display:none; }
-  .td-step.active{ display:block; }
-  .td-progress{
-    display:flex; gap:6px; margin-bottom:18px;
-  }
-  .td-progress .bar{ flex:1; height:3px; background: var(--line); border-radius:2px; overflow:hidden; }
-  .td-progress .bar .fill{ height:100%; width:0%; background: var(--amber); transition: width .3s ease; }
-  .td-progress .bar.done .fill{ width:100%; }
-
-  .sticky-cta{
-    position: fixed; bottom:0; left:0; right:0;
-    background: var(--panel); border-top: 1px solid var(--line);
-    padding: 12px 16px; display:flex; align-items:center; gap:12px; z-index: 20;
-  }
-  .sticky-cta .info{ flex:1; }
-  .sticky-cta .info .p{ font-family:'Oswald',sans-serif; color:var(--amber); font-size:16px; }
-  .sticky-cta .info .l{ font-size:11px; color:var(--text-dim); }
-  .sticky-cta .btn{
-    background: var(--whatsapp); color:#08240f; border:none;
-    border-radius: var(--radius); padding: 12px 18px;
-    font-family:'Oswald',sans-serif; font-weight:600; font-size:14px;
-    text-decoration:none; display:flex; align-items:center; gap:8px; white-space:nowrap;
-    animation: neonPulse 2.2s ease-in-out infinite;
-  }
-  #tdContinueBtn.cta-inline:not(.disabled){
-    animation: neonPulseAmber 2.2s ease-in-out infinite;
-  }
-  .sticky-cta .btn svg{ width:16px; height:16px; }
-
-  .footer-note{ padding: 20px; text-align:center; font-size:12px; color: var(--text-dim); }
-  .footer-links a{ color: var(--text-dim); text-decoration:underline; cursor:pointer; }
-  .footer-links a:hover{ color: var(--amber); }
-
-  .policy-popup{
-    display:none; position:fixed; inset:0; background: rgba(0,0,0,0.9);
-    z-index: 65; align-items:center; justify-content:center; padding: 20px;
-  }
-  .policy-popup.open{ display:flex; }
-  .policy-card{
-    position:relative; width:100%; max-width: 560px; max-height: 80vh;
-    background: var(--panel); border:1px solid var(--line); border-radius: 8px;
-    padding: 26px 22px 22px; overflow-y:auto;
-  }
-  .policy-close{
-    position:absolute; top:14px; right:14px; background:none; border:none;
-    color: var(--text-dim); font-size:24px; cursor:pointer; line-height:1;
-  }
-  .policy-card h3{ font-size:19px; margin-bottom:14px; padding-right:24px; }
-  .policy-card h4{ font-size:14px; color: var(--amber); margin: 18px 0 6px; }
-  .policy-card p, .policy-card li{ font-size:13px; color: var(--text-dim); line-height:1.6; margin-bottom:8px; }
+  .policy-card h3{ font-family: var(--display); font-weight:800; font-size:26px; text-transform:uppercase; margin-bottom:16px; padding-right:36px; }
+  .policy-card h4{ font-family: var(--display); font-weight:700; font-size:16px; color: var(--orange); text-transform:uppercase; margin:20px 0 8px; letter-spacing:0.4px; }
+  .policy-card p, .policy-card li{ font-size:13px; color: var(--dim); line-height:1.65; margin-bottom:8px; }
   .policy-card ul{ padding-left:18px; }
 
-  /* ---- Desktop: evita que topo, galeria e barra fixa esticem full-width ---- */
-  @media (min-width: 760px){
-    .wrap{
-      max-width: 860px;
-    }
-    .topbar, .hero-gallery-wrap, .sticky-cta{
-      max-width: 860px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .hero-gallery .slide{
-      aspect-ratio: 1/1;
-      height: auto;
-      background-size: cover;
-    }
-    .sticky-cta{
-      left:0; right:0;
-    }
-    .price-block .model{ font-size: 26px; }
-    .price-block .price{ font-size: 40px; }
+  .buffer-overlay{ display:none; position:fixed; inset:0; z-index:62; align-items:center; justify-content:center; flex-direction:column; gap:20px; background: rgba(0,0,0,0.94); }
+  .buffer-overlay.open{ display:flex; }
+  .buffer-spinner{ width:50px; height:50px; border-radius:50%; border:3px solid var(--graphite-3); border-top-color: var(--orange); animation: spin .8s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .buffer-text{ color: var(--dim); font-size:14px; text-align:center; padding:0 30px; }
+
+  /* formulários */
+  .field{ margin-bottom:16px; }
+  .field label, .simulator label{ display:block; font-size:11px; font-weight:700; letter-spacing:1.3px; text-transform:uppercase; color: var(--dim); margin-bottom:8px; }
+  select, input[type="text"], input[type="email"], input[type="tel"]{
+    width:100%; padding:15px; border-radius: var(--r);
+    background: var(--black); border:1px solid var(--graphite-3); color: var(--white);
+    font-family: var(--body); font-size:16px; transition: border-color .15s ease, box-shadow .15s ease;
   }
+  select:focus, input:focus{ outline:none; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,122,26,0.15); }
+  input:disabled, select:disabled{ opacity:0.45; }
+  .question{ font-family: var(--display); font-weight:700; text-transform:uppercase; font-size:19px !important; margin-bottom:18px; }
+  .exit-email-input{ margin-bottom:0; }
+  .bonus-offer{ margin:18px 0; padding:14px 16px; border-radius: var(--r); background: var(--orange-soft); border:1px dashed var(--orange-line); }
+  .bonus-offer-label{ display:block; font-size:13px; line-height:1.5; color: var(--white); margin-bottom:10px; }
+  span.bonus-offer-label{ margin-bottom:0; }
+  .bonus-offer-label svg{ width:16px; height:16px; color: var(--orange); display:inline-block; vertical-align:-3px; margin-right:6px; }
+  .bonus-offer-label strong{ color: var(--orange); }
+
+  /* simulador */
+  .simulator{ background:none; border:none; padding:0; }
+  .simulator .row{ margin-bottom:18px; }
+  .prazo-seg{ display:grid; grid-template-columns: repeat(4,1fr); gap:6px; }
+  .prazo-seg button{
+    padding:13px 0; border-radius: var(--r); cursor:pointer;
+    background: var(--black); border:1px solid var(--graphite-3); color: var(--dim);
+    font-family: var(--display); font-weight:800; font-size:18px; transition: all .15s ease;
+  }
+  .prazo-seg button:hover{ color: var(--white); border-color: var(--line); }
+  .prazo-seg button.on{ background: var(--orange); border-color: var(--orange); color:#140800; }
+  .sim-result{ display:flex; flex-direction:column; gap:4px; margin-top:6px; padding:18px; border-radius: var(--r-lg); background: var(--black); border:1px solid var(--orange-line); }
+  .sim-result .lbl{ font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color: var(--dim); }
+  .sim-result .val{ font-family: var(--display); font-weight:900; font-size:46px; line-height:1; color: var(--orange); white-space:nowrap; }
+  .sim-result .val.flash{ animation: valFlash .35s ease; }
+  @keyframes valFlash{ from{ opacity:.3; transform: translateY(4px);} to{ opacity:1; transform:none; } }
+  .sim-note{ margin-top:12px; font-size:11.5px; color: var(--faint); line-height:1.5; }
+  .sim-note strong{ color: var(--dim); }
+
+  /* etapas do formulário de troca */
+  .td-step{ display:none; } .td-step.active{ display:block; }
+  .td-progress{ display:flex; gap:14px; margin-bottom:24px; }
+  .td-progress .bar{ flex:1; }
+  .td-progress .step-label{ display:block; font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color: var(--faint); margin-bottom:8px; }
+  .td-progress .bar.done .step-label{ color: var(--orange); }
+  .td-progress .fill-track{ height:3px; border-radius:3px; background: var(--graphite-3); overflow:hidden; }
+  .td-progress .fill{ height:100%; width:0; background: var(--orange); transition: width .3s ease; }
+  .td-progress .bar.done .fill{ width:100%; }
+
+  /* botões de WhatsApp nos fluxos */
+  @keyframes waPulse{ 0%,100%{ box-shadow: 0 0 0 0 rgba(37,211,102,0.45); } 50%{ box-shadow: 0 0 0 7px rgba(37,211,102,0); } }
+  .cta-inline{
+    display:flex; align-items:center; justify-content:center; gap:10px; width:100%;
+    margin-top:22px; padding:17px; border:none; border-radius: var(--r); cursor:pointer; text-decoration:none;
+    background: var(--whatsapp); color:#04210d;
+    font-family: var(--display); font-weight:800; font-size:18px; letter-spacing:0.5px; text-transform:uppercase;
+    animation: waPulse 2.4s ease-in-out infinite; transition: transform .12s ease;
+  }
+  .cta-inline:active{ transform: scale(0.98); }
+  .cta-inline svg{ width:20px; height:20px; flex-shrink:0; }
+  #tdContinueBtn.cta-inline{ animation:none; color:#140800 !important; }
+  .cta-inline:disabled, .cta-inline.disabled{ background: var(--graphite-3) !important; color: var(--faint) !important; pointer-events:none; animation:none; box-shadow:none; }
+
+  /* lightbox */
+  .lightbox{ display:none; position:fixed; inset:0; z-index:70; align-items:center; justify-content:center; flex-direction:column; padding:24px; background: rgba(0,0,0,0.96); }
+  .lightbox.open{ display:flex; }
+  .lightbox img{ max-width:100%; max-height:76vh; border-radius:12px; animation: lbIn .25s ease; touch-action: pan-y; }
+  @keyframes lbIn{ from{ opacity:0; transform: scale(0.97);} to{ opacity:1; transform:none; } }
+  .lightbox-controls{ display:flex; align-items:center; justify-content:space-between; width:100%; max-width:520px; margin-top:20px; }
+  .lightbox-btn{ width:52px; height:52px; border-radius:50%; cursor:pointer; font-size:22px; background: var(--graphite); border:1px solid var(--graphite-3); color: var(--white); transition: background .15s ease; }
+  .lightbox-btn:hover{ background: var(--orange); border-color: var(--orange); }
+  .lightbox-close{ position:absolute; top:18px; right:18px; width:44px; height:44px; border-radius:50%; cursor:pointer; font-size:24px; background: var(--graphite); border:1px solid var(--graphite-3); color: var(--white); }
+  .lightbox-count{ font-family: var(--display); font-weight:700; font-size:18px; letter-spacing:1px; color: var(--white); }
+
 </style>
 </head>
 <body>
@@ -378,162 +448,238 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N89HHJWD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<div class="topbar">
-  <div class="brand">PEDROSO <span>MULTIMARCAS</span></div>
-  <div class="phone">(41) 99773-0107</div>
-</div>
+<header class="topbar">
+  <div class="brand">Pedroso <span>Multimarcas</span><small>São José dos Pinhais</small></div>
+  <nav class="topnav" aria-label="Seções">
+    <a href="#ficha">Ficha técnica</a><a href="#equipamentos">Equipamentos</a><a href="#procedencia">Procedência</a>
+    <a href="#" onclick="abrirSimuladorPopup(); return false;">Financiamento</a>
+  </nav>
+  <a class="btn-talk" id="topWhatsBtn" href="https://wa.me/5541997730107?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Golf%20TSI%20Comfortline%202015." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.89.53 3.66 1.44 5.17L2 22l4.97-1.4C8.44 21.5 10.17 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-.86.22-2.9-.6-2.46-.98-4-3.5-4.13-3.66-.12-.16-.98-1.3-.98-2.48s.62-1.76.84-2c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.5.7 1.7.76 1.83.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.6 1 1.3 1.62.9.8 1.65 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.16 1.2z"/></svg><span>Fale conosco</span></a>
+</header>
 
-<div class="hero-gallery-wrap">
-  <div class="badge-float">DISPONÍVEL</div>
-  <div class="hero-gallery" id="heroGallery"></div>
-  <button class="hero-nav prev" onclick="scrollHero(-1)" aria-label="Foto anterior">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-  </button>
-  <button class="hero-nav next" onclick="scrollHero(1)" aria-label="Próxima foto">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
-  </button>
-  <div class="hero-count" id="heroCount"></div>
-</div>
-
-<div class="wrap">
-  <div class="price-block">
-    <div class="model">Volkswagen Golf TSI Comfortline</div>
-    <div class="trim">2015 · 1.4 TSI · Automático DSG · Vermelho</div>
-    <div class="price-row">
-      <div class="price">R$ 79.900</div>
-      <div class="cash-tag">à vista</div>
+<section class="hero" aria-label="Volkswagen Golf TSI Comfortline 2015">
+  <div class="hero-stage">
+    <div class="hero-gallery-wrap">
+      <div class="hero-gallery" id="heroGallery"></div>
+      <button class="hero-nav prev" onclick="scrollHero(-1)" aria-label="Foto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="hero-nav next" onclick="scrollHero(1)" aria-label="Próxima foto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>
+      <div class="hero-count" id="heroCount"></div>
+      <div class="swipe-hint">Arraste para ver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="hero-progress"><div class="hero-progress-fill" id="heroProgressFill"></div></div>
     </div>
-    <div class="installment">ou financiado — <a href="#simulador">simule sua parcela abaixo</a></div>
+    <div class="hero-thumbs" id="heroThumbs" aria-label="Miniaturas das fotos"></div>
   </div>
 
-  <div class="quick-specs">
-    <div class="qs"><div class="v">2015</div><div class="l">Ano/modelo</div></div>
-    <div class="qs"><div class="v">135 mil</div><div class="l">Km rodados</div></div>
-    <div class="qs"><div class="v">DSG</div><div class="l">Câmbio borboleta</div></div>
-    <div class="qs"><div class="v">1.4 TSI</div><div class="l">Motor</div></div>
+  <div class="hero-panel" id="heroPanel">
+    <span class="pill-live seq seq-1">Disponível</span>
+    <div class="hp-brand seq seq-1">Volkswagen</div>
+    <h1 class="hp-model seq seq-2"><span class="l1">Golf</span><span class="l2">Comfortline</span></h1>
+    <div class="hp-sub seq seq-2">1.4 TSI<b>•</b>2015/2015</div>
+    <div class="hp-specs seq seq-3">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="1.8"/><circle cx="12" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="12" cy="18" r="1.8"/><path d="M6 8v8M12 8v8M18 8v4H6"/></svg>Automático DSG</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/></svg>135.000 km</span>
+    </div>
+    <div class="hp-price seq seq-4">
+      <div class="num"><span class="cur">R$</span><span class="val">79.900</span></div>
+      <div class="tag">À vista</div>
+    </div>
+
+    <div class="pay-card seq seq-5">
+      <div class="pay-head"><span class="pay-tag">Simule seu financiamento</span><span class="pay-edit-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>Editável</span></div>
+      <div class="pay-body">
+        <div class="pay-row">
+          <div>
+            <label class="pay-k" for="payEntrada">Entrada</label>
+            <div class="pay-entrada-field"><input type="text" id="payEntrada" inputmode="numeric" autocomplete="off" aria-label="Valor de entrada"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></div>
+          </div>
+          <div class="pay-plus">+</div>
+          <div class="pay-parcela">
+            <span class="pay-k" id="payPrazoLabel">60 parcelas de</span>
+            <div class="big" id="payParcelaBig"><small>R$</small><strong id="payParcela">0</strong></div>
+          </div>
+        </div>
+        <div class="pay-prazos" id="payPrazos" role="group" aria-label="Quantidade de parcelas">
+          <button type="button" data-prazo="24">24x</button><button type="button" data-prazo="36">36x</button><button type="button" data-prazo="48">48x</button><button type="button" data-prazo="60">60x</button>
+        </div>
+        <div class="pay-note">Taxa média de mercado. O valor final depende da análise de crédito no seu CPF.</div>
+        <button class="btn-sim" onclick="abrirSimuladorPopup()">Simular com meu CPF <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+
+    <div class="hp-ctas seq seq-6">
+      <button class="btn-main" onclick="iniciarCompraAvista()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>Comprar à vista</button>
+      <button class="btn-line" onclick="abrirEntradaFormPopup()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l4 4-4 4"/><path d="M20 7H4"/><path d="M8 21l-4-4 4-4"/><path d="M4 17h16"/></svg>Tenho troca</button>
+    </div>
   </div>
 
-  <section>
-    <h2>Ficha técnica</h2>
-    <div class="spec-table">
-      <div class="spec-row"><span class="k">Modelo</span><span class="v">Golf TSI Comfortline</span></div>
-      <div class="spec-row"><span class="k">Ano fabricação/modelo</span><span class="v">2015/2015</span></div>
-      <div class="spec-row"><span class="k">Quilometragem</span><span class="v">135.000 km</span></div>
-      <div class="spec-row"><span class="k">Motor</span><span class="v">1.4 TSI</span></div>
-      <div class="spec-row"><span class="k">Câmbio</span><span class="v">Automático DSG com borboletas</span></div>
-      <div class="spec-row"><span class="k">Tração</span><span class="v">Dianteira</span></div>
-      <div class="spec-row"><span class="k">Cor</span><span class="v">Vermelho</span></div>
-      <div class="spec-row"><span class="k">Rodas</span><span class="v">Aro 20</span></div>
-      <div class="spec-row"><span class="k">Suspensão</span><span class="v">Molas esportivas</span></div>
-      <div class="spec-row"><span class="k">Perícia cautelar</span><span class="v">Aprovada</span></div>
+  <div class="hero-badges seq seq-6" id="procedencia">
+    <div class="hb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg><div><b>Perícia cautelar aprovada</b><span>Veículo periciado e aprovado, sem histórico de sinistro ou irregularidade</span></div></div>
+    <div class="hb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg><div><b>Garantia de 90 dias</b><span>Cobertura inclusa na compra, sem custo extra</span></div></div>
+    <div class="hb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg><div><b>Entrega com revisão preventiva</b><span>Mecatrônica do câmbio revisada recentemente, com nota fiscal</span></div></div>
+  </div>
+</section>
+
+<main>
+  <section class="split" id="ficha">
+    <div class="split-content">
+      <span class="eyebrow">Detalhes do veículo</span>
+      <h2 class="sec-title">Ficha técnica</h2>
+      <div class="spec-cards stag" id="specCards"><div class="spec-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><div><div class="k">Ano fabricação/<wbr>modelo</div><div class="v">2015/2015</div></div></div><div class="spec-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/></svg><div><div class="k">Quilometragem</div><div class="v">135.000 km</div></div></div><div class="spec-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h3l2-3h6l2 3h3v7h-3l-2 2H9l-2-2H4z"/><path d="M12 7V4M10 4h4"/></svg><div><div class="k">Motor</div><div class="v">1.4 TSI</div></div></div><div class="spec-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="1.8"/><circle cx="12" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="12" cy="18" r="1.8"/><path d="M6 8v8M12 8v8M18 8v4H6"/></svg><div><div class="k">Câmbio</div><div class="v">Automático DSG com borboletas</div></div></div><div class="spec-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/></svg><div><div class="k">Tração</div><div class="v">Dianteira</div></div></div><div class="spec-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg><div><div class="k">Cor</div><div class="v">Vermelho</div></div></div><div class="spec-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/></svg><div><div class="k">Rodas</div><div class="v">Aro 20</div></div></div><div class="spec-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10M7 20h10M8 7l8 2-8 2 8 2-8 2 8 2"/></svg><div><div class="k">Suspensão</div><div class="v">Molas esportivas</div></div></div></div>
+    </div>
+    <div class="split-photo" data-photo="ext:3" role="img" aria-label="Golf TSI Comfortline vermelho, traseira">
     </div>
   </section>
+
+  <section class="split reverse" id="equipamentos">
+    <div class="split-content">
+      <span class="eyebrow">Itens deste Golf</span>
+      <h2 class="sec-title">Equipamentos</h2>
+      <div class="equip-grid stag" id="equipGrid"></div>
+    </div>
+    <div class="split-photo" data-photo="int:1" role="img" aria-label="Volante multifuncional com borboletas">
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="final-photo" data-photo="ext:1" role="img" aria-label="Golf TSI Comfortline vermelho"></div>
+    <div class="final-body">
+      <h2>Como você quer <span>comprar?</span></h2>
+      <p>Escolha o caminho e fale com um consultor da Pedroso Multimarcas no WhatsApp.</p>
+      <div class="action-buttons">
+      <button class="action-btn" onclick="iniciarCompraAvista()">
+        <span class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 10v.01M18 14v.01"/></svg></span>
+        <span class="action-text">
+          <span class="action-label">Comprar à vista</span>
+          <span class="action-sub">Descubra seu desconto da semana</span>
+        </span>
+        <span class="action-arrow">›</span>
+      </button>
+      <button class="action-btn" onclick="abrirSimuladorPopup()">
+        <span class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
+        <span class="action-text">
+          <span class="action-label">Simular financiamento</span>
+          <span class="action-sub">Calcule sua parcela em segundos</span>
+        </span>
+        <span class="action-arrow">›</span>
+      </button>
+      <button class="action-btn" onclick="abrirEntradaFormPopup()">
+        <span class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l4 4-4 4"/><path d="M20 7H4"/><path d="M8 21l-4-4 4-4"/><path d="M4 17h16"/></svg></span>
+        <span class="action-text">
+          <span class="action-label">Tenho carro na troca</span>
+          <span class="action-sub">Use como parte do pagamento</span>
+        </span>
+        <span class="action-arrow">›</span>
+      </button>
+    </div>
+    </div>
+  </section>
+
+  <div class="discount-popup" id="simuladorPopup">
+    <div class="discount-card">
+      <button class="discount-close" onclick="closeSimuladorPopup()">&times;</button>
+      <h3 class="discount-title">Simule sua parcela</h3>
+      <div class="simulator">
+        <div class="row">
+          <label for="entradaInput">Valor de entrada</label>
+          <input type="text" id="entradaInput" inputmode="numeric" placeholder="R$ 0">
+        </div>
+        <div class="row">
+          <label>Prazo</label>
+          <div class="prazo-seg" id="prazoSeg">
+            <button type="button" data-prazo="24">24x</button>
+            <button type="button" data-prazo="36">36x</button>
+            <button type="button" data-prazo="48">48x</button>
+            <button type="button" data-prazo="60" class="on">60x</button>
+          </div>
+          <select id="prazoSelect" class="visually-hidden" tabindex="-1" aria-hidden="true">
+            <option value="24">24 meses</option>
+            <option value="36">36 meses</option>
+            <option value="48">48 meses</option>
+            <option value="60" selected>60 meses</option>
+          </select>
+        </div>
+        <div class="sim-result">
+          <span class="lbl">Parcela estimada</span>
+          <span class="val" id="parcelaValor">R$ 0/mês</span>
+        </div>
+        <div class="sim-note"><strong>Atenção:</strong> essa é uma simulação com taxa média de mercado. Para uma condição real e mais precisa, simule com seu CPF — a taxa pode variar de acordo com seu perfil de crédito.</div>
+      </div>
+
+      <div class="bonus-offer">
+        <label for="simuladorEmailInput" class="bonus-offer-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="4" rx="1"/><rect x="4" y="12" width="16" height="9" rx="1"/><path d="M12 8v13M12 8c-1.5-4-6-4-6-1s3 1 6 1M12 8c1.5-4 6-4 6-1s-3 1-6 1"/></svg>Deixe seu e-mail e ganhe também a <strong>transferência grátis</strong> por conta da loja</label>
+        <input type="email" id="simuladorEmailInput" class="exit-email-input" placeholder="Seu e-mail (opcional)" style="margin-bottom:0;">
+      </div>
+
+      <a class="cta-inline" href="#" id="ctaSimulado" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.89.53 3.66 1.44 5.17L2 22l4.97-1.4C8.44 21.5 10.17 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-.86.22-2.9-.6-2.46-.98-4-3.5-4.13-3.66-.12-.16-.98-1.3-.98-2.48s.62-1.76.84-2c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.5.7 1.7.76 1.83.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.6 1 1.3 1.62.9.8 1.65 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.16 1.2z"/></svg>
+        Simular com meu CPF no WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <div class="discount-popup" id="tradeInPopup">
+    <div class="discount-card">
+      <button class="discount-close" onclick="closeEntradaFormPopup()">&times;</button>
+      <h3 class="discount-title">Tem veículo de entrada?</h3>
+      <div class="subnote">Conte pra gente qual é o seu veículo e falamos com você no WhatsApp com uma condição personalizada.</div>
+
+      <div class="td-progress">
+        <div class="bar done" id="barStep1">
+          <span class="step-label">Etapa 01 — Veículo</span>
+          <div class="fill-track"><div class="fill"></div></div>
+        </div>
+        <div class="bar" id="barStep2">
+          <span class="step-label">Etapa 02 — Contato</span>
+          <div class="fill-track"><div class="fill"></div></div>
+        </div>
+      </div>
+
+      <div class="td-step active" id="tdStep1">
+        <div class="question" style="font-size:16px;">Qual é o veículo do seu carro de entrada?</div>
+        <div class="field">
+          <label for="marcaSelect">Marca</label>
+          <select id="marcaSelect"><option value="">Selecione a marca</option></select>
+        </div>
+        <div class="field">
+          <label for="modeloInput">Modelo</label>
+          <input type="text" id="modeloInput" placeholder="Escreva o modelo aqui" disabled oninput="checkTdStep1(); handleModeloInput();">
+        </div>
+        <div class="field" id="modeloOutroField" style="display:none;">
+          <label for="modeloOutroInput">Digite a marca e o modelo</label>
+          <input type="text" id="modeloOutroInput" placeholder="Ex: Kia Sportage 2019" oninput="checkTdStep1()">
+        </div>
+        <div class="field">
+          <label for="anoSelect">Ano</label>
+          <select id="anoSelect" disabled><option value="">Selecione o modelo primeiro</option></select>
+        </div>
+        <button class="cta-inline disabled" id="tdContinueBtn" style="background:var(--amber); color:#1a1406;" disabled onclick="goToStep2()">Continuar</button>
+      </div>
+
+      <div class="td-step" id="tdStep2">
+        <div class="bonus-offer">
+          <span class="bonus-offer-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="4" rx="1"/><rect x="4" y="12" width="16" height="9" rx="1"/><path d="M12 8v13M12 8c-1.5-4-6-4-6-1s3 1 6 1M12 8c1.5-4 6-4 6-1s-3 1-6 1"/></svg>Complete seus dados e ganhe também a <strong>transferência grátis</strong> por conta da loja</span>
+        </div>
+        <div class="field">
+          <label for="tdNome">Nome</label>
+          <input type="text" id="tdNome" placeholder="Seu nome" oninput="toggleTdSubmit()">
+        </div>
+        <div class="field">
+          <label for="tdEmail">E-mail</label>
+          <input type="email" id="tdEmail" placeholder="seu@email.com" oninput="toggleTdSubmit()">
+        </div>
+        <div class="field">
+          <label for="tdCelular">Celular</label>
+          <input type="tel" id="tdCelular" placeholder="(11) 91234-5678" oninput="toggleTdSubmit()">
+        </div>
+        <a class="cta-inline disabled" id="tdWhatsBtn" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.89.53 3.66 1.44 5.17L2 22l4.97-1.4C8.44 21.5 10.17 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-.86.22-2.9-.6-2.46-.98-4-3.5-4.13-3.66-.12-.16-.98-1.3-.98-2.48s.62-1.76.84-2c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.5.7 1.7.76 1.83.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.6 1 1.3 1.62.9.8 1.65 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.16 1.2z"/></svg>
+          Falar com consultor no WhatsApp
+        </a>
+        <button class="back-btn" style="background:none;border:none;color:var(--text-dim);font-size:13px;margin-top:12px;cursor:pointer;width:100%;" onclick="goToStep1()">← Voltar</button>
+      </div>
+    </div>
+  </div>
 
   
-
-  <section>
-    <h2>Equipamentos e opcionais</h2>
-    <div class="equip-grid" id="equipGrid"></div>
-  </section>
-
-  <section>
-    <h2>Procedência e garantia</h2>
-    <div class="trust-grid">
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
-        <div><div class="t">Perícia cautelar aprovada</div><div class="d">Veículo periciado e aprovado, sem histórico de sinistro ou irregularidade</div></div>
-      </div>
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
-        <div><div class="t">Garantia de 90 dias</div><div class="d">Cobertura inclusa na compra, sem custo extra</div></div>
-      </div>
-      <div class="trust-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-        <div><div class="t">Entrega com revisão preventiva feita</div><div class="d">Mecatrônica do câmbio revisada recentemente, com nota fiscal</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="simulador">
-    <h2>Simule sua parcela</h2>
-    <div class="simulator">
-      <div class="row">
-        <label for="entradaInput">Valor de entrada</label>
-        <input type="text" id="entradaInput" inputmode="numeric" placeholder="R$ 0">
-      </div>
-      <div class="row">
-        <label>Prazo</label>
-        <select id="prazoSelect">
-          <option value="24">24 meses</option>
-          <option value="36">36 meses</option>
-          <option value="48">48 meses</option>
-          <option value="60" selected>60 meses</option>
-        </select>
-      </div>
-      <div class="sim-result">
-        <span class="lbl">Parcela estimada</span>
-        <span class="val" id="parcelaValor">R$ 0/mês</span>
-      </div>
-      <div class="sim-note"><strong>Atenção:</strong> essa é uma simulação com taxa média de mercado. Para uma condição real e mais precisa, simule com seu CPF — a taxa pode variar de acordo com seu perfil de crédito.</div>
-    </div>
-
-    <a class="cta-inline" href="#" id="ctaSimulado" target="_blank">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.89.53 3.66 1.44 5.17L2 22l4.97-1.4C8.44 21.5 10.17 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-.86.22-2.9-.6-2.46-.98-4-3.5-4.13-3.66-.12-.16-.98-1.3-.98-2.48s.62-1.76.84-2c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.5.7 1.7.76 1.83.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.6 1 1.3 1.62.9.8 1.65 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.16 1.2z"/></svg>
-      Simular com meu CPF no WhatsApp
-    </a>
-  </section>
-
-  <section style="border-bottom:none;">
-    <h2>Tem veículo de entrada?</h2>
-    <div class="subnote">Conte pra gente qual é o seu veículo e falamos com você no WhatsApp com uma condição personalizada.</div>
-
-    <div class="td-progress">
-      <div class="bar done" id="barStep1"><div class="fill"></div></div>
-      <div class="bar" id="barStep2"><div class="fill"></div></div>
-    </div>
-
-    <div class="td-step active" id="tdStep1">
-      <div class="question" style="font-size:16px;">Qual é o veículo do seu carro de entrada?</div>
-      <div class="field">
-        <label for="marcaSelect">Marca</label>
-        <select id="marcaSelect"><option value="">Selecione a marca</option></select>
-      </div>
-      <div class="field">
-        <label for="modeloInput">Modelo</label>
-        <input type="text" id="modeloInput" placeholder="Escreva o modelo aqui" disabled oninput="checkTdStep1(); handleModeloInput();">
-      </div>
-      <div class="field" id="modeloOutroField" style="display:none;">
-        <label for="modeloOutroInput">Digite a marca e o modelo</label>
-        <input type="text" id="modeloOutroInput" placeholder="Ex: Kia Sportage 2019" oninput="checkTdStep1()">
-      </div>
-      <div class="field">
-        <label for="anoSelect">Ano</label>
-        <select id="anoSelect" disabled><option value="">Selecione o modelo primeiro</option></select>
-      </div>
-      <button class="cta-inline disabled" id="tdContinueBtn" style="background:var(--amber); color:#1a1406;" disabled onclick="goToStep2()">Continuar</button>
-    </div>
-
-    <div class="td-step" id="tdStep2">
-      <div class="field">
-        <label for="tdNome">Nome</label>
-        <input type="text" id="tdNome" placeholder="Seu nome" oninput="toggleTdSubmit()">
-      </div>
-      <div class="field">
-        <label for="tdEmail">E-mail</label>
-        <input type="email" id="tdEmail" placeholder="seu@email.com" oninput="toggleTdSubmit()">
-      </div>
-      <div class="field">
-        <label for="tdCelular">Celular</label>
-        <input type="tel" id="tdCelular" placeholder="(11) 91234-5678" oninput="toggleTdSubmit()">
-      </div>
-      <a class="cta-inline disabled" id="tdWhatsBtn" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.89.53 3.66 1.44 5.17L2 22l4.97-1.4C8.44 21.5 10.17 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-.86.22-2.9-.6-2.46-.98-4-3.5-4.13-3.66-.12-.16-.98-1.3-.98-2.48s.62-1.76.84-2c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.5.7 1.7.76 1.83.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.6 1 1.3 1.62.9.8 1.65 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.16 1.2z"/></svg>
-        Falar com consultor no WhatsApp
-      </a>
-      <button class="back-btn" style="background:none;border:none;color:var(--text-dim);font-size:13px;margin-top:12px;cursor:pointer;width:100%;" onclick="goToStep1()">← Voltar</button>
-    </div>
-  </section>
-
   <div class="footer-note">
     Pedroso Multimarcas · CNPJ 33.263.135/0001-07<br>
     Av. Rui Barbosa, 8863 — Centro, São José dos Pinhais/PR<br>
@@ -544,13 +690,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <a href="#" onclick="openPolicy('termos'); return false;">Termos de Uso</a>
     </span>
   </div>
-</div>
+</main>
 
 <div class="sticky-cta">
+  <div class="sticky-thumb" data-photo="ext:1"></div>
   <div class="info">
-    <div class="p">R$ 79.900 à vista</div>
-    <div class="l">Golf TSI Comfortline 2015</div>
+    <div class="p">R$ 79.900</div>
+    <div class="l">À vista · Golf TSI Comfortline 2015</div>
   </div>
+  <button class="btn-sim-sticky" onclick="abrirSimuladorPopup()">Simular financiamento</button>
   <button class="btn" id="stickyWhatsBtn" onclick="iniciarCompraAvista()">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.89.53 3.66 1.44 5.17L2 22l4.97-1.4C8.44 21.5 10.17 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-.86.22-2.9-.6-2.46-.98-4-3.5-4.13-3.66-.12-.16-.98-1.3-.98-2.48s.62-1.76.84-2c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.5.7 1.7.76 1.83.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.6 1 1.3 1.62.9.8 1.65 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.16 1.2z"/></svg>
     <span id="stickyBtnLabel">Comprar à vista</span>
@@ -624,6 +772,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <span class="discount-new">R$ 77.900</span>
     </div>
     <div class="discount-note">Oferta válida somente esta semana, sujeita à disponibilidade do veículo.</div>
+    <div class="bonus-offer">
+      <label for="discountEmailInput" class="bonus-offer-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="4" rx="1"/><rect x="4" y="12" width="16" height="9" rx="1"/><path d="M12 8v13M12 8c-1.5-4-6-4-6-1s3 1 6 1M12 8c1.5-4 6-4 6-1s-3 1-6 1"/></svg>Deixe seu e-mail e ganhe também a <strong>transferência grátis</strong> por conta da loja</label>
+      <input type="email" id="discountEmailInput" class="exit-email-input" placeholder="Seu e-mail (opcional)" style="margin-bottom:0;">
+    </div>
     <a class="cta-inline" id="discountWhatsBtn" target="_blank" onclick="trackDescontoClick()">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.89.53 3.66 1.44 5.17L2 22l4.97-1.4C8.44 21.5 10.17 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-.86.22-2.9-.6-2.46-.98-4-3.5-4.13-3.66-.12-.16-.98-1.3-.98-2.48s.62-1.76.84-2c.22-.24.48-.3.64-.3.16 0 .32 0 .46.01.15.01.35-.06.55.42.2.5.7 1.7.76 1.83.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.6 1 1.3 1.62.9.8 1.65 1.05 1.9 1.17.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.16 1.2z"/></svg>
       Falar no WhatsApp e garantir meu desconto
@@ -640,6 +792,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <button class="lightbox-btn" onclick="navLightbox(1)">›</button>
   </div>
 </div>
+
 
 <script>
   // ---------- Galeria ----------
@@ -732,6 +885,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   // ---------- Fluxo: Comprar à vista (buffer + popup de desconto) ----------
+  function abrirSimuladorPopup(){
+    document.getElementById('simuladorPopup').classList.add('open');
+    window.dataLayer.push({ event: 'abrir_popup_simulador', veiculo: 'Golf TSI Comfortline 2015' });
+  }
+  function closeSimuladorPopup(){
+    document.getElementById('simuladorPopup').classList.remove('open');
+  }
+
+  function abrirEntradaFormPopup(){
+    document.getElementById('tradeInPopup').classList.add('open');
+    window.dataLayer.push({ event: 'abrir_popup_entrada', veiculo: 'Golf TSI Comfortline 2015' });
+  }
+  function closeEntradaFormPopup(){
+    document.getElementById('tradeInPopup').classList.remove('open');
+  }
+
   function iniciarCompraAvista(){
     window.dataLayer.push({ event: 'clique_comprar_avista', veiculo: 'Golf TSI Comfortline 2015' });
     document.getElementById('bufferOverlay').classList.add('open');
@@ -759,6 +928,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       preco_com_desconto: 77900
     });
     sendToSheet({ evento: 'lead_desconto_avista', preco_com_desconto: 77900 });
+
+    const email = document.getElementById('discountEmailInput').value.trim();
+    if(email){
+      window.dataLayer.push({ event: 'lead_email_brinde', veiculo: 'Golf TSI Comfortline 2015', origem: 'compra_avista', user_data: { email: email.toLowerCase() } });
+      sendToSheet({ evento: 'lead_email_brinde', origem: 'compra_avista', email: email.toLowerCase() });
+      const msg = `Olá! Vi que tenho um desconto de R$ 2.000 pra comprar à vista a Golf TSI Comfortline 2015 por R$ 77.900 essa semana, e quero garantir também a transferência grátis. Meu e-mail: ${email}`;
+      document.getElementById('discountWhatsBtn').href = `https://wa.me/5541997730107?text=${encodeURIComponent(msg)}`;
+    }
   }
 
   // ---------- Tracking: Contact no clique do botão fixo ----------
@@ -772,13 +949,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   // ---------- Equipamentos ----------
   const EQUIPAMENTOS = [
     "Central multimídia touchscreen de 10\"",
-    "Câmbio automático DSG com borboletas no volante",
     "Volante multifuncional",
-    "Rodas aro 20",
     "Pneus novos",
-    "Suspensão com molas esportivas rebaixadas",
-    "Mecatrônica do câmbio revisada recentemente (com nota fiscal)",
-    "Perícia cautelar aprovada",
     "Vidros elétricos",
     "Travas elétricas",
     "Retrovisores elétricos",
@@ -787,8 +959,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     "Computador de bordo"
   ];
   const checkIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>`;
-  document.getElementById('equipGrid').innerHTML = EQUIPAMENTOS.map(item =>
-    `<div class="equip-item">${checkIcon}<span>${item}</span></div>`
+  document.getElementById('equipGrid').innerHTML = EQUIPAMENTOS.map((item, i) =>
+    `<div class="equip-item${i < 4 ? ' featured' : ''}">${checkIcon}<span>${item}</span></div>`
   ).join("");
 
   // ---------- Simulador de financiamento ----------
@@ -849,6 +1021,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       prazo_meses: prazoVal,
       parcela_estimada: parcelaVal
     });
+
+    const email = document.getElementById('simuladorEmailInput').value.trim();
+    if(email){
+      window.dataLayer.push({ event: 'lead_email_brinde', veiculo: 'Golf TSI Comfortline 2015', origem: 'simulador', user_data: { email: email.toLowerCase() } });
+      sendToSheet({ evento: 'lead_email_brinde', origem: 'simulador', email: email.toLowerCase() });
+      const msgComEmail = `Olá! Simulei o financiamento da Golf TSI Comfortline 2015 (R$ 79.900):%0A` +
+        `Entrada: ${fmt(entradaVal)}%0A` +
+        `Prazo: ${prazoVal} meses%0A` +
+        `Parcela estimada (taxa média): ${fmt(parcelaVal)}/mês%0A` +
+        `Quero simular com meu CPF, e também garantir a transferência grátis. Meu e-mail: ${email}`;
+      ctaSimulado.href = `https://wa.me/5541997730107?text=${msgComEmail}`;
+    }
   });
 
   // ---------- Fluxo de veículo de entrada ----------
@@ -1015,6 +1199,180 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       veiculo_entrada: veiculoEntradaVal
     });
   });
+
+
+  // ---------- Galeria: thumbnails sincronizadas + barra de progresso (redesign visual) ----------
+  (function initHeroThumbs(){
+    const wrap = document.getElementById('heroGallery');
+    const thumbs = document.getElementById('heroThumbs');
+    const fill = document.getElementById('heroProgressFill');
+    if(!wrap || !thumbs) return;
+    thumbs.innerHTML = ALL_PHOTOS.map((src, i) =>
+      `<button type="button" class="hero-thumb${i === 0 ? ' on' : ''}" style="background-image:url('${src}')" aria-label="Ver foto ${i+1}" data-i="${i}"></button>`
+    ).join('');
+    thumbs.addEventListener('click', (e) => {
+      const b = e.target.closest('.hero-thumb');
+      if(!b) return;
+      wrap.scrollTo({ left: parseInt(b.dataset.i, 10) * wrap.clientWidth, behavior: 'smooth' });
+    });
+    let last = -1;
+    function sync(){
+      const idx = Math.round(wrap.scrollLeft / wrap.clientWidth);
+      if(fill) fill.style.width = ((idx + 1) / ALL_PHOTOS.length * 100) + '%';
+      if(idx === last) return;
+      last = idx;
+      thumbs.querySelectorAll('.hero-thumb').forEach((t, i) => t.classList.toggle('on', i === idx));
+      const active = thumbs.children[idx];
+      if(active){
+        const target = active.offsetLeft - (thumbs.clientWidth - active.clientWidth) / 2;
+        thumbs.scrollTo({ left: target, behavior: 'smooth' });
+      }
+    }
+    wrap.addEventListener('scroll', () => window.requestAnimationFrame(sync), { passive: true });
+    sync();
+  })();
+
+  // ---------- Simulador: prazo em botões (controla o select original) ----------
+  (function initPrazoSeg(){
+    const seg = document.getElementById('prazoSeg');
+    const sel = document.getElementById('prazoSelect');
+    const val = document.getElementById('parcelaValor');
+    if(!seg || !sel) return;
+    seg.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-prazo]');
+      if(!b) return;
+      sel.value = b.dataset.prazo;
+      sel.dispatchEvent(new Event('change'));
+      seg.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    });
+    // pequeno destaque no valor da parcela sempre que ela muda
+    const flash = () => { val.classList.remove('flash'); void val.offsetWidth; val.classList.add('flash'); };
+    sel.addEventListener('change', flash);
+    document.getElementById('entradaInput').addEventListener('input', flash);
+  })();
+
+
+  // ---------- Fotos originais do anúncio nas seções (puxadas da própria galeria) ----------
+  document.querySelectorAll('[data-photo]').forEach(el => {
+    const [g, i] = el.dataset.photo.split(':');
+    const src = GALLERY[g] && GALLERY[g][parseInt(i, 10)];
+    if(src) el.style.backgroundImage = `url('${src}')`;
+  });
+
+  // ---------- Equipamentos com ícone ----------
+  (function iconEquip(){
+    const ic = (d) => `<span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
+    const map = [
+      [/multim/i, '<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>'],
+      [/câmbio|mecatr/i, '<circle cx="6" cy="6" r="1.8"/><circle cx="12" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><path d="M6 8v10M12 8v10M18 8v4H6"/>'],
+      [/volante/i, '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M3.5 10h6M14.5 10h6M12 14.5V21"/>'],
+      [/rodas|pneus/i, '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/>'],
+      [/suspens/i, '<path d="M7 4h10M7 20h10M8 7l8 2-8 2 8 2-8 2 8 2"/>'],
+      [/perícia/i, '<path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/>'],
+      [/vidros/i, '<path d="M4 20V8l6-4h10v16z"/><path d="M12 9v6M9.5 12.5L12 15l2.5-2.5"/>'],
+      [/travas/i, '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>'],
+      [/retrovis/i, '<path d="M4 8h12a4 4 0 0 1 0 8H4z"/><path d="M4 12h8"/>'],
+      [/ar-cond/i, '<path d="M12 2v20M4.9 6.5l14.2 11M4.9 17.5l14.2-11"/>'],
+      [/desemba/i, '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20c1-1 1-2 0-3M12 20c1-1 1-2 0-3M16 20c1-1 1-2 0-3"/>'],
+      [/computador/i, '<path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/>'],
+    ];
+    const pick = (t) => (map.find(([re]) => re.test(t)) || [0, '<path d="M20 6L9 17l-5-5"/>'])[1];
+    document.getElementById('equipGrid').innerHTML = EQUIPAMENTOS.map(t => `<div class="equip-item">${ic(pick(t))}<span>${t}</span></div>`).join('');
+  })();
+
+  // ---------- Ficha técnica: ver todos os detalhes ----------
+  function toggleSpecs(btn){
+    const box = document.getElementById('specCards');
+    const open = box.classList.toggle('show-all');
+    btn.setAttribute('aria-expanded', open);
+    btn.querySelector('span').textContent = open ? 'Ver menos' : 'Ver todos os detalhes';
+  }
+
+  // ---------- Card de pagamento editável no hero (sincronizado com o simulador do popup) ----------
+  (function initPayCard(){
+    const ent = document.getElementById('entradaInput');
+    const sel = document.getElementById('prazoSelect');
+    const par = document.getElementById('parcelaValor');
+    const hEnt = document.getElementById('payEntrada');
+    const hVal = document.getElementById('payParcela');
+    const hBig = document.getElementById('payParcelaBig');
+    const hLbl = document.getElementById('payPrazoLabel');
+    const heroBtns = document.querySelectorAll('#payPrazos button');
+    const popBtns = document.querySelectorAll('#prazoSeg button');
+    function render(){
+      if(document.activeElement !== hEnt) hEnt.value = ent.value;
+      hVal.textContent = par.textContent.replace('/mês', '').replace('R$', '').trim();
+      hLbl.textContent = sel.value + ' parcelas de';
+      [...heroBtns, ...popBtns].forEach(b => b.classList.toggle('on', b.dataset.prazo === sel.value));
+      hBig.classList.remove('flash'); void hBig.offsetWidth; hBig.classList.add('flash');
+    }
+    hEnt.addEventListener('input', () => {
+      ent.value = hEnt.value;
+      ent.dispatchEvent(new Event('input'));
+      hEnt.value = ent.value;
+    });
+    heroBtns.forEach(b => b.addEventListener('click', () => {
+      sel.value = b.dataset.prazo;
+      sel.dispatchEvent(new Event('change'));
+    }));
+    ent.addEventListener('input', render);
+    sel.addEventListener('change', render);
+    render();
+  })();
+
+  // ---------- Botão "Fale conosco" do topo ----------
+  document.getElementById('topWhatsBtn').addEventListener('click', () => {
+    window.dataLayer.push({ event: 'contact_whatsapp_topo', veiculo: 'Golf TSI Comfortline 2015' });
+  });
+
+  // ---------- Sticky CTA só depois que o painel de preço sai da tela ----------
+  (function initSticky(){
+    const panel = document.getElementById('heroPanel');
+    if(!('IntersectionObserver' in window) || !panel){ document.body.classList.add('sticky-on'); return; }
+    new IntersectionObserver(([e]) => document.body.classList.toggle('sticky-on', !e.isIntersecting), { threshold: 0 }).observe(panel);
+  })();
+
+  // ---------- Reveal on scroll (redesign visual) ----------
+  (function initReveal(){
+    const sections = document.querySelectorAll('main section, .wrap > section');
+    sections.forEach(el => el.classList.add('reveal'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      sections.forEach(el => el.classList.add('revealed'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('revealed');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    sections.forEach(el => io.observe(el));
+  })();
+
+  // ---------- Lightbox: teclado (setas/ESC) e swipe no mobile (redesign visual) ----------
+  (function initLightboxControls(){
+    document.addEventListener('keydown', (e) => {
+      if(!document.getElementById('lightbox').classList.contains('open')) return;
+      if(e.key === 'Escape') closeLightbox();
+      else if(e.key === 'ArrowLeft') navLightbox(-1);
+      else if(e.key === 'ArrowRight') navLightbox(1);
+    });
+
+    let touchStartX = null;
+    const lbImg = document.getElementById('lightboxImg');
+    lbImg.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    lbImg.addEventListener('touchend', (e) => {
+      if(touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if(Math.abs(dx) > 40){ navLightbox(dx > 0 ? -1 : 1); }
+      touchStartX = null;
+    }, { passive: true });
+  })();
 </script>
 
 </body>
